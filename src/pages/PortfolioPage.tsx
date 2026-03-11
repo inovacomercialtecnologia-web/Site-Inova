@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { ArrowRight, ZoomIn, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import FinancialERP from '../components/FinancialERP';
+import CRMSystem from '../components/CRMSystem';
+import BIDashboard from '../components/BIDashboard';
+import EcommerceAdmin from '../components/EcommerceAdmin';
+import ClientPortal from '../components/ClientPortal';
+import LMSPlatform from '../components/LMSPlatform';
+import MarketplaceAdmin from '../components/MarketplaceAdmin';
 
 const PortfolioPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCRMModalOpen, setIsCRMModalOpen] = useState(false);
+  const [isBIModalOpen, setIsBIModalOpen] = useState(false);
+  const [isEcommerceModalOpen, setIsEcommerceModalOpen] = useState(false);
+  const [isClientPortalOpen, setIsClientPortalOpen] = useState(false);
+  const [isLMSOpen, setIsLMSOpen] = useState(false);
+  const [isMarketplaceOpen, setIsMarketplaceOpen] = useState(false);
 
   const webInterfaces = [
     { title: "ERP Inteligente", desc: "Gestão financeira e operacional centralizada com interface interativa.", hasPreview: true },
-    { title: "CRM", desc: "Pipeline de vendas e relacionamento" },
-    { title: "Dashboard de BI", desc: "Indicadores e analytics" },
-    { title: "E-commerce Admin", desc: "Gestão de loja e pedidos" },
-    { title: "Portal do Cliente", desc: "Área logada do cliente" },
-    { title: "LMS", desc: "Plataforma de cursos e trilhas" },
-    { title: "Marketplace Admin", desc: "Gestão de vendedores e comissões" },
+    { title: "CRM", desc: "Pipeline de vendas e relacionamento", hasPreview: true },
+    { title: "Dashboard de BI", desc: "Indicadores e analytics", hasPreview: true },
+    { title: "E-commerce Admin", desc: "Gestão de loja e pedidos", hasPreview: true },
+    { title: "Portal do Cliente", desc: "Área logada do cliente", hasPreview: true },
+    { title: "LMS", desc: "Plataforma de cursos e trilhas", hasPreview: true },
+    { title: "Marketplace Admin", desc: "Gestão de vendedores e comissões", hasPreview: true },
     { title: "Intranet Corporativa", desc: "Comunicação e documentos internos" },
   ];
 
@@ -49,7 +61,17 @@ const PortfolioPage = () => {
             {webInterfaces.map((item, i) => (
               <div 
                 key={i} 
-                onClick={() => item.hasPreview && setIsModalOpen(true)}
+                onClick={() => {
+                  if (item.hasPreview) {
+                    if (item.title === "ERP Inteligente") setIsModalOpen(true);
+                    if (item.title === "CRM") setIsCRMModalOpen(true);
+                    if (item.title === "Dashboard de BI") setIsBIModalOpen(true);
+                    if (item.title === "E-commerce Admin") setIsEcommerceModalOpen(true);
+                    if (item.title === "Portal do Cliente") setIsClientPortalOpen(true);
+                    if (item.title === "LMS") setIsLMSOpen(true);
+                    if (item.title === "Marketplace Admin") setIsMarketplaceOpen(true);
+                  }
+                }}
                 className={`bg-white/[0.02] p-8 rounded-3xl border border-white/5 hover:border-[#C9A84C]/30 transition-all duration-300 group flex flex-col h-full ${item.hasPreview ? 'cursor-pointer hover:-translate-y-1 shadow-[0_0_30px_rgba(201,168,76,0.05)] hover:shadow-[0_0_40px_rgba(201,168,76,0.1)]' : 'cursor-default'}`}
               >
                 <h3 className="text-white text-xl font-serif font-light mb-3 group-hover:text-[#C9A84C] transition-colors">{item.title}</h3>
@@ -104,6 +126,173 @@ const PortfolioPage = () => {
               className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl relative"
             >
               <FinancialERP />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* CRM Interactive Modal */}
+      <AnimatePresence>
+        {isCRMModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsCRMModalOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <CRMSystem />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* E-commerce Modal */}
+      <AnimatePresence>
+        {isEcommerceModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsEcommerceModalOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <EcommerceAdmin />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Client Portal Modal */}
+      <AnimatePresence>
+        {isClientPortalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsClientPortalOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <ClientPortal />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* LMS Modal */}
+      <AnimatePresence>
+        {isLMSOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsLMSOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <LMSPlatform />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Marketplace Admin Modal */}
+      <AnimatePresence>
+        {isMarketplaceOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsMarketplaceOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <MarketplaceAdmin />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* BI Dashboard Modal */}
+      <AnimatePresence>
+        {isBIModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 md:p-8"
+          >
+            <button
+              onClick={() => setIsBIModalOpen(false)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white/50 hover:text-white z-[110] transition-colors"
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl overflow-hidden shadow-2xl relative"
+            >
+              <BIDashboard />
             </motion.div>
           </motion.div>
         )}
