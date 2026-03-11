@@ -1,0 +1,44 @@
+import React from 'react';
+
+interface LogoProps {
+  className?: string;
+  color?: string;
+}
+
+export const Logo: React.FC<LogoProps> = ({ className, color = "#C9A84C" }) => {
+  return (
+    <svg viewBox="0 0 200 180" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Hexagonal Grid Structure */}
+      <path 
+        d="M100 10 L170 50 V130 L100 170 L30 130 V50 L100 10Z" 
+        stroke={color} 
+        strokeWidth="6" 
+        strokeLinejoin="round" 
+      />
+      
+      {/* Internal Vertical Lines */}
+      <path d="M65 30 V150" stroke={color} strokeWidth="4" />
+      <path d="M135 30 V150" stroke={color} strokeWidth="4" />
+      
+      {/* Connecting Lines for 3D effect */}
+      <path d="M65 30 L100 50 L135 30" stroke={color} strokeWidth="4" />
+      <path d="M65 150 L100 130 L135 150" stroke={color} strokeWidth="4" />
+      
+      {/* Infinity Loop / S-Curve */}
+      <path 
+        d="M20 110 C20 110 40 160 80 120 C120 80 160 40 180 90" 
+        stroke={color} 
+        strokeWidth="8" 
+        strokeLinecap="round"
+        className="drop-shadow-lg"
+      />
+      <path 
+        d="M180 90 C180 90 160 140 120 100 C80 60 40 20 20 70 C20 70 10 90 20 110" 
+        stroke={color} 
+        strokeWidth="8" 
+        strokeLinecap="round"
+        className="drop-shadow-lg"
+      />
+    </svg>
+  );
+};
