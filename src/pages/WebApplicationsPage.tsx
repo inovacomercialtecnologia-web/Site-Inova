@@ -192,7 +192,7 @@ const WebApplicationsPage = () => {
               </div>
               <div className="h-[1px] w-[48px] bg-[#c9a84c] mb-6 relative z-10" />
               <h2 className="relative z-10 text-left">
-                <span className="block text-[48px] font-serif font-light text-[#ffffff] leading-tight">Plataformas de</span>
+                <span className="block text-[clamp(1.8rem,6vw,48px)] font-serif font-light text-[#ffffff] leading-tight">Plataformas de</span>
                 <div className="s4-morph-container">
                   <span className="s4-morph-word s4-active">E-learning</span>
                   <span className="s4-morph-word">PWA</span>

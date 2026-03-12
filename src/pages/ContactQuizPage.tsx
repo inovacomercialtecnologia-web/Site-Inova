@@ -37,13 +37,14 @@ const REVENUE = ['Até R$20 mil', 'R$20 mil a R$100 mil', 'R$100 mil a R$500 mil
 const B_FULL  = ['Menos de R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.000', 'Acima de R$100.000'];
 const B_AUTO  = ['Menos de R$3.000', 'R$3.000 a R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.000', 'Acima de R$100.000'];
 
-// Ambient orb per step
+// Ambient orb per step — sizes clamped for mobile
+const isMobileOrb = typeof window !== 'undefined' && window.innerWidth < 768;
 const ORB: Record<number, { color: string; x: string; y: string; size: number }> = {
-  1: { color: 'rgba(201,168,76,0.12)',  x: '70%',  y: '-5%',  size: 700 },
-  2: { color: 'rgba(59,130,246,0.09)',  x: '15%',  y: '58%',  size: 580 },
-  3: { color: 'rgba(16,185,129,0.08)', x: '74%',  y: '68%',  size: 620 },
-  4: { color: 'rgba(201,168,76,0.11)', x: '28%',  y: '22%',  size: 660 },
-  5: { color: 'rgba(139,92,246,0.09)', x: '64%',  y: '44%',  size: 640 },
+  1: { color: 'rgba(201,168,76,0.12)',  x: '70%',  y: '-5%',  size: isMobileOrb ? 350 : 700 },
+  2: { color: 'rgba(59,130,246,0.09)',  x: '15%',  y: '58%',  size: isMobileOrb ? 300 : 580 },
+  3: { color: 'rgba(16,185,129,0.08)', x: '74%',  y: '68%',  size: isMobileOrb ? 320 : 620 },
+  4: { color: 'rgba(201,168,76,0.11)', x: '28%',  y: '22%',  size: isMobileOrb ? 340 : 660 },
+  5: { color: 'rgba(139,92,246,0.09)', x: '64%',  y: '44%',  size: isMobileOrb ? 330 : 640 },
 };
 
 // ─── Shared layout pieces ─────────────────────────────────────────────────────
@@ -340,6 +341,17 @@ function StepProgress({ current, total }: { current: number; total: number }) {
   );
 }
 
+// ─── Validation helpers ──────────────────────────────────────────────────────
+
+const isValidEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+const isValidPhone = (phone: string) =>
+  /^[\d\s()+-]{8,20}$/.test(phone.trim());
+
+const sanitizeText = (text: string, maxLen = 200) =>
+  text.replace(/[<>{}]/g, '').slice(0, maxLen).trim();
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 const ContactQuizPage = () => {
@@ -347,6 +359,8 @@ const ContactQuizPage = () => {
   const [dir,  setDir]      = useState(1);
   const [busy, setBusy]     = useState(false);
   const [done, setDone]     = useState(false);
+  const [honeypot, setHoneypot] = useState('');
+  const [lastSubmit, setLastSubmit] = useState(0);
   const [ans,  setAns]      = useState<Answers>({
     servico: [], tamanho: '', faturamento: '', budget: '',
     status: '', descricao: '', nome: '', empresa: '', whatsapp: '', email: '',
@@ -375,7 +389,11 @@ const ContactQuizPage = () => {
     const map: Record<string, keyof Answers> = {
       fNome: 'nome', fEmpresa: 'empresa', fWhats: 'whatsapp', fEmail: 'email', outDesc: 'descricao',
     };
-    if (map[e.target.id]) setAns(p => ({ ...p, [map[e.target.id]]: e.target.value }));
+    const field = map[e.target.id];
+    if (!field) return;
+    const maxLens: Partial<Record<keyof Answers, number>> = { nome: 100, empresa: 100, whatsapp: 20, email: 120, descricao: 500 };
+    const val = sanitizeText(e.target.value, maxLens[field] ?? 200);
+    setAns(p => ({ ...p, [field]: val }));
   };
 
   const checkBudget = (val: string) => {
@@ -389,17 +407,39 @@ const ContactQuizPage = () => {
     if (step === 2) return !!ans.tamanho;
     if (step === 3) return !!ans.faturamento;
     if (step === 4) return !!ans.budget;
-    if (step === 5) return !!ans.nome && !!ans.empresa && !!ans.whatsapp && !!ans.email;
+    if (step === 5) return !!ans.nome.trim() && !!ans.empresa.trim() && isValidPhone(ans.whatsapp) && isValidEmail(ans.email);
     return false;
   };
 
   const submit = async () => {
+    // Anti-bot: honeypot field must be empty
+    if (honeypot) return;
+    // Rate limit: 30s between submissions
+    const now = Date.now();
+    if (now - lastSubmit < 30000) {
+      alert('Aguarde alguns segundos antes de enviar novamente.');
+      return;
+    }
+    // Final validation
+    if (!isValidEmail(ans.email) || !isValidPhone(ans.whatsapp)) {
+      alert('Verifique o e-mail e WhatsApp informados.');
+      return;
+    }
     setBusy(true);
+    setLastSubmit(now);
     try {
+      const payload = {
+        ...ans,
+        servico: ans.servico.join(', '),
+        nome: ans.nome.trim(),
+        empresa: ans.empresa.trim(),
+        whatsapp: ans.whatsapp.trim(),
+        email: ans.email.trim(),
+      };
       await fetch(SHEETS_URL, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...ans, servico: ans.servico.join(', ') }),
+        body: JSON.stringify(payload),
       });
       setDone(true);
     } catch {
@@ -701,6 +741,17 @@ const ContactQuizPage = () => {
                   <FloatingInput id="fWhats"   label="WhatsApp"  type="tel"   value={ans.whatsapp} onChange={handleInput} />
                   <FloatingInput id="fEmail"   label="E-mail"    type="email" value={ans.email}    onChange={handleInput} />
                 </div>
+                {/* Honeypot anti-bot field — hidden from users */}
+                <input
+                  type="text"
+                  name="website_url"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
 
                 {/* Answers summary */}
                 <div className="border border-white/[0.06] bg-white/[0.015] p-5 mb-2">

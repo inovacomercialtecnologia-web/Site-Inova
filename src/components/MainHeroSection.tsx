@@ -102,7 +102,8 @@ export default function MainHeroSection() {
               <div className="w-6 md:w-8 h-[1px] bg-white/30"></div>
             </div>
             
-            <h1 className="text-[20px] sm:text-[28px] md:text-[48px] lg:text-[64px] font-light leading-[1.1] text-white tracking-tight max-w-[900px] drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)]">
+            <h1 className="font-light leading-[1.1] text-white tracking-tight max-w-[900px] drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)]"
+              style={{ fontSize: 'clamp(1.5rem, 5vw, 4rem)' }}>
               {slides[activeSlide].title}
             </h1>
             

@@ -96,7 +96,7 @@ export default function SystemsStorytelling() {
                 margin-bottom: 20px;
               }
               .s3-title-line-1 {
-                font-size: 64px;
+                font-size: clamp(1.8rem, 8vw, 64px);
                 font-weight: 900;
                 color: #c9a84c;
                 display: block;
@@ -104,7 +104,7 @@ export default function SystemsStorytelling() {
                 line-height: 1.1;
               }
               .s3-title-line-2 {
-                font-size: 80px;
+                font-size: clamp(2.2rem, 10vw, 80px);
                 font-weight: 900;
                 color: #1a1a1a;
                 display: block;
@@ -160,6 +160,10 @@ export default function SystemsStorytelling() {
                 margin: 0 auto;
               }
               
+              @media (max-width: 768px) {
+                .s3-title-wrapper { padding: 12px 20px; }
+                .s3-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
+              }
               .s3-cta {
                 margin-top: 60px;
                 display: flex;

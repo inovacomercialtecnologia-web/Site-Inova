@@ -217,7 +217,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           </button>
 
           {/* Header content */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8
+          <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8
                           bg-gradient-to-t from-[#0A0A0C] to-transparent">
             <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-2"
               style={{ color: c.accent }}>
@@ -230,7 +230,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
         </div>
 
         {/* ── Body ── */}
-        <div className="p-6 md:p-8">
+        <div className="p-4 sm:p-6 md:p-8">
 
           {/* Main metric */}
           <div className="flex items-end gap-4 mb-8 pb-8 border-b border-white/[0.06]">

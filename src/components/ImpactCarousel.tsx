@@ -84,7 +84,8 @@ export default function ImpactCarousel() {
       return -dist * t;
     }
   );
-  const cardsX = useSpring(rawX, { stiffness: 75, damping: 26, restDelta: 0.5 });
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const cardsX = useSpring(rawX, { stiffness: isMobile ? 45 : 75, damping: isMobile ? 30 : 26, restDelta: 0.5 });
 
   const cardsHintOp = useTransform(scrollYProgress, [0.52, 0.62], [0.45, 0]);
 

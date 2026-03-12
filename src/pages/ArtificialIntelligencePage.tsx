@@ -61,8 +61,9 @@ const ArtificialIntelligencePage: React.FC = () => {
 
       function initParticles() {
         particles = [];
-        // Density based on screen size
-        const numParticles = Math.floor((W * H) / 10000); 
+        // Density based on screen size — reduced on mobile for performance
+        const isMobile = W < 768;
+        const numParticles = isMobile ? Math.min(30, Math.floor((W * H) / 18000)) : Math.floor((W * H) / 10000);
         for (let i = 0; i < numParticles; i++) {
           const isHub = Math.random() > 0.92;
           particles.push({
@@ -1142,7 +1143,7 @@ const ArtificialIntelligencePage: React.FC = () => {
           opacity: 0;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .iahero-wrapper {
             grid-template-columns: 1fr;
             grid-template-rows: auto auto;
@@ -1161,25 +1162,38 @@ const ArtificialIntelligencePage: React.FC = () => {
             max-width: 100%;
           }
           .iahero-sub-divider { display: none; }
-          .s-ecosystem { padding: 80px 24px; }
+          .s-ecosystem { padding: 60px 20px; }
           .eco-inner {
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 32px;
           }
-          .eco-diagram { height: 300px; }
-          .eco-ring-1 { width: 140px; height: 140px; }
-          .eco-ring-2 { width: 220px; height: 220px; }
-          .eco-ring-3 { width: 300px; height: 300px; }
-          .eco-connections { width: 300px; height: 300px; }
-          .s-cap { padding: 60px 24px; }
+          .eco-title { font-size: clamp(1.8rem, 6vw, 3rem); margin-bottom: 24px; }
+          .eco-desc { font-size: 0.9rem; }
+          .eco-features { gap: 12px; }
+          .eco-feature { padding: 10px 14px; }
+          .eco-diagram { height: 280px; }
+          .eco-ring-1 { width: 120px; height: 120px; }
+          .eco-ring-2 { width: 200px; height: 200px; }
+          .eco-ring-3 { width: 280px; height: 280px; }
+          .eco-connections { width: 280px; height: 280px; }
+          .eco-core { width: 80px; height: 80px; }
+          .eco-core span { font-size: 0.85rem; }
+          .eco-sat { transform: translate(-50%, -50%) rotate(var(--angle)) translate(130px) rotate(calc(-1 * var(--angle))); }
+          .eco-sat-card { padding: 5px 10px; }
+          .eco-sat-label { font-size: 0.55rem; }
+          .eco-sat-dot { width: 5px; height: 5px; }
+          .s-cap { padding: 60px 20px; }
+          .cap-statement blockquote { font-size: clamp(1.4rem, 5vw, 2.5rem); }
           .cap-row {
-            grid-template-columns: 40px 1fr;
-            gap: 16px;
+            grid-template-columns: 1fr;
+            gap: 8px;
             padding: 20px 16px;
           }
-          .cap-row p { display: none; }
-          .cap-row:hover p { display: block; }
-          .s-cta { padding: 80px 24px; }
+          .cap-row-num { display: none; }
+          .cap-row h4 { font-size: 0.85rem; white-space: normal; }
+          .cap-row p { font-size: 0.78rem; }
+          .s-cta { padding: 80px 20px; }
+          .s-cta p { margin-bottom: 40px; }
         }
       `}</style>
     </div>

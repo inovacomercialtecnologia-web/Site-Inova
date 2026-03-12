@@ -87,7 +87,7 @@ const MobileApplicationsPage = () => {
     const ms2_initEntrance = () => {
       // Inject CSS for entrance animations
       const style = document.createElement('style');
-      style.innerHTML = `
+      style.textContent = `
         .ms2-diagonal-divider::after { transform: scaleX(0); transition: transform 0.8s ease-out; }
         .ms2-diagonal-divider.active::after { transform: scaleX(1); }
         
@@ -196,7 +196,7 @@ const MobileApplicationsPage = () => {
     const ms3_initEntrance = () => {
       // Inject CSS for entrance animations
       const style = document.createElement('style');
-      style.innerHTML = `
+      style.textContent = `
         .ms3-header { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .ms3-header.visible { opacity: 1; transform: translateY(0); }
         
@@ -294,7 +294,9 @@ const MobileApplicationsPage = () => {
             text-align: center;
             max-width: 800px;
             margin-top: auto;
-            padding-bottom: 80px;
+            padding-bottom: 60px;
+            padding-left: 24px;
+            padding-right: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;

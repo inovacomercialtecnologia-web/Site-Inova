@@ -28,8 +28,13 @@ const AutomationsPage = () => {
       }));
 
       const startTime = Date.now();
+      const isMobile = window.innerWidth < 768;
+      let frameCount = 0;
 
       const animate = () => {
+        frameCount++;
+        // Skip every other frame on mobile for performance
+        if (isMobile && frameCount % 2 !== 0) { requestAnimationFrame(animate); return; }
         const elapsed = (Date.now() - startTime) / 1000;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -199,7 +204,7 @@ const AutomationsPage = () => {
     const as2_initEntrance = () => {
       // Inject CSS for entrance animations
       const style = document.createElement('style');
-      style.innerHTML = `
+      style.textContent = `
         .as2-header { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .as2-header.visible { opacity: 1; transform: translateY(0); }
         

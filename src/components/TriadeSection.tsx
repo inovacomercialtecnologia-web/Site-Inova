@@ -60,6 +60,7 @@ const SNAP = { stiffness: 110, damping: 16, restDelta: 0.001 };
 
 export default function TriadeSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -126,7 +127,7 @@ export default function TriadeSection() {
   const c3Y    = useSpring(rawC3Y,    SNAP);
 
   return (
-    <section ref={sectionRef} style={{ height: '500vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '300vh' : '500vh' }} className="relative">
 
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div
@@ -168,12 +169,12 @@ export default function TriadeSection() {
           {/* Header */}
           <div className="text-center mb-1 md:mb-8 lg:mb-10">
             <motion.p style={{ opacity: labelOp, y: labelY }}
-              className="hidden md:block text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-4">
+              className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-2 md:mb-4">
               O Método
             </motion.p>
             <motion.h2 style={{ opacity: titleOp, scale: titleSc }}
-              className="text-[1.15rem] md:text-[3rem] lg:text-[3.8rem]
-                         font-serif font-light text-black tracking-tight leading-[0.92]">
+              className="text-[clamp(1.4rem,5vw,3.8rem)]
+                         font-serif font-light text-black tracking-tight leading-[1.05] md:leading-[0.92]">
               A Tríade da{' '}
               <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">
                 Transformação
@@ -192,7 +193,7 @@ export default function TriadeSection() {
               style={{ rotateY: c1RotY, rotateX: c1RotX, x: c1X, opacity: rawC1Op }}
               className="md:col-span-2"
             >
-              <div className="relative overflow-hidden rounded-2xl p-2 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
@@ -226,7 +227,7 @@ export default function TriadeSection() {
               style={{ rotateY: c2RotY, rotateX: c2RotX, x: c2X, opacity: rawC2Op }}
               className="md:col-span-1"
             >
-              <div className="relative overflow-hidden rounded-2xl p-2 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
@@ -259,7 +260,7 @@ export default function TriadeSection() {
               style={{ rotateX: c3RotX, y: c3Y, opacity: rawC3Op }}
               className="md:col-span-3"
             >
-              <div className="relative overflow-hidden rounded-2xl p-2 md:p-6 lg:p-8
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8
                               bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_4px_32px_rgba(0,0,0,0.22)]
                               group transition-all duration-600

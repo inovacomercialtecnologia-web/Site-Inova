@@ -100,22 +100,8 @@ export default function SocialSidebar() {
         </div>
       </div>
 
-      {/* Mobile Share Bar (Bottom) */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[85%] max-w-[360px] bg-[#0A0A0A]/90 backdrop-blur-2xl border border-white/10 z-[90] flex lg:hidden items-center justify-around py-3 px-6 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.4)]">
-        <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-white/40">Share:</span>
-        {socialLinks.map((social) => (
-          <a
-            key={social.name}
-            href={social.href}
-            onClick={social.onClick}
-            target={social.href !== '#' ? "_blank" : undefined}
-            rel={social.href !== '#' ? "noopener noreferrer" : undefined}
-            className={`text-white/60 ${social.color} transition-colors p-1.5`}
-          >
-            <social.icon className="w-4 h-4" strokeWidth={1.5} />
-          </a>
-        ))}
-      </div>
+      {/* Mobile Share Bar — hidden to avoid overlapping CTAs and content */}
+      {/* Share functionality is available via the native share button on mobile browsers */}
     </>
   );
 }

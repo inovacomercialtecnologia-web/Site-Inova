@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin, ChevronRight } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 const blogPostsContent = {
   "erp-customizado-reducao-custos": {
@@ -91,6 +92,11 @@ const BlogPostPage = () => {
       navigate('/blog');
     }
   }, [post, navigate]);
+
+  const sanitizedContent = useMemo(
+    () => post ? DOMPurify.sanitize(post.content, { ALLOWED_TAGS: ['p', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'blockquote', 'a', 'br'], ALLOWED_ATTR: ['href', 'target', 'rel'] }) : '',
+    [post]
+  );
 
   if (!post) return null;
 
@@ -206,7 +212,7 @@ const BlogPostPage = () => {
                   prose-p:text-base prose-p:font-light prose-p:leading-relaxed prose-p:text-white/60 prose-p:mb-8
                   prose-ul:text-white/60 prose-ul:mb-8 prose-li:mb-4 prose-li:text-base prose-li:font-light
                   prose-blockquote:border-l-4 prose-blockquote:border-[#C9A84C] prose-blockquote:bg-[#C9A84C]/5 prose-blockquote:p-8 prose-blockquote:rounded-r-2xl prose-blockquote:italic prose-blockquote:text-xl prose-blockquote:font-light prose-blockquote:text-white/80"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
 
               {/* Tags */}

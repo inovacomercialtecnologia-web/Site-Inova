@@ -10,7 +10,7 @@ const MissionPage = () => {
         const drawGrid = () => {
           canvas.width = canvas.offsetWidth;
           canvas.height = canvas.offsetHeight;
-          const GAP = 32;
+          const GAP = window.innerWidth < 768 ? 56 : 32;
           const cols = Math.ceil(canvas.width / GAP);
           const rows = Math.ceil(canvas.height / GAP);
           const cx = canvas.width / 2;
