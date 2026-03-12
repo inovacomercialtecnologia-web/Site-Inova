@@ -649,6 +649,57 @@ const AutomationsPage = () => {
           );
           opacity: 0.3;
         }
+
+        @media (max-width: 640px) {
+          .ahero-headline {
+            font-size: clamp(2.8rem, 14vw, 88px);
+            letter-spacing: -1px;
+          }
+          .ahero-text-block {
+            padding: 0 24px;
+          }
+          .ahero-subtitle-cols {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+          }
+          .ahero-col-divider {
+            display: none;
+          }
+          .ahero-primary {
+            font-size: 16px;
+            text-align: center;
+          }
+          .ahero-secondary {
+            text-align: center;
+          }
+          .as2-section {
+            padding: 48px 24px;
+            margin: 0 12px 24px;
+            border-radius: 20px;
+          }
+          .as2-header {
+            margin-bottom: 40px;
+          }
+          .as2-title {
+            font-size: 20px;
+          }
+          .as2-item-header {
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px 0;
+          }
+          .as2-tag {
+            display: none;
+          }
+          .as2-content p {
+            font-size: 14px;
+            padding-bottom: 20px;
+          }
+          .as2-watermark {
+            display: none;
+          }
+        }
       `}</style>
     </div>
   );

@@ -926,6 +926,15 @@ const MobileApplicationsPage = () => {
           @keyframes ms3-float { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
           .ms3-ill-launch { transform-origin: center; }
           .ms3-block.active .ms3-ill-launch { animation: ms3-float 2s ease-in-out infinite; }
+
+          @media (max-width: 640px) {
+            .mhero-line-1 { font-size: clamp(2.2rem, 11vw, 40px); }
+            .mhero-line-2 { font-size: clamp(2.6rem, 13vw, 48px); }
+            .ms2-ios { padding: 48px 20px; }
+            .ms2-android { padding: 48px 20px; }
+            .ms2-headline { font-size: 28px; }
+            .ms3-title { font-size: 20px; }
+          }
         `}</style>
       </section>
     </div>

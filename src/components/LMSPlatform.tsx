@@ -424,8 +424,8 @@ function BrowseScreen({ onSelect, onPlay }: {
 
 // ─── Detail Screen ────────────────────────────────────────────────────────────
 
-function DetailScreen({ course, onBack, onPlay }: {
-  course: Course; onBack: () => void; onPlay: (c: Course) => void;
+function DetailScreen({ course, onBack, onPlay, onSelect }: {
+  course: Course; onBack: () => void; onPlay: (c: Course) => void; onSelect: (c: Course) => void;
 }) {
   const [openMod, setOpenMod] = useState(0);
   const related = COURSES.filter(c => c.category === course.category && c.id !== course.id).slice(0, 3);
@@ -854,7 +854,7 @@ export default function LMSPlatform() {
         <motion.div key={screen} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           transition={{ duration: 0.18 }} className="flex-1 flex flex-col overflow-hidden">
           {screen === 'browse' && <BrowseScreen onSelect={goDetail} onPlay={goPlayer} />}
-          {screen === 'detail' && course && <DetailScreen course={course} onBack={goBack} onPlay={goPlayer} />}
+          {screen === 'detail' && course && <DetailScreen course={course} onBack={goBack} onPlay={goPlayer} onSelect={goDetail} />}
           {screen === 'player' && course && <PlayerScreen course={course} onBack={goBack} />}
         </motion.div>
       </AnimatePresence>

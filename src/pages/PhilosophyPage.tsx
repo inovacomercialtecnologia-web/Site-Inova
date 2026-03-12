@@ -222,6 +222,22 @@ const PhilosophyPage = () => {
         .nfhero-side--left { left: 20px; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(-90deg); transform-origin: center; }
         .nfhero-side--right { right: 20px; top: 50%; transform: translateX(50%) translateY(-50%) rotate(90deg); transform-origin: center; }
 
+        @media (max-width: 640px) {
+          .nfhero-hline { left: 20px; right: 20px; }
+          .nfhero-hline--top { top: 60px; }
+          .nfhero-hline--bottom { bottom: 60px; }
+          .nfhero-corner--tl { top: 20px; left: 20px; }
+          .nfhero-corner--tr { top: 20px; right: 20px; }
+          .nfhero-corner--bl { bottom: 20px; left: 20px; }
+          .nfhero-corner--br { bottom: 20px; right: 20px; }
+          .nfhero-side { display: none; }
+          .nfhero-center { padding: 0 20px; gap: 14px; }
+          .nfhero-headline { line-height: 1.05; }
+          .nfhero-h-line1 { font-size: clamp(1.7rem, 7.5vw, 2.2rem); }
+          .nfhero-h-line2 { font-size: clamp(2rem, 9vw, 2.8rem); }
+          .nfhero-badge-row { gap: 10px; flex-wrap: wrap; justify-content: center; }
+        }
+
         /* SECTION 2 */
         .nf2-section {
           background: #f5f3ee;
@@ -234,10 +250,76 @@ const PhilosophyPage = () => {
           padding: 120px 80px;
         }
         @media (max-width: 768px) {
-          .nf2-section { padding: 80px 30px; }
-          .nf2-phrase { grid-template-columns: 1fr; gap: 8px; text-align: center; }
-          .nf2-arrow { transform: rotate(90deg); margin: 8px 0; }
-          .nf2-phrase:hover .nf2-arrow { transform: rotate(90deg) translateY(4px); }
+          .nf2-section { padding: 72px 24px; min-height: unset; }
+          .nf2-inner { gap: 40px; }
+          .nf2-lead { font-size: .95rem !important; line-height: 1.85 !important; }
+
+          /* Grid:
+             col 1  | col 2
+             ───────────────────────────────
+             [num]  | [texto principal    ]
+             [   ]  | [        →          ]
+             [   ]  | [subtexto           ]
+          */
+          .nf2-phrase {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            grid-template-rows: auto auto auto;
+            column-gap: 14px;
+            row-gap: 0;
+            padding: 28px 0;
+            align-items: start;
+          }
+
+          /* Número — fica à esquerda abrangendo as 3 linhas */
+          .nf2-phrase-num {
+            grid-row: 1 / span 3;
+            grid-column: 1;
+            align-self: start;
+            padding-top: 3px;
+          }
+
+          /* Texto principal — linha 1, com respiro embaixo */
+          .nf2-phrase-text {
+            grid-row: 1;
+            grid-column: 2;
+            text-align: left;
+            font-size: 1.05rem !important;
+            line-height: 1.4;
+            padding-bottom: 12px;
+          }
+
+          /* Seta — linha 2, ↓ via conteúdo CSS (sem rotate) */
+          .nf2-arrow {
+            display: block;
+            grid-row: 2;
+            grid-column: 2;
+            text-align: center;
+            font-size: 0 !important;
+            color: transparent;
+            padding: 0;
+            margin: 0;
+            transform: none !important;
+          }
+          .nf2-arrow::after {
+            content: '↓';
+            font-size: 1rem;
+            color: rgba(26,26,26,.28);
+            display: block;
+            transition: color .3s;
+          }
+          .nf2-phrase--final .nf2-arrow::after { color: #c9a84c; }
+          .nf2-phrase:hover .nf2-arrow::after { color: #c9a84c; }
+
+          /* Subtexto — linha 3, com respiro em cima */
+          .nf2-phrase-sub {
+            grid-row: 3;
+            grid-column: 2;
+            text-align: left;
+            font-size: .85rem !important;
+            line-height: 1.7;
+            padding-top: 16px;
+          }
         }
         .nf2-corner { position: absolute; width: 28px; height: 28px; pointer-events: none; z-index: 2; }
         .nf2-corner--tl { top: 32px; left: 32px; border-top: 1.5px solid rgba(201,168,76,.4); border-left: 1.5px solid rgba(201,168,76,.4); }

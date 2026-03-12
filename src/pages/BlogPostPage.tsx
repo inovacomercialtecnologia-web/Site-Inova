@@ -162,7 +162,7 @@ const BlogPostPage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl"
+            className="aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] rounded-[1.25rem] md:rounded-[2rem] overflow-hidden shadow-2xl"
           >
             <img 
               src={post.image} 

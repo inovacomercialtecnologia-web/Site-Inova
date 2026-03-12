@@ -1141,6 +1141,46 @@ const ArtificialIntelligencePage: React.FC = () => {
         .iahero-breadcrumb, .iahero-line1, .iahero-line2, .iahero-chapter-line, .iahero-badge {
           opacity: 0;
         }
+
+        @media (max-width: 640px) {
+          .iahero-wrapper {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+          }
+          .iahero-left {
+            padding: 100px 24px 60px;
+            grid-column: 1;
+          }
+          .iahero-right {
+            grid-column: 1;
+            height: 220px;
+          }
+          .iahero-sub-cols {
+            flex-direction: column;
+            gap: 16px;
+            max-width: 100%;
+          }
+          .iahero-sub-divider { display: none; }
+          .s-ecosystem { padding: 80px 24px; }
+          .eco-inner {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+          .eco-diagram { height: 300px; }
+          .eco-ring-1 { width: 140px; height: 140px; }
+          .eco-ring-2 { width: 220px; height: 220px; }
+          .eco-ring-3 { width: 300px; height: 300px; }
+          .eco-connections { width: 300px; height: 300px; }
+          .s-cap { padding: 60px 24px; }
+          .cap-row {
+            grid-template-columns: 40px 1fr;
+            gap: 16px;
+            padding: 20px 16px;
+          }
+          .cap-row p { display: none; }
+          .cap-row:hover p { display: block; }
+          .s-cta { padding: 80px 24px; }
+        }
       `}</style>
     </div>
   );

@@ -79,7 +79,7 @@ export default function DiagnosticDetailPage() {
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-20 font-sans">
-      <div className="max-w-[1200px] mx-auto px-12 md:px-24 lg:px-32">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-10 md:px-24 lg:px-32">
         
         {/* Back Link */}
         <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-[#C9A84C] transition-colors mb-12 group">
@@ -101,7 +101,7 @@ export default function DiagnosticDetailPage() {
               <span className="text-[10px] md:text-[12px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#C9A84C] font-bold">Diagnóstico Detalhado</span>
             </div>
 
-            <h1 className="text-[28px] md:text-[48px] font-serif font-[200] text-gray-950 leading-[1.1] mb-6 md:mb-8 tracking-tighter">
+            <h1 className="text-[clamp(1.6rem,5vw,3rem)] font-serif font-[200] text-gray-950 leading-[1.1] mb-6 md:mb-8 tracking-tighter">
               {topic.title}
             </h1>
 
@@ -114,7 +114,7 @@ export default function DiagnosticDetailPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="relative aspect-[4/3] rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl border border-gray-100"
+            className="relative aspect-[4/3] rounded-[20px] md:rounded-[32px] lg:rounded-[48px] overflow-hidden shadow-2xl border border-gray-100"
           >
             <img 
               src={topic.image} 

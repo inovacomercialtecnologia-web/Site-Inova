@@ -389,6 +389,23 @@ const MissionPage = () => {
           transform-origin: center;
         }
 
+        @media (max-width: 640px) {
+          .nmhero-hline { left: 20px; right: 20px; }
+          .nmhero-hline--top { top: 60px; }
+          .nmhero-hline--bottom { bottom: 60px; }
+          .nmhero-corner--tl { top: 20px; left: 20px; }
+          .nmhero-corner--tr { top: 20px; right: 20px; }
+          .nmhero-corner--bl { bottom: 20px; left: 20px; }
+          .nmhero-corner--br { bottom: 20px; right: 20px; }
+          .nmhero-side { display: none; }
+          .nmhero-center { padding: 0 20px; gap: 14px; }
+          .nmhero-headline { line-height: 1.05; }
+          .nmhero-h-outline { font-size: clamp(1.7rem, 7.5vw, 2.2rem); }
+          .nmhero-h-solid   { font-size: clamp(2rem, 9vw, 2.8rem); }
+          .nmhero-sub       { font-size: .85rem; }
+          .nmhero-badge-row { gap: 10px; flex-wrap: wrap; justify-content: center; }
+        }
+
         /* SECTION 2 */
         .nm2-section {
           background: #f5f3ee;
@@ -399,20 +416,59 @@ const MissionPage = () => {
           position: relative;
           overflow: hidden;
         }
-        
+
         @media (max-width: 768px) {
-          .nm2-section {
-            grid-template-columns: 1fr;
-          }
+          /* Section layout */
+          .nm2-section { grid-template-columns: 1fr; min-height: unset; }
+
+          /* LEFT column */
           .nm2-left {
-            padding: 60px 30px 40px 30px !important;
+            padding: 72px 28px 48px !important;
+            gap: 32px !important;
           }
+          .nm2-text {
+            font-size: 1.05rem !important;
+            line-height: 1.85 !important;
+            max-width: 100% !important;
+          }
+
+          /* Stats — 3 colunas com divisores verticais */
+          .nm2-stat-row {
+            display: grid !important;
+            grid-template-columns: 1fr auto 1fr auto 1fr !important;
+            align-items: center !important;
+            gap: 0 !important;
+            padding: 24px 0 !important;
+            border-top: 1px solid rgba(201,168,76,.15) !important;
+            border-bottom: 1px solid rgba(201,168,76,.15) !important;
+            margin-top: 0 !important;
+          }
+          .nm2-stat { align-items: center !important; text-align: center !important; }
+          .nm2-stat-num { font-size: 1.55rem !important; }
+          .nm2-stat-label { font-size: .6rem !important; letter-spacing: .18em !important; }
+          .nm2-stat-divider {
+            display: block !important;
+            width: 1px !important;
+            height: 36px !important;
+            background: rgba(201,168,76,.25) !important;
+            margin: 0 12px !important;
+          }
+
+          /* RIGHT column — Timeline */
           .nm2-right {
-            padding: 40px 30px 60px 30px !important;
+            padding: 48px 28px 72px !important;
             border-left: none !important;
-            border-top: 1px solid rgba(201,168,76,.15);
+            border-top: 1px solid rgba(201,168,76,.12) !important;
             min-height: auto !important;
           }
+
+          /* Timeline items */
+          .nm2-tl-item { gap: 20px !important; padding-bottom: 36px !important; }
+          .nm2-tl-title { font-size: 1rem !important; }
+          .nm2-tl-desc { font-size: .82rem !important; max-width: 100% !important; }
+
+          /* Label row on left */
+          .nm2-label-row { margin-bottom: -8px; }
         }
 
         .nm2-corner {
@@ -523,7 +579,7 @@ const MissionPage = () => {
         .nm2-tl-content { display: flex; flex-direction: column; gap: 6px; }
         .nm2-tl-step { font-size: .6rem; letter-spacing: .3em; color: #c9a84c; font-weight: 700; text-transform: uppercase; }
         .nm2-tl-title { font-size: 1.05rem; font-family: var(--font-serif); font-weight: 700; color: #1a1a1a; margin: 0; letter-spacing: -.02em; }
-        .nm2-tl-desc { font-size: .82rem; line-height: 1.75; color: rgba(26,26,26,.55); margin: 0; max-width: 320px; }
+        .nm2-tl-desc { font-size: .82rem; line-height: 1.75; color: rgba(26,26,26,.55); margin: 0; max-width: min(320px, 100%); }
       `}</style>
     </div>
   );

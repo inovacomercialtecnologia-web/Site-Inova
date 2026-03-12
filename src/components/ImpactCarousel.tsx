@@ -1,8 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-
-const customEase = [0.16, 1, 0.3, 1];
+import React, { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
+import { ArrowRight } from 'lucide-react';
 
 const cards = [
   {
@@ -10,210 +8,290 @@ const cards = [
     title: "O processo vive na cabeça do dono",
     description: "Quando o colaborador sai, o conhecimento vai junto. Nada documentado. Nada replicável. A operação depende de pessoa, não de método.",
     image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop",
-    link: "#"
   },
   {
     category: "TECNOLOGIA",
     title: "O sistema genérico não foi feito para você",
     description: "Foi construído para servir todo mundo. Por isso não resolve ninguém de verdade. Você adapta sua operação ao sistema, quando deveria ser o contrário.",
     image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop",
-    link: "#"
   },
   {
     category: "DADOS",
     title: "O dado não reflete o que acontece de verdade",
     description: "Dashboard bonito, número que ninguém confia. Indicador que não indica nada. Relatório que gera mais dúvida do que decisão.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
-    link: "#"
   },
   {
     category: "GESTÃO",
     title: "A decisão ainda é no achismo",
     description: "Sem processo estruturado, toda decisão vira intuição. O empresário continua apagando incêndio e a operação continua refém do improviso.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop",
-    link: "#"
-  }
+  },
 ];
 
-// Split text into words for staggered animation
-const paragraphText = "A maioria das empresas já investiu em sistema, já contratou ferramenta, já tentou organizar com planilha. E o resultado foi sempre o mesmo, tecnologia rodando em cima de um processo que nunca foi estruturado.";
-const words = paragraphText.split(" ");
-
 export default function ImpactCarousel() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef  = useRef<HTMLDivElement>(null);
+  const outerRef  = useRef<HTMLDivElement>(null);
 
-  const { scrollXProgress } = useScroll({ container: scrollRef });
-  const progressBarWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
-
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
-    }
-  };
+  // ─── motion value for measured scroll distance (reactive to resize) ───
+  const scrollDistMV = useMotionValue(0);
 
   useEffect(() => {
-    handleScroll();
-    window.addEventListener('resize', handleScroll);
-    return () => window.removeEventListener('resize', handleScroll);
-  }, []);
+    const measure = () => {
+      if (trackRef.current && outerRef.current) {
+        const d = Math.max(0, trackRef.current.scrollWidth - outerRef.current.clientWidth);
+        scrollDistMV.set(d);
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [scrollDistMV]);
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const { clientWidth } = scrollRef.current;
-      const scrollAmount = clientWidth / 1.2;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
+  // ─── master scroll progress ───────────────────────────────────────────
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // ─── entry curtain ───────────────────────────────────────────────────
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.09], [1, 0]);
+
+  // ─── text phase ──────────────────────────────────────────────────────
+  const textGroupOp = useTransform(scrollYProgress, [0.04, 0.18, 0.36, 0.50], [0, 1, 1, 0]);
+  const textGroupY  = useTransform(scrollYProgress, [0.04, 0.18, 0.36, 0.50], [70, 0, 0, -90]);
+
+  const line1Op = useTransform(scrollYProgress, [0.06, 0.22], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, [0.06, 0.22], [-100, 0]);
+  const line2Op = useTransform(scrollYProgress, [0.11, 0.27], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, [0.11, 0.27], [100, 0]);
+
+  const paraOp = useTransform(scrollYProgress, [0.20, 0.34], [0, 1]);
+  const paraY  = useTransform(scrollYProgress, [0.20, 0.34], [40, 0]);
+
+  const scrollHintOp = useTransform(scrollYProgress, [0.24, 0.36], [0.45, 0]);
+
+  // ─── cards phase ─────────────────────────────────────────────────────
+  const cardsGroupOp = useTransform(scrollYProgress, [0.44, 0.58], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, [0.44, 0.58], [80, 0]);
+
+  // horizontal scroll driven by vertical scroll (reactive to measured distance)
+  const rawX = useTransform(
+    [scrollYProgress, scrollDistMV] as const,
+    ([yP, dist]: number[]) => {
+      const t = Math.max(0, Math.min(1, (yP - 0.52) / (0.82 - 0.52)));
+      return -dist * t;
     }
-  };
+  );
+  const cardsX = useSpring(rawX, { stiffness: 75, damping: 26, restDelta: 0.5 });
+
+  const cardsHintOp = useTransform(scrollYProgress, [0.52, 0.62], [0.45, 0]);
+
+  // ─── progress line ───────────────────────────────────────────────────
+  const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
+
+  // ─── exit ─────────────────────────────────────────────────────────────
+  const exitScale   = useTransform(scrollYProgress, [0.84, 1.0], [1, 0.94]);
+  const exitOp      = useTransform(scrollYProgress, [0.84, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.84, 1.0], [0, 14]);
+  const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
+  const exitCurtain = useTransform(scrollYProgress, [0.86, 1.0], [0, 1]);
 
   return (
-    <section className="py-32 bg-[#000000] text-white overflow-hidden relative">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        
-        {/* Header */}
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            visible: {
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
+    <section ref={sectionRef} style={{ height: '450vh' }} className="relative">
+
+      {/* ── Sticky viewport ── */}
+      <motion.div
+        style={{ scale: exitScale, opacity: exitOp, filter: exitFilter }}
+        className="sticky top-0 h-screen w-full overflow-hidden bg-[#030303] flex flex-col"
+      >
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(201,168,76,0.15) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+            opacity: 0.28,
           }}
-          className="mb-24 text-center flex flex-col items-center"
+        />
+        {/* Edge vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 85% 85% at 50% 50%, transparent 35%, rgba(0,0,0,0.75) 100%)' }}
+        />
+
+        {/* Progress line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-white/[0.05] z-20">
+          <motion.div
+            style={{ scaleX: lineScaleX, transformOrigin: 'left' }}
+            className="h-full bg-gradient-to-r from-[#C9A84C]/50 via-[#FDE047] to-[#C9A84C]/50"
+          />
+        </div>
+
+        {/* Entry curtain */}
+        <motion.div style={{ opacity: entryCurtain }} className="absolute inset-0 bg-black z-40 pointer-events-none" />
+        {/* Exit curtain */}
+        <motion.div style={{ opacity: exitCurtain }} className="absolute inset-0 bg-black z-40 pointer-events-none" />
+
+        {/* ══════════════════════════════════════
+            TEXT PHASE
+        ══════════════════════════════════════ */}
+        <motion.div
+          style={{ opacity: textGroupOp, y: textGroupY }}
+          className="absolute inset-0 z-[5] flex flex-col justify-center pointer-events-none
+                     px-6 md:px-12 lg:px-24 max-w-[1440px] w-full mx-auto left-0 right-0"
         >
-          <motion.div 
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-            }}
-            className="text-[#D4AF37] text-xs font-medium uppercase tracking-[0.2em] mb-6"
-          >
+          {/* Label */}
+          <p className="text-[#D4AF37] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-8">
             POR QUE O SISTEMA SOZINHO NÃO RESOLVE
-          </motion.div>
-          
-          <motion.h2 
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-            }}
-            className="text-5xl md:text-6xl font-serif font-light tracking-tight leading-tight"
+          </p>
+
+          {/* Headline — opposite directions */}
+          <div className="mb-10">
+            <motion.h2
+              style={{ x: line1X, opacity: line1Op }}
+              className="text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
+                         font-serif font-light tracking-tight leading-[1.1] text-white block"
+            >
+              Você não tem problema de tecnologia.
+            </motion.h2>
+            <motion.h2
+              style={{ x: line2X, opacity: line2Op }}
+              className="text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
+                         font-serif font-light tracking-tight leading-[1.1] block
+                         bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
+            >
+              Tem problema de processo.
+            </motion.h2>
+          </div>
+
+          {/* Paragraph */}
+          <motion.div
+            style={{ opacity: paraOp, y: paraY }}
+            className="max-w-2xl p-5 md:p-7 rounded-xl
+                       bg-white/[0.025] border border-white/[0.07] relative overflow-hidden"
           >
-            <span className="text-white block">Você não tem problema de tecnologia.</span>
-            <span className="bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent block mt-2">Tem problema de processo.</span>
-          </motion.h2>
-          
-          <motion.div 
-            variants={{
-              hidden: { opacity: 0, y: 30, scale: 0.95 },
-              visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }
-            }}
-            className="max-w-4xl mx-auto mt-10 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-white/[0.03] to-transparent border border-white/10 backdrop-blur-sm relative overflow-hidden text-left"
-          >
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#D4AF37] to-transparent" />
-            <p className="text-gray-300 font-light text-lg md:text-xl leading-relaxed text-balance">
-              A maioria das empresas já investiu em sistema, já contratou ferramenta, já tentou organizar com planilha. E o resultado foi sempre o mesmo, tecnologia rodando em cima de um processo que nunca foi estruturado.
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full
+                            bg-gradient-to-b from-[#D4AF37] via-[#C9A84C] to-transparent" />
+            <p className="text-gray-300 font-light text-base md:text-[1.05rem] leading-relaxed pl-4">
+              A maioria das empresas já investiu em sistema, já contratou ferramenta, já tentou organizar
+              com planilha. E o resultado foi sempre o mesmo: tecnologia rodando em cima de um processo
+              que nunca foi estruturado.
             </p>
+          </motion.div>
+
+          {/* Scroll hint */}
+          <motion.div
+            style={{ opacity: scrollHintOp }}
+            className="mt-10 flex items-center gap-3 text-white/30 text-[10px] uppercase tracking-widest"
+          >
+            <motion.span
+              animate={{ y: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+            >
+              ↓
+            </motion.span>
+            <span>role para continuar</span>
           </motion.div>
         </motion.div>
 
-        {/* Carousel Container */}
-        <div className="relative">
-          {/* Navigation Buttons (Desktop) */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="hidden md:flex justify-end gap-4 mb-8"
-          >
-             <button 
-                onClick={() => scroll('left')}
-                disabled={!canScrollLeft}
-                className="w-12 h-12 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] transition-all duration-300 hover:bg-[#C9A84C] hover:text-black active:scale-90 disabled:opacity-20 disabled:hover:bg-transparent disabled:hover:text-[#C9A84C] disabled:active:scale-100"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => scroll('right')}
-                disabled={!canScrollRight}
-                className="w-12 h-12 rounded-full border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] transition-all duration-300 hover:bg-[#C9A84C] hover:text-black active:scale-90 disabled:opacity-20 disabled:hover:bg-transparent disabled:hover:text-[#C9A84C] disabled:active:scale-100"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-          </motion.div>
+        {/* ══════════════════════════════════════
+            CARDS PHASE
+        ══════════════════════════════════════ */}
+        <motion.div
+          style={{ opacity: cardsGroupOp, y: cardsGroupY }}
+          className="absolute inset-0 z-[6] flex flex-col justify-center"
+        >
+          {/* Collapsed heading */}
+          <div className="px-6 md:px-12 lg:px-24 mb-8 md:mb-10">
+            <p className="text-[#D4AF37] text-[9px] md:text-[10px] font-medium uppercase tracking-[0.38em] mb-2.5">
+              POR QUE O SISTEMA SOZINHO NÃO RESOLVE
+            </p>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+              <span className="text-xl md:text-2xl lg:text-[1.7rem] font-serif font-light text-white leading-tight">
+                Você não tem problema de tecnologia.
+              </span>
+              <span className="text-xl md:text-2xl lg:text-[1.7rem] font-serif font-light leading-tight
+                               bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent">
+                Tem problema de processo.
+              </span>
+            </div>
+          </div>
 
-          {/* Cards Scroll Area */}
-          <div 
-            ref={scrollRef}
-            onScroll={handleScroll}
-            className="flex gap-6 md:gap-8 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-hide -mr-6 md:-mr-12 lg:-mr-24 pr-6 md:pr-12 lg:pr-24"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {cards.map((card, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 1, ease: customEase, delay: index * 0.15 }}
-                className="min-w-[300px] md:min-w-[360px] lg:min-w-[400px] snap-center"
-              >
-                <div className="group h-full flex flex-col p-6 rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-500 ease-out hover:border-[#C9A84C]/40 hover:bg-white/[0.04] hover:shadow-[0_20px_40px_-15px_rgba(201,168,76,0.15)] cursor-pointer">
-                  
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl mb-8 bg-[#111]">
-                    <img 
-                      src={card.image} 
-                      alt={card.title}
-                      className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 grayscale"
-                    />
-                    {/* Subtle Gold Overlay on Hover */}
-                    <div className="absolute inset-0 bg-[#C9A84C]/0 group-hover:bg-[#C9A84C]/20 transition-colors duration-700 ease-out mix-blend-overlay" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#000000] via-transparent to-transparent opacity-60" />
-                  </div>
+          {/* Cards horizontal track */}
+          <div ref={outerRef} className="w-full overflow-hidden">
+            <motion.div
+              ref={trackRef}
+              style={{ x: cardsX }}
+              className="flex gap-5 md:gap-6 w-max
+                         pl-6 md:pl-12 lg:pl-24
+                         pr-6 md:pr-12 lg:pr-24"
+            >
+              {cards.map((card, i) => (
+                <div
+                  key={i}
+                  className="w-[calc(100vw-48px)] sm:w-[270px] md:w-[320px] lg:w-[360px] flex-shrink-0 group cursor-pointer"
+                >
+                  <div className="flex flex-col rounded-2xl border border-white/[0.06]
+                                  bg-white/[0.015] overflow-hidden
+                                  transition-all duration-500
+                                  hover:border-[#C9A84C]/40 hover:bg-white/[0.03]
+                                  hover:shadow-[0_20px_48px_-15px_rgba(201,168,76,0.13)]">
+                    {/* Image */}
+                    <div className="relative h-[148px] bg-[#0d0d0d] overflow-hidden flex-shrink-0">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="w-full h-full object-cover grayscale
+                                   transition-transform duration-1000 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 mix-blend-overlay
+                                      bg-[#C9A84C]/0 group-hover:bg-[#C9A84C]/15
+                                      transition-colors duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
+                      <span className="absolute bottom-3 left-4 text-[9px] font-bold uppercase
+                                       tracking-[0.28em]
+                                       bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]
+                                       bg-clip-text text-transparent">
+                        {card.category}
+                      </span>
+                    </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col flex-grow">
-                    <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent text-xs font-medium uppercase tracking-[0.2em] mb-4 block opacity-90">
-                      {card.category}
-                    </span>
-                    <h3 className="text-2xl font-serif font-light text-white mb-4 leading-[1.3] group-hover:text-[#C9A84C] transition-colors duration-500 tracking-tight">
-                      {card.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed mb-8 flex-grow font-light">
-                      {card.description}
-                    </p>
-                    
-                    <div className="flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-gray-500 group-hover:text-[#C9A84C] transition-colors duration-500 w-fit mt-auto">
-                      Fale com nossa equipe 
-                      <ArrowRight className="w-4 h-4 text-[#C9A84C] transform transition-transform duration-500 ease-out group-hover:translate-x-2" />
+                    {/* Content */}
+                    <div className="p-5 flex flex-col flex-grow">
+                      <h3 className="text-[1rem] font-serif font-light text-white mb-2.5
+                                     leading-snug
+                                     group-hover:text-[#C9A84C] transition-colors duration-500">
+                        {card.title}
+                      </h3>
+                      <p className="text-gray-500 text-[0.78rem] leading-relaxed mb-4 flex-grow">
+                        {card.description}
+                      </p>
+                      <div className="flex items-center gap-2 mt-auto
+                                      text-[0.65rem] font-semibold uppercase tracking-[0.2em]
+                                      text-gray-600 group-hover:text-[#C9A84C]
+                                      transition-colors duration-500">
+                        Fale com nossa equipe
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </motion.div>
           </div>
 
-          {/* Progress Bar */}
-          <div className="w-full max-w-md mx-auto h-[2px] bg-white/10 rounded-full overflow-hidden mt-4">
-            <motion.div 
-              className="h-full bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] rounded-full origin-left"
-              style={{ width: progressBarWidth }}
-            />
-          </div>
+          {/* Scroll hint */}
+          <motion.p
+            style={{ opacity: cardsHintOp }}
+            className="text-center text-white/20 text-[9px] uppercase tracking-widest mt-7 font-light"
+          >
+            ↔ arraste ou continue rolando para explorar
+          </motion.p>
+        </motion.div>
 
-        </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
-

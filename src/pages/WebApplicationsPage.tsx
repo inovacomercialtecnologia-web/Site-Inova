@@ -127,7 +127,7 @@ const WebApplicationsPage = () => {
           }
           @media (max-width: 768px) {
             .s4-morph-word {
-              font-size: 48px;
+              font-size: clamp(2rem, 10vw, 48px);
             }
           }
           .s4-morph-word.s4-active {
@@ -177,6 +177,11 @@ const WebApplicationsPage = () => {
           .s4-dot-3 { animation: s4-light-up 2s infinite ease-in-out 0.8s; }
           .s4-dot-4 { animation: s4-light-up 2s infinite ease-in-out 1.2s; }
           .s4-dot-5 { animation: s4-light-up 2s infinite ease-in-out 1.6s; }
+          @media (max-width: 640px) {
+            .s4-morph-word { font-size: clamp(2rem, 10vw, 48px); }
+            .s4-block { padding: 20px; }
+            .s4-morph-container { min-height: 56px; }
+          }
         `}</style>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-start justify-between">

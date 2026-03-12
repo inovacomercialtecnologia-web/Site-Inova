@@ -70,7 +70,7 @@ const AboutUsPage = () => {
               variants={revealVariants}
             >
               <span className="text-[#C9A84C] text-[10px] font-black uppercase tracking-[0.3em] mb-6 block">O Manifesto</span>
-              <h2 className="text-[32px] md:text-[48px] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
+              <h2 className="text-[clamp(1.6rem,5vw,3rem)] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
                 Não somos apenas <br />
                 <span className="italic font-[400] text-[#C9A84C]">desenvolvedores.</span>
               </h2>
@@ -129,7 +129,7 @@ const AboutUsPage = () => {
               whileInView="visible"
               viewport={{ once: true }}
               variants={revealVariants}
-              className="text-[28px] md:text-[42px] font-serif font-[200] leading-[1.2] tracking-tighter"
+              className="text-[clamp(1.5rem,4.5vw,2.6rem)] font-serif font-[200] leading-[1.2] tracking-tighter"
             >
               Valores que guiam cada <span className="italic text-[#C9A84C]">linha de código.</span>
             </motion.h2>
@@ -174,7 +174,7 @@ const AboutUsPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="bg-[#0A0A0A] p-12 group hover:bg-[#111111] transition-colors duration-500"
+                className="bg-[#0A0A0A] p-6 md:p-12 group hover:bg-[#111111] transition-colors duration-500"
               >
                 <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-8 group-hover:border-[#C9A84C] group-hover:bg-[#C9A84C]/5 transition-all duration-500">
                   <value.icon className="w-5 h-5 text-white/40 group-hover:text-[#C9A84C] transition-colors" strokeWidth={1.5} />
@@ -200,7 +200,7 @@ const AboutUsPage = () => {
               variants={revealVariants}
             >
               <span className="text-[#C9A84C] text-[10px] font-black uppercase tracking-[0.3em] mb-6 block">O Time</span>
-              <h2 className="text-[32px] md:text-[48px] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
+              <h2 className="text-[clamp(1.6rem,5vw,3rem)] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
                 Estrategistas e <br />
                 <span className="italic font-[400] text-[#C9A84C]">Engenheiros.</span>
               </h2>
@@ -264,7 +264,7 @@ const AboutUsPage = () => {
           variants={revealVariants}
           className="relative z-10"
         >
-          <h2 className="text-[32px] md:text-[56px] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
+          <h2 className="text-[clamp(1.6rem,5vw,3.5rem)] font-serif font-[200] leading-[1.2] tracking-tighter mb-10">
             Faça parte da <br />
             <span className="italic font-[400] text-[#C9A84C]">nossa história.</span>
           </h2>
