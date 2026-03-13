@@ -10,7 +10,7 @@ const ArtificialIntelligencePage: React.FC = () => {
     
     const onScroll = () => {
       if (prog) {
-        prog.style.width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
+        prog.style.width = (window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
       }
     };
     window.addEventListener('scroll', onScroll);
@@ -1162,6 +1162,27 @@ const ArtificialIntelligencePage: React.FC = () => {
             max-width: 100%;
           }
           .iahero-sub-divider { display: none; }
+          .s-connect {
+            grid-template-columns: 1fr;
+            min-height: auto;
+          }
+          .sc2-left {
+            padding: 60px 24px 40px;
+          }
+          .sc2-right {
+            min-height: 320px;
+            border-left: none;
+            border-top: 1px solid rgba(201,168,76,.15);
+          }
+          .sc2-svg-panel {
+            width: 90%;
+            max-width: 340px;
+          }
+          .sc2-headline .sc2-h-outline,
+          .sc2-headline .sc2-h-solid {
+            font-size: clamp(1.8rem, 7vw, 3rem);
+          }
+          .sc2-lead { font-size: 0.9rem; }
           .s-ecosystem { padding: 60px 20px; }
           .eco-inner {
             grid-template-columns: 1fr;

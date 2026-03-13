@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Brain, ShieldX, BarChart3, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function DiagnosticSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -172,7 +173,7 @@ const DiagnosticCard: React.FC<DiagnosticCardProps> = ({ topic, index, scrollYPr
   };
 
   // Parallax for image inside card - Only on desktop for stability
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = useIsMobile();
   const imgY = useTransform(cardScroll, [0, 1], isMobile ? [0, 0] : [index % 2 === 0 ? -20 : 20, index % 2 === 0 ? 20 : -20]);
 
   return (

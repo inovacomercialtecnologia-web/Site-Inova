@@ -6,6 +6,7 @@ import {
   User, Users, Building2, TrendingUp,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbw2JxsckTXUGllEs31QQobuTXaI3Dbf4EBsm4mWVHbsMjWlOf1ocH0snu2VF7mcjuSL7Q/exec';
 
@@ -38,14 +39,17 @@ const B_FULL  = ['Menos de R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.0
 const B_AUTO  = ['Menos de R$3.000', 'R$3.000 a R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.000', 'Acima de R$100.000'];
 
 // Ambient orb per step — sizes clamped for mobile
-const isMobileOrb = typeof window !== 'undefined' && window.innerWidth < 768;
-const ORB: Record<number, { color: string; x: string; y: string; size: number }> = {
-  1: { color: 'rgba(201,168,76,0.12)',  x: '70%',  y: '-5%',  size: isMobileOrb ? 350 : 700 },
-  2: { color: 'rgba(59,130,246,0.09)',  x: '15%',  y: '58%',  size: isMobileOrb ? 300 : 580 },
-  3: { color: 'rgba(16,185,129,0.08)', x: '74%',  y: '68%',  size: isMobileOrb ? 320 : 620 },
-  4: { color: 'rgba(201,168,76,0.11)', x: '28%',  y: '22%',  size: isMobileOrb ? 340 : 660 },
-  5: { color: 'rgba(139,92,246,0.09)', x: '64%',  y: '44%',  size: isMobileOrb ? 330 : 640 },
-};
+const ORB_DATA = [
+  { color: 'rgba(201,168,76,0.12)',  x: '70%',  y: '-5%',  desktop: 700, mobile: 350 },
+  { color: 'rgba(59,130,246,0.09)',  x: '15%',  y: '58%',  desktop: 580, mobile: 300 },
+  { color: 'rgba(16,185,129,0.08)', x: '74%',  y: '68%',  desktop: 620, mobile: 320 },
+  { color: 'rgba(201,168,76,0.11)', x: '28%',  y: '22%',  desktop: 660, mobile: 340 },
+  { color: 'rgba(139,92,246,0.09)', x: '64%',  y: '44%',  desktop: 640, mobile: 330 },
+];
+function getOrb(step: number, isMobile: boolean) {
+  const d = ORB_DATA[(step - 1) % ORB_DATA.length];
+  return { color: d.color, x: d.x, y: d.y, size: isMobile ? d.mobile : d.desktop };
+}
 
 // ─── Shared layout pieces ─────────────────────────────────────────────────────
 
@@ -176,7 +180,7 @@ function OptionCard({
           color:           isSelected ? '#080808' : 'rgba(255,255,255,0.22)',
         }}
       >
-        {letters[index]}
+        {letters[index] ?? ''}
       </div>
 
       <span
@@ -355,6 +359,7 @@ const sanitizeText = (text: string, maxLen = 200) =>
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 const ContactQuizPage = () => {
+  const isMobileOrb = useIsMobile();
   const [step, setStep]     = useState(1);
   const [dir,  setDir]      = useState(1);
   const [busy, setBusy]     = useState(false);
@@ -367,7 +372,7 @@ const ContactQuizPage = () => {
   });
 
   const TOTAL = 5;
-  const orb   = ORB[step] ?? ORB[1];
+  const orb   = getOrb(step, isMobileOrb);
 
   const next = () => { setDir(1);  setStep(p => Math.min(p + 1, TOTAL)); window.scrollTo(0, 0); };
   const back = () => { setDir(-1); setStep(p => Math.max(p - 1, 1));     window.scrollTo(0, 0); };
@@ -427,6 +432,7 @@ const ContactQuizPage = () => {
     }
     setBusy(true);
     setLastSubmit(now);
+    const controller = new AbortController();
     try {
       const payload = {
         ...ans,
@@ -437,12 +443,14 @@ const ContactQuizPage = () => {
         email: ans.email.trim(),
       };
       await fetch(SHEETS_URL, {
-        method: 'POST', mode: 'no-cors',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
       setDone(true);
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
       alert('Erro ao enviar. Verifique sua conexão e tente novamente.');
     } finally {
       setBusy(false);

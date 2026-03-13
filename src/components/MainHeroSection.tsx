@@ -14,7 +14,7 @@ export default function MainHeroSection() {
       interval = window.setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
-            setActiveSlide((s) => (s + 1) % 3);
+            setActiveSlide((s) => (s + 1) % slides.length);
             return 0;
           }
           return prev + 0.5;
@@ -60,7 +60,7 @@ export default function MainHeroSection() {
           {slides[activeSlide].type === 'youtube' ? (
             <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
               <iframe
-                className="absolute top-1/2 left-1/2 w-[115vw] h-[115vh] md:w-[150%] md:h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover"
+                className="absolute top-1/2 left-1/2 w-[200vw] h-[200vh] md:w-[200%] md:h-[200%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110"
                 src={`https://www.youtube.com/embed/${slides[activeSlide].video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slides[activeSlide].video}&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&origin=${window.location.origin}`}
                 allow="autoplay; encrypted-media"
                 frameBorder="0"

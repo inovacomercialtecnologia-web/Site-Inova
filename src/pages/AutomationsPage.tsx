@@ -2,6 +2,12 @@ import React from 'react';
 
 const AutomationsPage = () => {
   React.useEffect(() => {
+    let _animId: number | null = null;
+    let _resizeHandler: (() => void) | null = null;
+    let _styleEl: HTMLStyleElement | null = null;
+    let _observer: IntersectionObserver | null = null;
+    const _timeouts: number[] = [];
+
     const ahero_initParticles = () => {
       const canvas = document.querySelector('.ahero-canvas') as HTMLCanvasElement;
       if (!canvas) return;
@@ -15,6 +21,7 @@ const AutomationsPage = () => {
         canvas.height = canvas.offsetHeight;
       };
       resize();
+      _resizeHandler = resize;
       window.addEventListener('resize', resize);
 
       const particles = targets.map((target, i) => ({
@@ -115,27 +122,29 @@ const AutomationsPage = () => {
           }
         });
 
-        requestAnimationFrame(animate);
+        _animId = requestAnimationFrame(animate);
       };
       animate();
     };
 
     const ahero_initText = () => {
-      setTimeout(() => {
+      const t1 = window.setTimeout(() => {
         const headline = document.querySelector('.ahero-headline') as HTMLElement;
         if (headline) {
           headline.style.opacity = '1';
           headline.style.transform = 'translateY(0)';
         }
       }, 2500);
+      _timeouts.push(t1);
 
-      setTimeout(() => {
+      const t2 = window.setTimeout(() => {
         const subtitle = document.querySelector('.ahero-subtitle') as HTMLElement;
         if (subtitle) {
           subtitle.style.opacity = '1';
           subtitle.style.transform = 'translateY(0)';
         }
       }, 3200);
+      _timeouts.push(t2);
     };
 
     const as2_initHover = () => {
@@ -203,15 +212,15 @@ const AutomationsPage = () => {
 
     const as2_initEntrance = () => {
       // Inject CSS for entrance animations
-      const style = document.createElement('style');
-      style.textContent = `
+      _styleEl = document.createElement('style');
+      _styleEl.textContent = `
         .as2-header { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .as2-header.visible { opacity: 1; transform: translateY(0); }
-        
+
         .as2-item.entrance-hidden { opacity: 0; transform: translateY(30px); }
         .as2-item.entrance-visible { opacity: 1; transform: translateY(0); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
       `;
-      document.head.appendChild(style);
+      document.head.appendChild(_styleEl);
 
       const header = document.querySelector('.as2-header');
       const items = document.querySelectorAll('.as2-item');
@@ -219,47 +228,53 @@ const AutomationsPage = () => {
       // Initial state
       items.forEach(item => item.classList.add('entrance-hidden'));
 
-      const observer = new IntersectionObserver((entries) => {
+      _observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Animate Header
             if (header) header.classList.add('visible');
 
-            // Animate Items
             items.forEach((item, index) => {
               let delay = 0;
               if (index === 0) delay = 200;
               if (index === 1) delay = 350;
               if (index === 2) delay = 500;
 
-              setTimeout(() => {
+              const t1 = window.setTimeout(() => {
                 item.classList.remove('entrance-hidden');
                 item.classList.add('entrance-visible');
-                
-                // Cleanup after animation to allow hover effects to work
-                setTimeout(() => {
+                const t2 = window.setTimeout(() => {
                   item.classList.remove('entrance-visible');
                 }, 600);
+                _timeouts.push(t2);
               }, delay);
+              _timeouts.push(t1);
             });
 
-            // Trigger hover initialization after entrance
-            setTimeout(() => {
+            const t3 = window.setTimeout(() => {
               as2_initHover();
             }, 1100);
+            _timeouts.push(t3);
 
-            observer.disconnect();
+            _observer?.disconnect();
           }
         });
       }, { threshold: 0.1 });
 
       const section = document.querySelector('.as2-section');
-      if (section) observer.observe(section);
+      if (section) _observer.observe(section);
     };
 
     ahero_initParticles();
     ahero_initText();
     as2_initEntrance();
+
+    return () => {
+      if (_animId) cancelAnimationFrame(_animId);
+      if (_resizeHandler) window.removeEventListener('resize', _resizeHandler);
+      if (_styleEl && _styleEl.parentNode) _styleEl.parentNode.removeChild(_styleEl);
+      if (_observer) _observer.disconnect();
+      _timeouts.forEach(t => clearTimeout(t));
+    };
   }, []);
 
   return (

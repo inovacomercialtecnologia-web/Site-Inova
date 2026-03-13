@@ -487,7 +487,7 @@ export default function CasesSection() {
           MODAL
       ══════════════════════════════════════ */}
       <AnimatePresence>
-        {selected !== null && (
+        {selected !== null && selected < CASES.length && (
           <CaseModal c={CASES[selected]} onClose={() => setSelected(null)} />
         )}
       </AnimatePresence>

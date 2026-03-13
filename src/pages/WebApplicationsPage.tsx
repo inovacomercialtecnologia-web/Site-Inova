@@ -9,58 +9,69 @@ import SystemsStorytelling from '../components/SystemsStorytelling';
 
 const WebApplicationsPage = () => {
   useEffect(() => {
-    (function() {
-      function s4_initMorphing() {
-        const words = document.querySelectorAll('.s4-morph-word');
-        if (!words.length) return;
-        let currentIndex = 0;
-        
-        setInterval(() => {
-          const currentWord = words[currentIndex] as HTMLElement;
-          const nextIndex = (currentIndex + 1) % words.length;
-          const nextWord = words[nextIndex] as HTMLElement;
-          
-          currentWord.classList.remove('s4-active');
-          currentWord.classList.add('s4-exit');
-          
-          setTimeout(() => {
-            currentWord.classList.remove('s4-exit');
-            nextWord.classList.add('s4-active');
-          }, 400);
-          
-        }, 2500);
-      }
+    const _timeouts: number[] = [];
+    let _morphInterval: number | null = null;
+    let _observer: IntersectionObserver | null = null;
 
-      function s4_initCards() {
-        const blocks = document.querySelectorAll('.s4-block');
-        if (!blocks.length) return;
-        
-        const s4Observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              const delay = el.getAttribute('data-s4-delay') || '0s';
-              const transform = el.getAttribute('data-s4-transform') || 'translateY(0)';
-              
-              el.style.transition = `transform 0.7s ease-out ${delay}, opacity 0.7s ease-out ${delay}`;
-              el.style.opacity = '1';
-              el.style.transform = transform;
-              
-              setTimeout(() => {
-                el.style.transition = 'border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease';
-              }, 700 + parseFloat(delay) * 1000);
+    function s4_initMorphing() {
+      const words = document.querySelectorAll('.s4-morph-word');
+      if (!words.length) return;
+      let currentIndex = 0;
 
-              s4Observer.unobserve(el);
-            }
-          });
-        }, { threshold: 0.1 });
+      _morphInterval = window.setInterval(() => {
+        const currentWord = words[currentIndex] as HTMLElement;
+        const nextIndex = (currentIndex + 1) % words.length;
+        const nextWord = words[nextIndex] as HTMLElement;
 
-        blocks.forEach(block => s4Observer.observe(block));
-      }
+        currentWord.classList.remove('s4-active');
+        currentWord.classList.add('s4-exit');
 
-      s4_initMorphing();
-      s4_initCards();
-    })();
+        const t = window.setTimeout(() => {
+          currentWord.classList.remove('s4-exit');
+          nextWord.classList.add('s4-active');
+        }, 400);
+        _timeouts.push(t);
+
+        currentIndex = nextIndex;
+      }, 2500);
+    }
+
+    function s4_initCards() {
+      const blocks = document.querySelectorAll('.s4-block');
+      if (!blocks.length) return;
+
+      _observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const delay = el.getAttribute('data-s4-delay') || '0s';
+            const transform = el.getAttribute('data-s4-transform') || 'translateY(0)';
+
+            el.style.transition = `transform 0.7s ease-out ${delay}, opacity 0.7s ease-out ${delay}`;
+            el.style.opacity = '1';
+            el.style.transform = transform;
+
+            const t = window.setTimeout(() => {
+              el.style.transition = 'border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease';
+            }, 700 + (parseFloat(delay) || 0) * 1000);
+            _timeouts.push(t);
+
+            _observer?.unobserve(el);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      blocks.forEach(block => _observer!.observe(block));
+    }
+
+    s4_initMorphing();
+    s4_initCards();
+
+    return () => {
+      if (_morphInterval) clearInterval(_morphInterval);
+      _timeouts.forEach(t => clearTimeout(t));
+      if (_observer) _observer.disconnect();
+    };
   }, []);
 
   return (

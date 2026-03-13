@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 // ─── Minimal background — very faint lines, barely perceptible ────────────
 function MinimalRays() {
@@ -60,7 +61,7 @@ const SNAP = { stiffness: 110, damping: 16, restDelta: 0.001 };
 
 export default function TriadeSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,

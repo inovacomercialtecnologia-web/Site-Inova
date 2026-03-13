@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Clock, User, Search, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -40,6 +40,9 @@ const blogPosts = [
 ];
 
 const BlogPage = () => {
+  const [search, setSearch] = useState('');
+  const [newsletter, setNewsletter] = useState('');
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -69,9 +72,11 @@ const BlogPage = () => {
             {/* Search Bar */}
             <div className="relative max-w-md">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-              <input 
-                type="text" 
-                placeholder="Pesquisar artigos..." 
+              <input
+                type="text"
+                placeholder="Pesquisar artigos..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-full py-4 pl-12 pr-6 text-sm text-white outline-none focus:border-[#C9A84C]/50 transition-all"
               />
             </div>
@@ -100,7 +105,7 @@ const BlogPage = () => {
       <section className="py-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-            {blogPosts.map((post, i) => (
+            {blogPosts.filter(post => !search || post.title.toLowerCase().includes(search.toLowerCase()) || post.excerpt.toLowerCase().includes(search.toLowerCase())).map((post, i) => (
               <motion.article
                 key={post.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -198,12 +203,24 @@ const BlogPage = () => {
             viewport={{ once: true }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <input 
-              type="email" 
-              placeholder="Seu melhor e-mail" 
+            <input
+              type="email"
+              placeholder="Seu melhor e-mail"
+              value={newsletter}
+              onChange={(e) => setNewsletter(e.target.value)}
               className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-sm outline-none focus:border-[#C9A84C]/50 transition-all"
             />
-            <button className="bg-[#C9A84C] text-[#080808] px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-[11px] hover:bg-[#E8C97A] transition-all shadow-xl shadow-[#C9A84C]/10">
+            <button
+              onClick={() => {
+                if (!newsletter || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newsletter)) {
+                  alert('Por favor, informe um e-mail válido.');
+                  return;
+                }
+                alert('Obrigado! Você será notificado sobre novos artigos.');
+                setNewsletter('');
+              }}
+              className="bg-[#C9A84C] text-[#080808] px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-[11px] hover:bg-[#E8C97A] transition-all shadow-xl shadow-[#C9A84C]/10"
+            >
               Inscrever
             </button>
           </motion.div>

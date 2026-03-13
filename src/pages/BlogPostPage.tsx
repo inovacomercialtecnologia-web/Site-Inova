@@ -84,12 +84,14 @@ const blogPostsContent = {
 const BlogPostPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const post = blogPostsContent[slug as keyof typeof blogPostsContent];
+  const post = slug && slug in blogPostsContent
+    ? blogPostsContent[slug as keyof typeof blogPostsContent]
+    : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!post) {
-      navigate('/blog');
+      navigate('/blog', { replace: true });
     }
   }, [post, navigate]);
 

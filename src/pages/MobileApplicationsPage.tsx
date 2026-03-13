@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 
 const MobileApplicationsPage = () => {
   React.useEffect(() => {
+    const _timeouts: number[] = [];
+    const _observers: IntersectionObserver[] = [];
+    const _styles: HTMLStyleElement[] = [];
+
     const mhero_initText = () => {
       const headline = document.querySelector('.mhero-headline') as HTMLElement;
       const subtitle = document.querySelector('.mhero-subtitle') as HTMLElement;
@@ -247,6 +251,12 @@ const MobileApplicationsPage = () => {
     mhero_initText();
     ms2_initEntrance();
     ms3_initEntrance();
+
+    return () => {
+      _timeouts.forEach(t => clearTimeout(t));
+      _observers.forEach(o => o.disconnect());
+      _styles.forEach(s => { if (s.parentNode) s.parentNode.removeChild(s); });
+    };
   }, []);
 
   return (
@@ -1123,12 +1133,14 @@ function MHeroCanvas() {
         ctx.fill();
       });
 
-      requestAnimationFrame(render);
+      _rafId = requestAnimationFrame(render);
     };
 
+    let _rafId: number;
     render();
 
     return () => {
+      cancelAnimationFrame(_rafId);
       window.removeEventListener('resize', resize);
     };
   }, []);

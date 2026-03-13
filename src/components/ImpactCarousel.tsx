@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const cards = [
   {
@@ -84,7 +85,7 @@ export default function ImpactCarousel() {
       return -dist * t;
     }
   );
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = useIsMobile();
   const cardsX = useSpring(rawX, { stiffness: isMobile ? 45 : 75, damping: isMobile ? 30 : 26, restDelta: 0.5 });
 
   const cardsHintOp = useTransform(scrollYProgress, [0.52, 0.62], [0.45, 0]);

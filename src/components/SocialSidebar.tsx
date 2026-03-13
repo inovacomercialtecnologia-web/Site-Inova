@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Linkedin, Mail, Share2, Instagram, Facebook } from 'lucide-react';
 
@@ -13,7 +14,8 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 export default function SocialSidebar() {
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const location = useLocation();
+  const shareUrl = typeof window !== 'undefined' ? window.location.origin + location.pathname : '';
   const title = "Inova Systems Solutions - Transformação Digital Estratégica";
 
   const socialLinks = [
