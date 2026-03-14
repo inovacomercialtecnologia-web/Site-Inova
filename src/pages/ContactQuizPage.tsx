@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 
-const SHEETS_URL = import.meta.env.VITE_SHEETS_URL || '';
+const CONTACT_API = '/api/contact.php';
 
 // ─── Types & Data ─────────────────────────────────────────────────────────────
 
@@ -442,13 +442,16 @@ const ContactQuizPage = () => {
         whatsapp: ans.whatsapp.trim(),
         email: ans.email.trim(),
       };
-      await fetch(SHEETS_URL, {
+      const res = await fetch(CONTACT_API, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => null);
+        throw new Error(err?.error || 'Erro ao enviar');
+      }
       setDone(true);
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
