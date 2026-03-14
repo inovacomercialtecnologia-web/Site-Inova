@@ -1,14 +1,16 @@
-name: Build and Deploy
+name: Deploy para Hostinger
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Baixar o código
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -17,16 +19,16 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Inject Sheets URL into PHP proxy
+      - name: Injetar URL do Sheets no PHP proxy
         run: sed -i "s|%%SHEETS_URL%%|${{ secrets.VITE_SHEETS_URL }}|g" dist/api/contact.php
 
-      - name: Create .htaccess for SPA routing
+      - name: Criar .htaccess para SPA routing
         run: |
           cat > dist/.htaccess << 'HTACCESS'
           <IfModule mod_rewrite.c>
@@ -39,12 +41,11 @@ jobs:
           </IfModule>
           HTACCESS
 
-      - name: Deploy to Hostinger via SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002" \
-            dist/ u257882461@147.93.37.106:/home/u257882461/public_html/
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /public_html/
