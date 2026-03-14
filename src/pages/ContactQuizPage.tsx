@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbw2JxsckTXUGllEs31QQobuTXaI3Dbf4EBsm4mWVHbsMjWlOf1ocH0snu2VF7mcjuSL7Q/exec';
+const SHEETS_URL = import.meta.env.VITE_SHEETS_URL || '';
 
 // ─── Types & Data ─────────────────────────────────────────────────────────────
 

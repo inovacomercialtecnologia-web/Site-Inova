@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
+import ErrorBoundary from './components/ErrorBoundary';
 import SocialSidebar from './components/SocialSidebar';
 import Footer from './components/Footer';
 import DiagnosticDetailPage from './pages/DiagnosticDetail';
@@ -17,6 +18,9 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import PhilosophyPage from './pages/PhilosophyPage';
 import ImmersiveHome from './pages/ImmersiveHome';
+import TermosPage from './pages/TermosPage';
+import PrivacidadePage from './pages/PrivacidadePage';
+import CookiesPage from './pages/CookiesPage';
 
 const App = () => {
   return (
@@ -24,6 +28,7 @@ const App = () => {
       <ScrollToTop />
       <Navbar />
       <SocialSidebar />
+      <ErrorBoundary>
       <Routes>
         <Route path="/" element={<ImmersiveHome />} />
         <Route path="/missao" element={<MissionPage />} />
@@ -38,8 +43,12 @@ const App = () => {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/diagnostico/:slug" element={<DiagnosticDetailPage />} />
+        <Route path="/termos" element={<TermosPage />} />
+        <Route path="/privacidade" element={<PrivacidadePage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </ErrorBoundary>
       <Footer />
     </Router>
   );

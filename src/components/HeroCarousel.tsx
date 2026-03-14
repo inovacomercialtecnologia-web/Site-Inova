@@ -83,6 +83,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
                 src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}
                 title={`Background Video ${index}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                sandbox="allow-scripts allow-same-origin allow-presentation"
                 style={{ border: 'none' }}
                 loading="eager"
               />

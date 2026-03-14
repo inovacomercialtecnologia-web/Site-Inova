@@ -5,24 +5,17 @@ import { Play, Pause, ChevronDown } from 'lucide-react';
 export default function MainHeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const SLIDE_DURATION = 10000;
 
-  // Progress bar logic
   useEffect(() => {
-    let interval: number;
+    let timer: number;
     if (isPlaying) {
-      interval = window.setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            setActiveSlide((s) => (s + 1) % slides.length);
-            return 0;
-          }
-          return prev + 0.5;
-        });
-      }, 50);
+      timer = window.setTimeout(() => {
+        setActiveSlide((s) => (s + 1) % 3);
+      }, SLIDE_DURATION);
     }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+    return () => clearTimeout(timer);
+  }, [isPlaying, activeSlide]);
 
   const slides = [
     {
@@ -63,6 +56,7 @@ export default function MainHeroSection() {
                 className="absolute top-1/2 left-1/2 w-[200vw] h-[200vh] md:w-[200%] md:h-[200%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110"
                 src={`https://www.youtube.com/embed/${slides[activeSlide].video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slides[activeSlide].video}&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&origin=${window.location.origin}`}
                 allow="autoplay; encrypted-media"
+                sandbox="allow-scripts allow-same-origin allow-presentation"
                 frameBorder="0"
               />
             </div>
@@ -126,12 +120,13 @@ export default function MainHeroSection() {
               <div 
                 key={i} 
                 className="w-12 md:w-20 h-[2px] bg-white/20 relative cursor-pointer overflow-hidden"
-                onClick={() => { setActiveSlide(i); setProgress(0); }}
+                onClick={() => { setActiveSlide(i); }}
               >
-                {activeSlide === i && (
-                  <motion.div 
+                {activeSlide === i && isPlaying && (
+                  <div
+                    key={`progress-${activeSlide}`}
                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]"
-                    style={{ width: `${progress}%` }}
+                    style={{ animation: `progressFill ${SLIDE_DURATION}ms linear forwards` }}
                   />
                 )}
               </div>

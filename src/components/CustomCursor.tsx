@@ -30,7 +30,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, [mouseX, mouseY, cursorSize]);
+  }, []);
 
   const springConfig = { damping: 25, stiffness: 250 };
   const sx = useSpring(mouseX, springConfig);

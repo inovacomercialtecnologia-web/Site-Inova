@@ -28,7 +28,7 @@ export default function SocialSidebar() {
     {
       name: 'Instagram',
       icon: Instagram,
-      href: `https://www.instagram.com/`, // Instagram doesn't have a direct "share" URL like others, usually links to profile
+      href: `https://www.instagram.com/inova_systems_solutions/`,
       color: 'hover:text-[#E4405F]'
     },
     {
