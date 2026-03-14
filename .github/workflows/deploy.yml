@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -34,6 +31,7 @@ jobs:
           cat > dist/.htaccess << 'HTACCESS'
           <IfModule mod_rewrite.c>
           RewriteEngine On
+          RewriteBase /
           RewriteRule ^index\.html$ - [L]
           RewriteCond %{REQUEST_FILENAME} !-f
           RewriteCond %{REQUEST_FILENAME} !-d
@@ -41,14 +39,12 @@ jobs:
           </IfModule>
           HTACCESS
 
-      - name: Deploy to deploy branch
+      - name: Deploy to Hostinger via SSH
         run: |
-          cd dist
-          git init
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git checkout -b deploy
-          git add -A
-          git commit -m "Deploy $(date +'%Y-%m-%d %H:%M:%S')"
-          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git push -f origin deploy
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p 65002" \
+            dist/ u257882461@147.93.37.106:/home/u257882461/public_html/
