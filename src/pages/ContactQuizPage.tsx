@@ -444,6 +444,7 @@ const ContactQuizPage = () => {
       };
       await fetch(SHEETS_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: controller.signal,
