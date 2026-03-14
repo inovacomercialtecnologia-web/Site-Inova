@@ -582,7 +582,7 @@ const PortfolioPage = () => {
             {/* Close button */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-[110] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white hover:bg-[#C9A84C]/20 hover:border-[#C9A84C]/50 hover:text-[#C9A84C] transition-all duration-200"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-[110] w-10 h-10 flex items-center justify-center rounded-full bg-black/60 border-2 border-black text-[#C9A84C] hover:bg-black/80 hover:text-[#E0BB5E] transition-all duration-200"
             >
               <X size={20} />
             </button>
