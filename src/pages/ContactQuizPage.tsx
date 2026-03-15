@@ -366,7 +366,7 @@ const isValidPhone = (phone: string) =>
   /^[\d\s()+-]{8,20}$/.test(phone.trim());
 
 const sanitizeText = (text: string, maxLen = 200) =>
-  text.replace(/[<>{}]/g, '').slice(0, maxLen).trim();
+  text.replace(/[<>{}]/g, '').slice(0, maxLen);
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
