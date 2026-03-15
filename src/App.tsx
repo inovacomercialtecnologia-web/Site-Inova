@@ -18,7 +18,6 @@ import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import PhilosophyPage from './pages/PhilosophyPage';
 import ImmersiveHome from './pages/ImmersiveHome';
-import MVVPage from './pages/MVVPage';
 import TermosPage from './pages/TermosPage';
 import PrivacidadePage from './pages/PrivacidadePage';
 import CookiesPage from './pages/CookiesPage';
@@ -34,7 +33,6 @@ const App = () => {
         <Route path="/" element={<ImmersiveHome />} />
         <Route path="/missao" element={<MissionPage />} />
         <Route path="/filosofia" element={<PhilosophyPage />} />
-        <Route path="/mvv" element={<MVVPage />} />
         <Route path="/quem-somos" element={<AboutUsPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/solucoes/aplicacoes-web" element={<WebApplicationsPage />} />

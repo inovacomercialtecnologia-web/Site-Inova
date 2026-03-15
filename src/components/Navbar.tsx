@@ -143,13 +143,6 @@ export default function Navbar() {
                 >
                   Nossa filosofia
                 </Link>
-                <Link
-                  to="/mvv"
-                  onClick={() => handleLinkClick("/mvv")}
-                  className="text-lg font-light text-gray-300"
-                >
-                  Missão, Visão e Valores
-                </Link>
               </div>
             </div>
 
@@ -274,13 +267,6 @@ export default function Navbar() {
                           className="px-3 py-2 hover:bg-white/5 rounded-xl transition-all cursor-pointer group/item"
                         >
                           <div className="text-[13px] text-gray-300 group-hover/item:text-transparent group-hover/item:bg-clip-text group-hover/item:bg-gradient-to-r group-hover/item:from-[#C9A84C] group-hover/item:to-[#E5C05C] font-light transition-all">Nossa filosofia</div>
-                        </Link>
-                        <Link
-                          to="/mvv"
-                          onClick={() => handleLinkClick("/mvv")}
-                          className="px-3 py-2 hover:bg-white/5 rounded-xl transition-all cursor-pointer group/item"
-                        >
-                          <div className="text-[13px] text-gray-300 group-hover/item:text-transparent group-hover/item:bg-clip-text group-hover/item:bg-gradient-to-r group-hover/item:from-[#C9A84C] group-hover/item:to-[#E5C05C] font-light transition-all">Missão, Visão e Valores</div>
                         </Link>
                       </div>
                     </motion.div>
