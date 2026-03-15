@@ -378,10 +378,15 @@ const MobileApplicationsPage = () => {
             transition: opacity 0.5s ease-out;
           }
           @media (max-width: 768px) {
-            .mhero-line-1 { font-size: 40px; }
-            .mhero-line-2 { font-size: 48px; }
+            .mhero-wrapper { min-height: 80vh; }
+            .mhero-line-1 { font-size: 40px; letter-spacing: -1px; }
+            .mhero-line-2 { font-size: 48px; letter-spacing: -1px; }
+            .mhero-headline { letter-spacing: -1px; margin-bottom: 16px; }
+            .mhero-text { padding-bottom: 40px; padding-left: 16px; padding-right: 16px; }
+            .mhero-subtitle { font-size: 14px; max-width: 100%; }
             .mhero-subtitle-wrapper { flex-direction: column; gap: 16px; }
             .mhero-badge { display: none; }
+            .ms2-diagonal-divider { height: 80px; margin-top: -80px; }
           }
           .ms2-diagonal-divider {
             width: 100%;
@@ -504,6 +509,7 @@ const MobileApplicationsPage = () => {
           @media (max-width: 1024px) {
             .ms2-section {
               grid-template-columns: 1fr;
+              min-height: auto;
             }
             .ms2-ios {
               border-right: none;
@@ -517,9 +523,15 @@ const MobileApplicationsPage = () => {
               display: none;
             }
           }
-            .ms2-center-line {
-              display: none;
-            }
+          @media (max-width: 768px) {
+            .ms2-section { min-height: auto; }
+            .ms2-ios { padding: 48px 20px; }
+            .ms2-android { padding: 48px 20px; }
+            .ms2-headline { font-size: 30px; }
+            .ms2-text { font-size: 14px; }
+            .ms2-watermark { font-size: 100px; }
+            .ms2-timeline { height: 220px !important; }
+            .ms2-feature-item { font-size: 12px; }
           }
           .ms2-timeline { overflow: visible; }
           .ms2-line { stroke: #c9a84c; stroke-width: 1.5px; stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke-dashoffset 1.5s ease-out; }
@@ -883,6 +895,19 @@ const MobileApplicationsPage = () => {
             .ms3-divider { width: 60px; height: 3px; align-self: flex-start; }
             .ms3-illustration { display: none; }
           }
+          @media (max-width: 768px) {
+            .ms3-section { padding: 40px 16px; }
+            .ms3-block { padding: 28px; min-height: 260px; border-radius: 16px; }
+            .ms3-block-panoramic { min-height: auto; gap: 20px; }
+            .ms3-block-panoramic .ms3-title { font-size: 24px; }
+            .ms3-block-panoramic .ms3-text { font-size: 14px; }
+            .ms3-title { font-size: 22px; }
+            .ms3-text { font-size: 13px; -webkit-line-clamp: unset; }
+            .ms3-watermark { font-size: 80px; }
+            .ms3-watermark-launch { font-size: 60px; }
+            .ms3-chapter-number { font-size: 100px; }
+            .ms3-header { margin-bottom: 36px; }
+          }
           .ms3-illustration {
             position: absolute;
             bottom: 20px;
@@ -940,12 +965,23 @@ const MobileApplicationsPage = () => {
           .ms3-block.active .ms3-ill-launch { animation: ms3-float 2s ease-in-out infinite; }
 
           @media (max-width: 640px) {
-            .mhero-line-1 { font-size: clamp(2.2rem, 11vw, 40px); }
-            .mhero-line-2 { font-size: clamp(2.6rem, 13vw, 48px); }
-            .ms2-ios { padding: 48px 20px; }
-            .ms2-android { padding: 48px 20px; }
-            .ms2-headline { font-size: 28px; }
+            .mhero-wrapper { min-height: 70vh; }
+            .mhero-line-1 { font-size: clamp(2rem, 10vw, 40px); }
+            .mhero-line-2 { font-size: clamp(2.4rem, 12vw, 48px); }
+            .mhero-text { padding-bottom: 32px; }
+            .ms2-ios { padding: 36px 16px; }
+            .ms2-android { padding: 36px 16px; }
+            .ms2-headline { font-size: 24px; }
+            .ms2-text { font-size: 13px; max-width: 100%; }
+            .ms2-watermark { font-size: 70px; }
+            .ms2-label { font-size: 10px; letter-spacing: 3px; }
+            .ms2-logo { width: 36px; height: 36px; }
+            .ms3-section { padding: 32px 12px; }
+            .ms3-block { padding: 24px; min-height: auto; }
             .ms3-title { font-size: 20px; }
+            .ms3-block-panoramic .ms3-title { font-size: 20px; }
+            .ms3-tag { font-size: 9px; letter-spacing: 2px; }
+            .ms3-divider { width: 40px; }
           }
         `}</style>
       </section>
@@ -1002,7 +1038,8 @@ function MHeroCanvas() {
       {x:875,y:281},{x:875,y:258},{x:803,y:310},{x:840,y:310},{x:877,y:310}
     ];
 
-    const numParticles = 100;
+    const isMobile = width < 768;
+    const numParticles = isMobile ? 50 : 100;
     const particles: {
       x: number;
       y: number;
@@ -1089,8 +1126,9 @@ function MHeroCanvas() {
             const dy = particles[i].y - particles[j].y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             
-            if (dist < 60) {
-              const opacity = elapsed > 2.5 ? 0.5 : 0.5 * (1 - dist / 60);
+            const maxDist = isMobile ? 40 : 60;
+            if (dist < maxDist) {
+              const opacity = elapsed > 2.5 ? 0.5 : 0.5 * (1 - dist / maxDist);
               ctx.strokeStyle = `rgba(201, 168, 76, ${opacity})`;
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);

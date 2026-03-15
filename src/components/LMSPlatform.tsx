@@ -309,13 +309,13 @@ function Row({ title, courses, onSelect, onPlay }: {
   if (!courses.length) return null;
   return (
     <div className="mb-10">
-      <div className="flex items-center gap-2 mb-4 px-10">
+      <div className="flex items-center gap-2 mb-4 px-4 md:px-10">
         <h3 className="text-white font-bold text-[15px]">{title}</h3>
         <span className="text-red-500 text-[11px] font-bold flex items-center gap-0.5 opacity-0 hover:opacity-100 cursor-pointer transition-opacity">
           Explorar tudo <ChevronRight size={12} />
         </span>
       </div>
-      <div className="flex gap-3 overflow-x-auto px-10 pb-4 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex gap-3 overflow-x-auto px-4 md:px-10 pb-4 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
         {courses.map(c => <Card key={c.id} course={c} onSelect={onSelect} onPlay={onPlay} />)}
       </div>
     </div>
@@ -328,7 +328,7 @@ function Hero({ course, onSelect, onPlay }: {
   course: Course; onSelect: (c: Course) => void; onPlay: (c: Course) => void;
 }) {
   return (
-    <div className={`relative w-full shrink-0 bg-gradient-to-br ${course.gradient}`} style={{ height: 320 }}>
+    <div className={`relative w-full shrink-0 bg-gradient-to-br ${course.gradient} h-[200px] md:h-[320px]`}>
       {/* Cinematic overlays */}
       <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 75%, transparent 100%)' }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0A0A0A 0%, transparent 40%)' }} />
@@ -338,7 +338,7 @@ function Hero({ course, onSelect, onPlay }: {
         style={{ background: `radial-gradient(ellipse at 65% 50%, ${course.accent} 0%, transparent 55%)` }} />
 
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-center px-10 pb-6 max-w-2xl">
+      <div className="absolute inset-0 flex flex-col justify-center px-4 md:px-10 pb-6 max-w-2xl">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">{course.category}</span>
           <span className="text-white/20">·</span>
@@ -434,7 +434,7 @@ function DetailScreen({ course, onBack, onPlay, onSelect }: {
   return (
     <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
       {/* Hero */}
-      <div className={`relative w-full bg-gradient-to-br ${course.gradient}`} style={{ height: 240 }}>
+      <div className={`relative w-full bg-gradient-to-br ${course.gradient} h-[160px] md:h-[240px]`}>
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.65) 100%)' }} />
         <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 60% 50%, ${course.accent}22 0%, transparent 60%)` }} />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0A0A0A 0%, transparent 30%)' }} />
@@ -453,8 +453,8 @@ function DetailScreen({ course, onBack, onPlay, onSelect }: {
       </div>
 
       {/* Body */}
-      <div className="px-10 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="px-4 md:px-10 py-4 md:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
           {/* Left column */}
           <div className="lg:col-span-2">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -642,7 +642,7 @@ function PlayerScreen({ course, onBack }: { course: Course; onBack: () => void }
         <div className={`absolute inset-0 bg-gradient-to-br ${course.gradient} opacity-[0.08]`} />
 
         {/* Course info (looks like a real video intro frame) */}
-        <div className="relative text-center px-8 max-w-xl">
+        <div className="relative text-center px-4 md:px-8 max-w-xl">
           <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.3em] mb-6">{course.category}</p>
           <h2 className="text-white/85 font-black text-2xl leading-snug mb-2">{lesson.title}</h2>
           <p className="text-white/35 text-sm">{course.title}</p>
@@ -670,7 +670,7 @@ function PlayerScreen({ course, onBack }: { course: Course; onBack: () => void }
               style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 25%, transparent 65%, rgba(0,0,0,0.9) 100%)' }}>
 
               {/* Top bar */}
-              <div className="flex items-center justify-between px-8 pt-5 pointer-events-auto">
+              <div className="flex items-center justify-between px-4 md:px-8 pt-5 pointer-events-auto">
                 <button onClick={(e) => { e.stopPropagation(); onBack(); }}
                   className="flex items-center gap-2.5 text-white/70 hover:text-white text-xs font-semibold transition-colors">
                   <ArrowLeft size={16} />
@@ -686,7 +686,7 @@ function PlayerScreen({ course, onBack }: { course: Course; onBack: () => void }
               </div>
 
               {/* Bottom controls */}
-              <div className="px-8 pb-6 pointer-events-auto">
+              <div className="px-4 md:px-8 pb-6 pointer-events-auto">
                 <p className="text-white font-bold text-sm mb-4">{lesson.title}</p>
 
                 {/* Progress bar */}
@@ -796,10 +796,10 @@ function Navbar({ onHome, screen }: { onHome: () => void; screen: Screen }) {
   if (screen === 'player') return null;
 
   return (
-    <div className="shrink-0 flex items-center justify-between px-10 border-b border-white/[0.05]"
+    <div className="shrink-0 flex items-center justify-between px-3 md:px-10 border-b border-white/[0.05]"
       style={{ height: 56, background: '#0d0d0d' }}>
       {/* Left */}
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 md:gap-8">
         <button onClick={onHome} className="flex items-center gap-2 shrink-0">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: '#E50914' }}>
             <Play size={12} className="text-white fill-white ml-0.5" />

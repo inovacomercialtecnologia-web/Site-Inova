@@ -70,7 +70,7 @@ export default function DiagnosticDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Página não encontrada</h1>
+          <h1 className="text-2xl md:text-4xl font-bold mb-4">Página não encontrada</h1>
           <Link to="/" className="text-[#C9A84C] hover:underline">Voltar para o início</Link>
         </div>
       </div>
@@ -78,7 +78,7 @@ export default function DiagnosticDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20 font-sans">
+    <div className="min-h-screen bg-white pt-20 md:pt-32 pb-20 font-sans">
       <div className="max-w-[1200px] mx-auto px-6 sm:px-10 md:px-24 lg:px-32">
         
         {/* Back Link */}
@@ -122,7 +122,7 @@ export default function DiagnosticDetailPage() {
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute top-6 right-6 md:top-8 md:right-8 text-[64px] md:text-[96px] font-bold text-white/10 font-mono leading-none select-none">{topic.id}</div>
+            <div className="absolute top-4 right-4 md:top-8 md:right-8 text-[48px] md:text-[96px] font-bold text-white/10 font-mono leading-none select-none">{topic.id}</div>
           </motion.div>
         </div>
 
@@ -134,7 +134,7 @@ export default function DiagnosticDetailPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-gray-50 rounded-[40px] p-10 md:p-16 border border-gray-100"
+            className="bg-gray-50 rounded-[24px] md:rounded-[40px] p-8 md:p-16 border border-gray-100"
           >
             <h3 className="text-[20px] font-serif font-[300] text-gray-950 mb-10 tracking-tight">Sintomas comuns identificados</h3>
             <div className="space-y-6">
@@ -153,7 +153,7 @@ export default function DiagnosticDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-black rounded-[40px] p-10 md:p-16 text-white relative overflow-hidden"
+            className="bg-black rounded-[24px] md:rounded-[40px] p-8 md:p-16 text-white relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#C9A84C]/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
             

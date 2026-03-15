@@ -319,7 +319,7 @@ function OverviewView() {
             <h3 className="text-white font-semibold text-sm">Evolução de MRR</h3>
             <p className="text-slate-500 text-[11px]">Abr/25 – Mar/26 · realizado vs meta</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             <div className="text-right">
               <p className="text-emerald-400 font-bold text-lg">R$ 890k</p>
               <p className="text-slate-500 text-[10px]">MRR atual</p>
@@ -756,7 +756,7 @@ export default function BIDashboard() {
   return (
     <div className="flex flex-col h-full w-full bg-[#060e1a] overflow-hidden text-white font-sans text-sm">
       {/* Header */}
-      <div className="shrink-0 px-6 pt-5 pb-0 border-b border-white/5">
+      <div className="shrink-0 px-3 md:px-6 pt-5 pb-0 border-b border-white/5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center">
@@ -767,8 +767,8 @@ export default function BIDashboard() {
               <p className="text-slate-500 text-[10px] mt-0.5">TechGroup Brasil · CEO Dashboard · Mar/2026</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="hidden sm:flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-emerald-400 text-[11px] font-medium">Live · atualizado há 4 min</span>
             </div>
@@ -779,12 +779,12 @@ export default function BIDashboard() {
         </div>
 
         {/* Pillar tabs */}
-        <div className="flex gap-1">
+        <div className="flex gap-1 overflow-x-auto">
           {pillars.map((p) => (
             <button
               key={p.id}
               onClick={() => setActivePillar(p.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium rounded-t-lg transition-all duration-200 border-t border-l border-r relative
+              className={`flex items-center gap-2 px-3 md:px-4 py-2.5 text-xs font-medium rounded-t-lg transition-all duration-200 border-t border-l border-r relative shrink-0 whitespace-nowrap
                 ${activePillar === p.id
                   ? 'bg-[#0f1929] text-white border-white/10 border-b-[#0f1929]'
                   : 'text-slate-500 border-transparent hover:text-slate-300'

@@ -47,7 +47,7 @@ export default function ParticleHeroSection() {
       canvas.height = ch * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      let numParticles = cw < 768 ? 400 : cw < 1024 ? 600 : 800;
+      let numParticles = cw < 480 ? 100 : cw < 768 ? 180 : cw < 1024 ? 600 : 800;
       particles = [];
 
       for (let i = 0; i < numParticles; i++) {
@@ -177,23 +177,23 @@ export default function ParticleHeroSection() {
   }, [scrollYProgress]);
 
   return (
-    <section ref={sectionRef} className="relative h-[300vh] bg-[#000000] w-full z-30">
+    <section ref={sectionRef} className="relative h-[200vh] md:h-[300vh] bg-[#000000] w-full z-30">
       <canvas ref={canvasRef} className="sticky top-0 left-0 w-full h-screen pointer-events-none z-0" style={{ willChange: 'transform' }} />
       <div className="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none z-10 -mt-[100vh]">
-        <motion.div style={{ opacity: text1Opacity, y: text1Y }} className="absolute text-center px-12 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
-          <h2 className="text-xl md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
+        <motion.div style={{ opacity: text1Opacity, y: text1Y }} className="absolute text-center px-6 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
+          <h2 className="text-lg md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
             Tecnologia sem processo digitaliza <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">caos.</span>
           </h2>
         </motion.div>
-        <motion.div style={{ opacity: text2Opacity, y: text2Y }} className="absolute text-center px-12 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
-          <h2 className="text-xl md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
+        <motion.div style={{ opacity: text2Opacity, y: text2Y }} className="absolute text-center px-6 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
+          <h2 className="text-lg md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
             Processos inteligentes transformam dados em <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">decisões.</span>
           </h2>
         </motion.div>
-        <motion.div style={{ opacity: text3Opacity, y: text3Y }} className="absolute text-center px-12 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
-          <h2 className="text-xl md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
+        <motion.div style={{ opacity: text3Opacity, y: text3Y }} className="absolute text-center px-6 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">
+          <h2 className="text-lg md:text-3xl lg:text-5xl font-light text-white tracking-tight leading-tight">
             Sua operação na <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">nuvem.</span><br />
-            <span className="text-gray-400 text-lg md:text-2xl lg:text-3xl mt-4 block font-light">Simples. Escalável.</span>
+            <span className="text-gray-400 text-sm md:text-2xl lg:text-3xl mt-4 block font-light">Simples. Escalável.</span>
           </h2>
         </motion.div>
         <div className="absolute bottom-12 left-0 w-full text-center">

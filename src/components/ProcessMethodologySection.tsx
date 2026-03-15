@@ -74,7 +74,7 @@ const ProcessMethodologySection = () => {
         className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10"
       >
         {/* HEADER SECTION */}
-        <div className="mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
+        <div className="mb-16 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -86,7 +86,7 @@ const ProcessMethodologySection = () => {
               <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent text-[11px] uppercase tracking-[0.5em] font-medium">Metodologia Operacional</span>
             </motion.div>
             
-            <h2 className="text-[40px] md:text-[64px] font-light leading-[0.95] tracking-tight text-gray-900">
+            <h2 className="text-[26px] md:text-[64px] font-light leading-[1.05] md:leading-[0.95] tracking-tight text-gray-900">
               O sistema que a sua empresa precisa <br />
               <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent font-light tracking-tight">começa pelo processo.</span>
             </h2>
@@ -118,7 +118,7 @@ const ProcessMethodologySection = () => {
         {/* 2. BLUEPRINT CARDS GRID - REMOVED AS REQUESTED */}
 
         {/* 3. TECHNICAL FOOTER */}
-        <div className="mt-24 flex flex-col md:flex-row items-center justify-center gap-12">
+        <div className="mt-12 md:mt-24 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
           <Link
             to="/contato-quiz"
             className="group relative px-12 py-6 bg-[#000000] text-white rounded-full overflow-hidden flex items-center gap-6"
@@ -265,7 +265,7 @@ const BlueprintCard = ({ step, index, mouseX, mouseY }: any) => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="relative bg-white p-10 flex flex-col group cursor-default h-full min-h-[450px]"
+      className="relative bg-white p-6 md:p-10 flex flex-col group cursor-default h-full min-h-[280px] md:min-h-[450px]"
     >
       <div className="flex justify-between items-start mb-12">
         <div className="flex flex-col">

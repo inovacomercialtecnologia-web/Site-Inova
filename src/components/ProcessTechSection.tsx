@@ -23,7 +23,8 @@ export default function ProcessTechSection() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    const particleCount = 1800;
+    const isMobileDevice = window.innerWidth < 768;
+    const particleCount = isMobileDevice ? 400 : 1800;
     const particles: Particle[] = [];
     let mouse = { x: -1000, y: -1000 };
 
@@ -184,7 +185,7 @@ export default function ProcessTechSection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative bg-[#000000] h-[400vh] font-sans">
+    <section ref={containerRef} className="relative bg-[#000000] h-[250vh] md:h-[400vh] font-sans">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center pt-20 md:pt-24">
         {/* Technical Background */}
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -208,7 +209,7 @@ export default function ProcessTechSection() {
                 </span>
               </div>
               
-              <h2 className="text-[32px] md:text-[56px] font-light leading-[1.1] tracking-tight text-white mb-8">
+              <h2 className="text-[24px] md:text-[56px] font-light leading-[1.1] tracking-tight text-white mb-6 md:mb-8">
                 Tecnologia sem processo <br className="hidden md:block" />
                 <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent font-light tracking-tight">digitaliza caos.</span>
               </h2>
@@ -220,7 +221,7 @@ export default function ProcessTechSection() {
           </div>
 
           {/* Right Side: The Engine */}
-          <div className="lg:col-span-7 relative h-[500px] lg:h-[700px] w-full group">
+          <div className="lg:col-span-7 relative h-[300px] md:h-[500px] lg:h-[700px] w-full group">
             {/* Interactive Canvas */}
             <canvas 
               ref={canvasRef} 

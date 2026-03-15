@@ -50,7 +50,7 @@ export default function HeroToCarouselWrapper({
   const carouselOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5], [0, 0, 1]);
 
   return (
-    <div ref={containerRef} className="h-[300vh] relative w-full">
+    <div ref={containerRef} className="h-[200vh] md:h-[300vh] relative w-full">
       {/* Sticky container that holds the viewport during the scroll track */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-black">
         

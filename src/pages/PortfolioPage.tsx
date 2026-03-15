@@ -446,7 +446,7 @@ function SectionHeader({ number, label, title, count }: {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="flex items-end gap-6 mb-14 pb-8"
+      className="flex items-end gap-3 sm:gap-6 mb-8 sm:mb-14 pb-6 sm:pb-8"
       style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
     >
       <span
@@ -487,7 +487,7 @@ const PortfolioPage = () => {
     <div className="bg-[#080808] text-white min-h-screen">
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative pt-40 pb-32 px-6 overflow-hidden">
+      <section className="relative pt-28 sm:pt-40 pb-20 sm:pb-32 px-5 sm:px-6 overflow-hidden">
         {/* Top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-px"
@@ -495,7 +495,7 @@ const PortfolioPage = () => {
         />
         {/* Radial glow */}
         <div
-          className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] pointer-events-none"
+          className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[700px] h-[70vw] max-h-[500px] pointer-events-none"
           style={{ background: 'radial-gradient(ellipse, rgba(201,168,76,0.04) 0%, transparent 65%)' }}
         />
 
@@ -513,13 +513,13 @@ const PortfolioPage = () => {
             </span>
             <h1
               className="font-serif font-light tracking-tighter leading-[0.93] mb-10"
-              style={{ fontSize: 'clamp(44px, 8vw, 96px)' }}
+              style={{ fontSize: 'clamp(32px, 8vw, 96px)' }}
             >
               Cada projeto aqui<br />
               começou pelo{' '}
               <span className="italic" style={{ color: 'rgba(255,255,255,0.32)' }}>processo.</span>
             </h1>
-            <p className="font-light leading-relaxed max-w-lg" style={{ fontSize: '18px', color: 'rgba(255,255,255,0.48)' }}>
+            <p className="font-light leading-relaxed max-w-lg text-[15px] sm:text-[18px]" style={{ color: 'rgba(255,255,255,0.48)' }}>
               Web, Mobile, Automação e IA — desenvolvidos sob medida para a realidade de cada negócio.
             </p>
           </motion.div>
@@ -528,7 +528,7 @@ const PortfolioPage = () => {
       </section>
 
       {/* ── Sections ───────────────────────────────────────────────────────── */}
-      <section className="pb-32 px-6" style={{ background: '#0A0A0A' }}>
+      <section className="pb-20 sm:pb-32 px-4 sm:px-6" style={{ background: '#0A0A0A' }}>
         <div className="max-w-7xl mx-auto">
 
           {/* Web Section */}
@@ -539,7 +539,7 @@ const PortfolioPage = () => {
               title="Sistemas para negócios"
               count={WEB_ITEMS.length}
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
               {WEB_ITEMS.map((item, i) => (
                 <WebCard key={item.id} item={item} index={i} onClick={() => openModal(item.id)} />
               ))}
@@ -547,7 +547,7 @@ const PortfolioPage = () => {
           </div>
 
           {/* Divider */}
-          <div className="my-24" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }} />
+          <div className="my-14 sm:my-24" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }} />
 
           {/* Mobile Section */}
           <div>
@@ -557,7 +557,7 @@ const PortfolioPage = () => {
               title="Apps por segmento"
               count={MOBILE_ITEMS.length}
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
               {MOBILE_ITEMS.map((item, i) => (
                 <MobileCard key={item.id} item={item} index={i} onClick={() => openModal(item.id)} />
               ))}
@@ -576,7 +576,7 @@ const PortfolioPage = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-sm p-4 md:p-8"
+            className="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-sm p-2 sm:p-4 md:p-8"
             style={{ background: activeConfig.bgStyle || 'rgba(0,0,0,0.95)' }}
           >
             {/* Close button */}
@@ -593,7 +593,7 @@ const PortfolioPage = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.96, opacity: 0, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className={`w-full max-w-[1400px] h-[85vh] md:h-[90vh] rounded-2xl shadow-2xl relative ${activeConfig.skipScale ? 'overflow-hidden' : 'overflow-auto'} ${activeConfig.wrapperClass || ''}`}
+              className={`w-full max-w-[100vw] md:max-w-[1400px] h-[78vh] sm:h-[85vh] md:h-[90vh] rounded-xl md:rounded-2xl shadow-2xl relative ${activeConfig.skipScale ? 'overflow-hidden' : 'overflow-auto'} ${activeConfig.wrapperClass || ''}`}
             >
               {/* Web apps: min-width so they render at readable size and scroll horizontally.
                   Mobile apps (skipScale): self-scale internally — no min-width needed. */}

@@ -185,7 +185,7 @@ export default function TriadeSection() {
 
           {/* ── Bento Grid — perspective parent for 3D snap ──────────────── */}
           <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4"
+            className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4"
             style={{ perspective: '1100px', perspectiveOrigin: '50% 40%' }}
           >
 
@@ -194,7 +194,7 @@ export default function TriadeSection() {
               style={{ rotateY: c1RotY, rotateX: c1RotX, x: c1X, opacity: rawC1Op }}
               className="md:col-span-2"
             >
-              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
@@ -209,9 +209,9 @@ export default function TriadeSection() {
                                 group-hover:from-[#C9A84C]/[0.03]
                                 transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="w-5 h-5 md:w-9 md:h-9 mb-1 md:mb-5"><ProcessIcon /></div>
+                  <div className="w-7 h-7 md:w-9 md:h-9 mb-2 md:mb-5"><ProcessIcon /></div>
                   <h3 className="text-sm md:text-lg font-serif font-normal text-black mb-1 md:mb-1.5 tracking-tight">PROCESSO</h3>
-                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-1 md:mb-3">
+                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2 md:mb-3">
                     Mapeamento da sua operação
                   </p>
                   <p className="text-gray-500 text-xs md:text-sm leading-snug md:leading-relaxed font-light max-w-xl line-clamp-3 md:line-clamp-none">
@@ -228,7 +228,7 @@ export default function TriadeSection() {
               style={{ rotateY: c2RotY, rotateX: c2RotX, x: c2X, opacity: rawC2Op }}
               className="md:col-span-1"
             >
-              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
@@ -243,9 +243,9 @@ export default function TriadeSection() {
                                 group-hover:from-[#C9A84C]/[0.03]
                                 transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="w-5 h-5 md:w-9 md:h-9 mb-1 md:mb-5"><MethodIcon /></div>
+                  <div className="w-7 h-7 md:w-9 md:h-9 mb-2 md:mb-5"><MethodIcon /></div>
                   <h3 className="text-sm md:text-lg font-serif font-normal text-black mb-1 md:mb-1.5 tracking-tight">METODOLOGIA</h3>
-                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-1 md:mb-3">
+                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2 md:mb-3">
                     Estruturação
                   </p>
                   <p className="text-gray-500 text-xs md:text-sm leading-snug md:leading-relaxed font-light line-clamp-3 md:line-clamp-none">
@@ -261,7 +261,7 @@ export default function TriadeSection() {
               style={{ rotateX: c3RotX, y: c3Y, opacity: rawC3Op }}
               className="md:col-span-3"
             >
-              <div className="relative overflow-hidden rounded-2xl p-4 md:p-6 lg:p-8
+              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8
                               bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_4px_32px_rgba(0,0,0,0.22)]
                               group transition-all duration-600
@@ -276,7 +276,7 @@ export default function TriadeSection() {
                                 group-hover:from-[#C9A84C]/[0.05]
                                 transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-row items-center gap-3 md:flex-col md:items-start md:gap-0 lg:flex-row lg:items-center lg:gap-14">
-                  <div className="w-5 h-5 md:w-11 md:h-11 flex-shrink-0"><TechIcon /></div>
+                  <div className="w-7 h-7 md:w-11 md:h-11 flex-shrink-0"><TechIcon /></div>
                   <div className="flex-1">
                     <h3 className="text-sm md:text-3xl lg:text-[2.2rem] font-serif font-normal text-white mb-1 md:mb-2 tracking-tight">
                       TECNOLOGIA

@@ -70,7 +70,7 @@ const BlogPage = () => {
             </p>
 
             {/* Search Bar */}
-            <div className="relative max-w-md">
+            <div className="relative max-w-sm md:max-w-md">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
               <input
                 type="text"
@@ -180,7 +180,7 @@ const BlogPage = () => {
       </section>
 
       {/* NEWSLETTER SECTION */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-[#0D0D0F] relative overflow-hidden">
+      <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-[#0D0D0F] relative overflow-hidden">
         <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent" />
         
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

@@ -596,7 +596,7 @@ export default function ClientPortal() {
 
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
-        <div className="w-44 shrink-0 border-r border-white/[0.06] flex flex-col py-4 px-3"
+        <div className="hidden md:flex w-44 shrink-0 border-r border-white/[0.06] flex-col py-4 px-3"
           style={{ background: '#0F0F15' }}>
           <nav className="flex flex-col gap-1 flex-1">
             {navItems.map(n => (

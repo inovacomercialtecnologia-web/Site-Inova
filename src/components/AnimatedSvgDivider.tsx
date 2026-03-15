@@ -1,10 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 export default function AnimatedSvgDivider() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   const { nodes, edges } = useMemo(() => {
     const numNodes = 40;
     const nodes = [];
-    
+
     for (let i = 0; i < numNodes; i++) {
       // Distribute x from 0 to 100
       let x = (i / (numNodes - 1)) * 100;
@@ -13,11 +22,11 @@ export default function AnimatedSvgDivider() {
       x = x - distFromCenter * 0.4 + (Math.random() * 6 - 3);
       // Keep within bounds
       x = Math.max(1, Math.min(99, x));
-      
+
       // Y base position forming a loose wave
       const wave = Math.sin((x / 100) * Math.PI) * 15;
       const yBase = 70 + wave + (Math.random() * 30 - 15);
-      
+
       const duration = 2 + Math.random() * 2; // 2s to 4s
       const delay = Math.random() * 4; // 0s to 4s
       const amplitude = 5 + Math.random() * 10; // 5px to 15px
@@ -33,15 +42,17 @@ export default function AnimatedSvgDivider() {
     }
 
     const edges = [];
+    // On mobile screens, use a smaller pixel multiplier and connection distance
+    const pxMultiplier = isMobile ? 4 : 12;
+    const connectionDist = isMobile ? 60 : 120;
     for (let i = 0; i < numNodes; i++) {
       for (let j = i + 1; j < numNodes; j++) {
         const dx = nodes[i].x - nodes[j].x;
         const dy = nodes[i].yBase - nodes[j].yBase;
-        // Approximate distance (assuming 100% width is roughly 1200px)
-        const pxDx = dx * 12;
+        const pxDx = dx * pxMultiplier;
         const dist = Math.sqrt(pxDx * pxDx + dy * dy);
-        
-        if (dist < 120) {
+
+        if (dist < connectionDist) {
           if (Math.random() > 0.4) {
             edges.push({ source: i, target: j });
           }
@@ -50,17 +61,17 @@ export default function AnimatedSvgDivider() {
     }
 
     return { nodes, edges };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <div className="relative w-full h-[140px] bg-transparent overflow-hidden block m-0 p-0">
+    <div className="relative w-full h-[80px] md:h-[140px] bg-transparent overflow-hidden block m-0 p-0">
       {/* Top gradient blending into black hero */}
       <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
       
       {/* Bottom gradient blending into white SaaS section */}
       <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-b from-transparent to-[#ffffff] z-10 pointer-events-none" />
 
-      <svg className="w-full h-full block" style={{ minHeight: '140px' }}>
+      <svg className="w-full h-full block" style={{ minHeight: isMobile ? '80px' : '140px' }}>
         {edges.map((edge, i) => {
           const source = nodes[edge.source];
           const target = nodes[edge.target];

@@ -9,7 +9,7 @@ const PhilosophyPage = () => {
         const drawGrid = () => {
           canvas.width = canvas.offsetWidth;
           canvas.height = canvas.offsetHeight;
-          const GAP = window.innerWidth < 768 ? 56 : 32;
+          const GAP = window.innerWidth < 768 ? 32 : 56;
           const cols = Math.ceil(canvas.width / GAP);
           const rows = Math.ceil(canvas.height / GAP);
           const cx = canvas.width / 2, cy = canvas.height / 2;
@@ -398,6 +398,41 @@ const PhilosophyPage = () => {
         .nf2-reveal.visible {
           opacity: 1;
           transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+          /* Hero adjustments for very small screens */
+          .nfhero-center { padding: 0 16px; gap: 12px; }
+          .nfhero-h-line1 { font-size: clamp(1.4rem, 7vw, 1.7rem); }
+          .nfhero-h-line2 { font-size: clamp(1.6rem, 8vw, 2rem); }
+          .nfhero-badge-row { gap: 8px; }
+          .nfhero-badge     { font-size: .55rem; letter-spacing: .2em; }
+          .nfhero-label     { font-size: .55rem; letter-spacing: .25em; }
+          .nfhero-gold-line { width: 24px; }
+
+          /* Section 2 adjustments */
+          .nf2-section { padding: 48px 16px; }
+          .nf2-inner { gap: 32px; }
+          .nf2-lead { font-size: .88rem !important; line-height: 1.75 !important; }
+          .nf2-lead-block { gap: 16px; }
+
+          .nf2-phrase {
+            grid-template-columns: 28px 1fr !important;
+            column-gap: 10px !important;
+            padding: 22px 0 !important;
+          }
+          .nf2-phrase-text {
+            font-size: .95rem !important;
+            padding-bottom: 8px !important;
+          }
+          .nf2-phrase-sub {
+            font-size: .78rem !important;
+            padding-top: 10px !important;
+          }
+          .nf2-phrase-num { font-size: .55rem !important; }
+
+          .nf2-corner--tl { top: 16px; left: 16px; }
+          .nf2-corner--br { bottom: 16px; right: 16px; }
         }
       `}</style>
     </div>

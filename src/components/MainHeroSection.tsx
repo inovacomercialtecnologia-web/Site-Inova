@@ -53,7 +53,7 @@ export default function MainHeroSection() {
           {slides[activeSlide].type === 'youtube' ? (
             <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
               <iframe
-                className="absolute top-1/2 left-1/2 w-[200vw] h-[200vh] md:w-[200%] md:h-[200%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110"
+                className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110"
                 src={`https://www.youtube.com/embed/${slides[activeSlide].video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slides[activeSlide].video}&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&origin=${window.location.origin}`}
                 allow="autoplay; encrypted-media"
                 sandbox="allow-scripts allow-same-origin allow-presentation"
@@ -112,14 +112,14 @@ export default function MainHeroSection() {
       </div>
 
       {/* Bottom Controls */}
-      <div className="absolute bottom-12 left-0 w-full px-6 md:px-12 flex items-end justify-between z-20">
+      <div className="absolute bottom-6 md:bottom-12 left-0 w-full px-4 md:px-12 flex items-end justify-between z-20">
         {/* Progress Bars */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 md:gap-8">
           <div className="flex gap-2">
             {[0, 1, 2].map((i) => (
-              <div 
-                key={i} 
-                className="w-12 md:w-20 h-[2px] bg-white/20 relative cursor-pointer overflow-hidden"
+              <div
+                key={i}
+                className="w-8 md:w-20 h-[2px] bg-white/20 relative cursor-pointer overflow-hidden"
                 onClick={() => { setActiveSlide(i); }}
               >
                 {activeSlide === i && isPlaying && (

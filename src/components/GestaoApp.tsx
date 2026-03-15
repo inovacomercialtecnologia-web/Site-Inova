@@ -829,7 +829,8 @@ export default function GestaoApp() {
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{ background: `radial-gradient(circle at 50% 40%, ${accent}10 0%, transparent 60%)` }}/>
 
-      <div className="relative flex-shrink-0" style={{ width: 360, height: 720, transform: `scale(${scale})`, transformOrigin: 'center' }}>
+      <div className="relative overflow-hidden" style={{ width: 360 * scale, height: 720 * scale, flexShrink: 0 }}>
+      <div className="absolute top-0 left-0" style={{ width: 360, height: 720, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
 
         {/* Side buttons */}
         {[{l:true,t:96,h:28},{l:true,t:144,h:48},{l:true,t:208,h:48},{l:false,t:128,h:64}].map((b, i) => (
@@ -906,6 +907,7 @@ export default function GestaoApp() {
           {/* Home indicator */}
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 rounded-full bg-white/20"/>
         </div>
+      </div>
       </div>
     </div>
   );

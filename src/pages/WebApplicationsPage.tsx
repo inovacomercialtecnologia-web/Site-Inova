@@ -89,7 +89,7 @@ const WebApplicationsPage = () => {
       <SystemsStorytelling />
 
       {/* Education/LMS Section */}
-      <section className="py-24 px-6 bg-[#0A0A0A] relative">
+      <section className="py-12 px-4 md:py-24 md:px-6 bg-[#0A0A0A] relative">
         <style>{`
           .s4-bento {
             display: grid;
@@ -138,7 +138,7 @@ const WebApplicationsPage = () => {
           }
           @media (max-width: 768px) {
             .s4-morph-word {
-              font-size: clamp(2rem, 10vw, 48px);
+              font-size: clamp(1.8rem, 10vw, 48px);
             }
           }
           .s4-morph-word.s4-active {
@@ -188,10 +188,31 @@ const WebApplicationsPage = () => {
           .s4-dot-3 { animation: s4-light-up 2s infinite ease-in-out 0.8s; }
           .s4-dot-4 { animation: s4-light-up 2s infinite ease-in-out 1.2s; }
           .s4-dot-5 { animation: s4-light-up 2s infinite ease-in-out 1.6s; }
+          @media (max-width: 768px) {
+            .s4-bento {
+              gap: 14px;
+              margin-top: 40px;
+            }
+            .s4-block {
+              padding: 24px;
+            }
+            .s4-morph-container {
+              min-height: 60px;
+            }
+          }
           @media (max-width: 640px) {
-            .s4-morph-word { font-size: clamp(2rem, 10vw, 48px); }
-            .s4-block { padding: 20px; }
-            .s4-morph-container { min-height: 56px; }
+            .s4-morph-word { font-size: clamp(1.6rem, 9vw, 40px); }
+            .s4-block { padding: 18px; }
+            .s4-morph-container { min-height: 48px; }
+            .s4-bento {
+              gap: 12px;
+              margin-top: 32px;
+            }
+          }
+          @media (max-width: 480px) {
+            .s4-morph-word { font-size: clamp(1.4rem, 8vw, 32px); }
+            .s4-block { padding: 16px; }
+            .s4-morph-container { min-height: 40px; }
           }
         `}</style>
         <div className="max-w-6xl mx-auto relative z-10">
@@ -214,9 +235,9 @@ const WebApplicationsPage = () => {
             </div>
             
             {/* Right Zone (45%) */}
-            <div className="w-full md:w-[45%] flex items-start mt-[60px] relative z-10">
-              <div className="w-[3px] h-[48px] bg-[#c9a84c] shrink-0" />
-              <p className="text-[#aaa] text-[15px] leading-[1.8] ml-[20px] text-left">
+            <div className="w-full md:w-[45%] flex items-start mt-8 md:mt-[60px] relative z-10">
+              <div className="w-[3px] h-[36px] md:h-[48px] bg-[#c9a84c] shrink-0" />
+              <p className="text-[#aaa] text-[14px] md:text-[15px] leading-[1.7] md:leading-[1.8] ml-[14px] md:ml-[20px] text-left">
                 Desenvolvemos plataformas EAD completas e personalizadas, semelhantes a soluções como Hotmart e Kiwify, porém criadas exclusivamente para o seu negócio. Nossas soluções permitem o cadastro de cursos, trilhas de aprendizado, emissão de certificados, acompanhamento de progresso dos alunos, integração com meios de pagamento e muito mais, seja para treinamento corporativo interno ou para a venda de infoprodutos e cursos online.
               </p>
             </div>
@@ -228,11 +249,11 @@ const WebApplicationsPage = () => {
               <div className="relative z-10">
                 <span className="text-[#c9a84c] text-[12px] tracking-[3px] uppercase font-medium block mb-4">E-learning (LMS)</span>
                 <h3 className="text-[#ffffff] text-[18px] font-serif font-bold mb-4">Plataformas de Educação</h3>
-                <p className="text-[#888] text-[14px] leading-[1.7] max-w-[80%]">
+                <p className="text-[#888] text-[13px] md:text-[14px] leading-[1.7] max-w-full md:max-w-[80%]">
                   Cursos, trilhas de aprendizado, certificados e acompanhamento de alunos em um ambiente exclusivo.
                 </p>
               </div>
-              <svg className="absolute bottom-6 right-6 opacity-60" width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
+              <svg className="absolute bottom-4 right-4 md:bottom-6 md:right-6 opacity-40 md:opacity-60 w-[80px] h-[54px] md:w-[120px] md:h-[80px]" viewBox="0 0 120 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
                 <path d="M20 40 L60 20 L100 60" strokeDasharray="4 4" />
                 <circle cx="20" cy="40" r="8" className="s4-node-1" />
                 <circle cx="60" cy="20" r="12" className="s4-node-2" />
@@ -249,7 +270,7 @@ const WebApplicationsPage = () => {
                   A experiência de um app nativo direto no navegador.
                 </p>
               </div>
-              <svg className="absolute bottom-6 right-6 opacity-60" width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
+              <svg className="absolute bottom-4 right-4 md:bottom-6 md:right-6 opacity-40 md:opacity-60 w-[56px] h-[56px] md:w-[80px] md:h-[80px]" viewBox="0 0 80 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
                 <rect x="25" y="15" width="30" height="50" rx="4" />
                 <line x1="35" y1="25" x2="45" y2="25" />
                 <line x1="32" y1="35" x2="48" y2="35" />
@@ -269,7 +290,7 @@ const WebApplicationsPage = () => {
                   Ambientes digitais exclusivos para seus clientes.
                 </p>
               </div>
-              <svg className="absolute bottom-6 right-6 opacity-60" width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
+              <svg className="absolute bottom-4 right-4 md:bottom-6 md:right-6 opacity-40 md:opacity-60 w-[56px] h-[56px] md:w-[80px] md:h-[80px]" viewBox="0 0 80 80" fill="none" stroke="#c9a84c" strokeWidth="1.5">
                 <circle cx="30" cy="40" r="20" />
                 <circle cx="50" cy="40" r="20" />
                 <path d="M40 23 A20 20 0 0 0 40 57 A20 20 0 0 0 40 23 Z" fill="#c9a84c" stroke="none" className="s4-intersect" />

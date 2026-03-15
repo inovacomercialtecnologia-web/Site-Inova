@@ -78,7 +78,7 @@ function Question({ children }: { children: React.ReactNode }) {
   return (
     <h2
       className="font-serif font-light leading-[1.06] tracking-tight text-[#FAFAF8] mb-3"
-      style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}
+      style={{ fontSize: 'clamp(1.6rem, 4.2vw, 3.4rem)' }}
     >
       {children}
     </h2>
@@ -284,7 +284,7 @@ function NavRow({
         disabled={disabled}
         className={`
           relative overflow-hidden text-[10px] font-bold tracking-[0.22em] uppercase
-          px-10 py-[14px] flex items-center gap-2.5 min-w-[168px] justify-center
+          px-7 sm:px-10 py-[14px] flex items-center gap-2.5 min-w-[140px] sm:min-w-[168px] justify-center
           transition-all duration-300 group
           ${disabled
             ? 'bg-[#C9A84C]/20 text-[#C9A84C]/30 cursor-not-allowed'
@@ -497,7 +497,7 @@ const ContactQuizPage = () => {
     return (
       <div className="min-h-screen bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden">
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full"
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] max-w-[640px] max-h-[640px] rounded-full"
                style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%)', filter: 'blur(50px)' }} />
         </div>
 
@@ -547,7 +547,7 @@ const ContactQuizPage = () => {
           <motion.h2
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62 }}
             className="font-serif font-light leading-[1.1] tracking-tight mb-6"
-            style={{ fontSize: 'clamp(2rem, 3.8vw, 2.8rem)' }}
+            style={{ fontSize: 'clamp(1.5rem, 3.8vw, 2.8rem)' }}
           >
             {qualified ? <><em>Perfeito,</em> {first}.</> : <><em>Recebido,</em> {first}.</>}
           </motion.h2>
@@ -760,7 +760,7 @@ const ContactQuizPage = () => {
                 <Question>Como podemos <em>te contatar?</em></Question>
                 <Sub>Seus dados são confidenciais e usados apenas para contato da nossa equipe.</Sub>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 md:gap-x-12 gap-y-8 md:gap-y-10 mb-10">
                   <FloatingInput id="fNome"    label="Nome completo" value={ans.nome}     onChange={handleInput} />
                   <FloatingInput id="fEmpresa" label="Empresa"       value={ans.empresa}  onChange={handleInput} />
                   <FloatingInput id="fWhats"   label="WhatsApp"  type="tel"   value={ans.whatsapp} onChange={handleInput} />
@@ -781,7 +781,7 @@ const ContactQuizPage = () => {
                 {/* Answers summary */}
                 <div className="border border-white/[0.06] bg-white/[0.015] p-5 mb-2">
                   <p className="text-[9px] uppercase tracking-[0.34em] text-white/25 mb-4">Resumo das suas respostas</p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
                     {[
                       { label: 'Solução',     value: ans.servico.join(', ') || '—' },
                       { label: 'Empresa',     value: ans.tamanho    || '—' },

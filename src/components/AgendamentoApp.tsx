@@ -743,7 +743,7 @@ function PerfilView() {
       </div>
 
       {/* Reviews */}
-      <div className="px-4 mb-20">
+      <div className="px-4 mb-4">
         <p className="text-white font-bold text-[13px] mb-3">Avaliações recentes</p>
         <div className="space-y-2.5">
           {REVIEWS.map((r, i) => (
@@ -769,8 +769,7 @@ function PerfilView() {
       </div>
 
       {/* CTA fixo */}
-      <div className="fixed bottom-20 left-0 right-0 px-4 z-10 pointer-events-none"
-        style={{ maxWidth:360, margin:'0 auto' }}>
+      <div className="sticky bottom-0 left-0 right-0 px-4 pb-4 z-10 pointer-events-none">
         <button className="w-full py-3.5 rounded-2xl text-white font-black text-sm pointer-events-auto flex items-center justify-center gap-2"
           style={{ background:'linear-gradient(135deg,#C8956C,#A06030)', boxShadow:'0 8px 24px rgba(200,149,108,0.45)' }}>
           <Sparkles size={15}/> Agendar Agora
@@ -835,8 +834,9 @@ export default function AgendamentoApp() {
       <div className="absolute inset-0 pointer-events-none transition-all duration-700"
         style={{ background:`radial-gradient(circle at 50% 40%,${accent}12 0%,transparent 60%)` }}/>
 
-      <div className="relative flex-shrink-0"
-        style={{ width:360, height:720, transform:`scale(${scale})`, transformOrigin:'center' }}>
+      <div className="relative overflow-hidden" style={{ width: 360 * scale, height: 720 * scale, flexShrink: 0 }}>
+      <div className="absolute top-0 left-0"
+        style={{ width:360, height:720, transform:`scale(${scale})`, transformOrigin:'top left' }}>
 
         {/* Side buttons */}
         {[{l:true,t:96,h:28},{l:true,t:144,h:48},{l:true,t:208,h:48},{l:false,t:128,h:64}].map((b,i) => (
@@ -926,6 +926,7 @@ export default function AgendamentoApp() {
           {/* Home indicator */}
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 rounded-full bg-white/20"/>
         </div>
+      </div>
       </div>
     </div>
   );

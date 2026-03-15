@@ -55,7 +55,7 @@ export default function DiagnosticSection() {
   const scannerY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#FFFFFF] py-28 md:py-48 overflow-hidden font-sans">
+    <section ref={sectionRef} className="relative bg-[#FFFFFF] py-16 md:py-48 overflow-hidden font-sans">
       
       {/* Technical Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.1]" 
@@ -74,13 +74,13 @@ export default function DiagnosticSection() {
       </motion.div>
 
       {/* Background Glows */}
-      <div className="absolute top-[10%] left-[5%] w-[800px] h-[800px] bg-[#C9A84C]/[0.08] rounded-full blur-[180px] pointer-events-none"></div>
-      <div className="absolute bottom-[10%] right-[5%] w-[800px] h-[800px] bg-[#C9A84C]/[0.06] rounded-full blur-[220px] pointer-events-none"></div>
+      <div className="absolute top-[10%] left-[5%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-[#C9A84C]/[0.08] rounded-full blur-[180px] pointer-events-none"></div>
+      <div className="absolute bottom-[10%] right-[5%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-[#C9A84C]/[0.06] rounded-full blur-[220px] pointer-events-none"></div>
 
       <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-24 md:mb-48">
+        <div className="flex flex-col items-center text-center mb-14 md:mb-48">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ export default function DiagnosticSection() {
         </div>
 
         {/* Topics with Unified Connected Backgrounds */}
-        <div className="flex flex-col gap-16 md:gap-40 relative">
+        <div className="flex flex-col gap-10 md:gap-40 relative">
           {/* Vertical connection line */}
           <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#C9A84C]/30 to-transparent -translate-x-1/2 hidden lg:block"></div>
           

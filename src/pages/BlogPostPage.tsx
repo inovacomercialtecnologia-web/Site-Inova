@@ -170,7 +170,7 @@ const BlogPostPage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
-            className="aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] rounded-[1.25rem] md:rounded-[2rem] overflow-hidden shadow-2xl"
+            className="aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] rounded-[1.25rem] md:rounded-[2rem] overflow-hidden shadow-2xl"
           >
             <img 
               src={post.image} 
@@ -183,7 +183,7 @@ const BlogPostPage = () => {
       </section>
 
       {/* ARTICLE CONTENT */}
-      <section className="px-6 md:px-12 lg:px-24 pb-32">
+      <section className="px-6 md:px-12 lg:px-24 pb-16 md:pb-32">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
             

@@ -210,7 +210,8 @@ function AdminDashboard() {
           <h3 className="font-semibold text-stone-800 text-sm">Últimos Pedidos</h3>
           <span className="text-amber-600 text-[11px] font-medium cursor-pointer hover:underline">Ver todos →</span>
         </div>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead><tr className="border-b border-stone-50">
             {['Pedido','Cliente','Data','Valor','Status'].map(h => (
               <th key={h} className="text-left text-[11px] text-stone-400 font-semibold uppercase tracking-wide px-5 py-2.5">{h}</th>
@@ -236,6 +237,7 @@ function AdminDashboard() {
             })}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
@@ -259,8 +261,8 @@ function PedidosView() {
         ))}
       </div>
       {/* Table */}
-      <div className="flex-1 overflow-y-auto px-5 py-4">
-        <table className="w-full text-sm">
+      <div className="flex-1 overflow-y-auto overflow-x-auto px-3 md:px-5 py-4">
+        <table className="w-full text-sm min-w-[600px]">
           <thead><tr className="border-b border-stone-100">
             {['Pedido','Cliente','Data','Valor','Status',''].map((h, i) => (
               <th key={i} className="text-left text-[11px] text-stone-400 font-semibold uppercase tracking-wide pb-3">{h}</th>
@@ -301,7 +303,7 @@ function PedidosView() {
         {selected && (
           <motion.div initial={{ x: 320, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: 320, opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="absolute right-0 top-0 h-full w-80 bg-white border-l border-stone-200 shadow-xl flex flex-col z-10 overflow-y-auto">
+            className="absolute right-0 top-0 h-full w-full sm:w-80 bg-white border-l border-stone-200 shadow-xl flex flex-col z-10 overflow-y-auto">
             <div className="flex items-center justify-between p-5 border-b border-stone-100 shrink-0">
               <div>
                 <p className="font-bold text-stone-800">{selected.id}</p>
@@ -409,9 +411,10 @@ function ProdutosView() {
 
 function ClientesAdminView() {
   return (
-    <div className="flex-1 overflow-y-auto p-5">
+    <div className="flex-1 overflow-y-auto p-3 md:p-5">
       <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead><tr className="border-b border-stone-100">
             {['Cliente','Pedidos','LTV','Última Compra','Status'].map(h => (
               <th key={h} className="text-left text-[11px] text-stone-400 font-semibold uppercase tracking-wide px-5 py-3">{h}</th>
@@ -437,6 +440,7 @@ function ClientesAdminView() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
@@ -478,7 +482,7 @@ function StoreNavbar({ cartCount, onCartClick }: { cartCount: number; onCartClic
         </p>
       </div>
       {/* Main navbar */}
-      <div className="flex items-center gap-4 px-5 py-3">
+      <div className="flex items-center gap-2 md:gap-4 px-3 md:px-5 py-3">
         {/* Logo */}
         <div className="flex items-center gap-2 shrink-0">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-sm">
@@ -599,7 +603,7 @@ function Vitrine({ onProductClick }: { onProductClick: (p: Product) => void }) {
       <div className="relative overflow-hidden">
         <div className="h-36 bg-gradient-to-r from-stone-800 via-stone-700 to-amber-900 flex items-center">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(ellipse at 80% 50%, rgba(217,119,6,0.3) 0%, transparent 60%)' }} />
-          <div className="relative px-8 flex items-center justify-between w-full">
+          <div className="relative px-4 md:px-8 flex items-center justify-between w-full">
             <div>
               <p className="text-amber-300 text-[10px] font-semibold uppercase tracking-[0.3em] mb-1.5">Coleção Outono · 2026</p>
               <h2 className="text-white text-xl font-black leading-tight mb-3">Espaços que contam<br />a sua história.</h2>
@@ -628,11 +632,11 @@ function Vitrine({ onProductClick }: { onProductClick: (p: Product) => void }) {
 
       <div className="p-5 flex flex-col gap-6">
         {/* Flash sale strip */}
-        <div className="bg-gradient-to-r from-rose-500 to-orange-500 rounded-xl p-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Zap size={16} className="text-white" />
+        <div className="bg-gradient-to-r from-rose-500 to-orange-500 rounded-xl p-3 flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Zap size={16} className="text-white shrink-0" />
             <span className="text-white font-black text-sm">OFERTA RELÂMPAGO</span>
-            <span className="text-white/80 text-[11px]">Termina em</span>
+            <span className="text-white/80 text-[11px] hidden sm:inline">Termina em</span>
             <span className="bg-white/20 text-white font-mono text-xs px-2 py-0.5 rounded font-bold">04:22:18</span>
           </div>
           <span className="text-white/80 text-[11px] font-medium">Até 38% OFF →</span>
@@ -1470,7 +1474,7 @@ export default function EcommerceAdmin() {
           <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
             className="flex-1 flex overflow-hidden bg-stone-50">
             {/* Admin sidebar */}
-            <div className="w-48 bg-white border-r border-stone-200 flex flex-col shrink-0">
+            <div className="hidden md:flex w-48 bg-white border-r border-stone-200 flex-col shrink-0">
               <div className="px-4 py-4 border-b border-stone-100">
                 <p className="text-stone-400 text-[10px] uppercase tracking-widest">Gestão da Loja</p>
               </div>

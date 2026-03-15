@@ -520,7 +520,8 @@ export default function FinancasApp() {
         style={{ background: `radial-gradient(circle at 50% 50%, ${accent}15 0%, transparent 65%)`, transition: 'background 0.5s ease' }} />
 
       {/* Phone frame */}
-      <div className="relative flex-shrink-0" style={{ width: 360, height: 720, transform: `scale(${scale})`, transformOrigin: 'center' }}>
+      <div className="relative overflow-hidden" style={{ width: 360 * scale, height: 720 * scale, flexShrink: 0 }}>
+      <div className="absolute top-0 left-0" style={{ width: 360, height: 720, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
 
         {/* Side buttons */}
         <div className="absolute left-[-3px] top-24 w-1 h-8 bg-[#1a1a2e] rounded-l-sm" />
@@ -595,6 +596,7 @@ export default function FinancasApp() {
           {/* Home indicator */}
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-20 h-1 bg-white/30 rounded-full" />
         </div>
+      </div>
       </div>
     </div>
   );

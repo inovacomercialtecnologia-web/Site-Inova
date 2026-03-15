@@ -10,7 +10,7 @@ const MissionPage = () => {
         const drawGrid = () => {
           canvas.width = canvas.offsetWidth;
           canvas.height = canvas.offsetHeight;
-          const GAP = window.innerWidth < 768 ? 56 : 32;
+          const GAP = window.innerWidth < 768 ? 32 : 56;
           const cols = Math.ceil(canvas.width / GAP);
           const rows = Math.ceil(canvas.height / GAP);
           const cx = canvas.width / 2;
@@ -580,6 +580,55 @@ const MissionPage = () => {
         .nm2-tl-step { font-size: .6rem; letter-spacing: .3em; color: #c9a84c; font-weight: 700; text-transform: uppercase; }
         .nm2-tl-title { font-size: 1.05rem; font-family: var(--font-serif); font-weight: 700; color: #1a1a1a; margin: 0; letter-spacing: -.02em; }
         .nm2-tl-desc { font-size: .82rem; line-height: 1.75; color: rgba(26,26,26,.55); margin: 0; max-width: min(320px, 100%); }
+
+        @media (max-width: 480px) {
+          /* Hero adjustments for very small screens */
+          .nmhero-center { padding: 0 16px; gap: 12px; }
+          .nmhero-h-outline { font-size: clamp(1.4rem, 7vw, 1.7rem); }
+          .nmhero-h-solid   { font-size: clamp(1.6rem, 8vw, 2rem); }
+          .nmhero-sub       { font-size: .75rem; }
+          .nmhero-badge-row { gap: 8px; }
+          .nmhero-badge     { font-size: .55rem; letter-spacing: .2em; }
+          .nmhero-label     { font-size: .55rem; letter-spacing: .25em; }
+          .nmhero-gold-line { width: 24px; }
+
+          /* Section 2 adjustments */
+          .nm2-left {
+            padding: 56px 18px 40px !important;
+            gap: 24px !important;
+          }
+          .nm2-text {
+            font-size: .95rem !important;
+            line-height: 1.75 !important;
+          }
+          .nm2-stat-row {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+            border-top: none !important;
+            border-bottom: none !important;
+          }
+          .nm2-stat {
+            flex-direction: row !important;
+            gap: 12px !important;
+            align-items: center !important;
+          }
+          .nm2-stat-divider {
+            display: none !important;
+          }
+          .nm2-stat-num { font-size: 1.3rem !important; }
+          .nm2-stat-label { font-size: .55rem !important; }
+
+          .nm2-right {
+            padding: 40px 18px 56px !important;
+          }
+          .nm2-tl-item { gap: 16px !important; padding-bottom: 28px !important; }
+          .nm2-tl-title { font-size: .92rem !important; }
+          .nm2-tl-desc { font-size: .78rem !important; }
+          .nm2-tl-step { font-size: .55rem !important; }
+
+          .nm2-corner--tl { top: 16px; left: 16px; }
+          .nm2-corner--br { bottom: 16px; right: 16px; }
+        }
       `}</style>
     </div>
   );

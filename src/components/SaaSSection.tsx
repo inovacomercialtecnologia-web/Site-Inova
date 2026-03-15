@@ -47,7 +47,7 @@ export default function SaaSSection() {
   return (
     <div className="relative w-full bg-white">
       {/* SaaS Description Block */}
-      <section className="w-full bg-white py-24 px-6 md:px-8" ref={ref}>
+      <section className="w-full bg-white py-12 md:py-24 px-5 md:px-8" ref={ref}>
         <div className="max-w-4xl mx-auto flex flex-col items-start text-left">
           
           <motion.h2 
@@ -79,7 +79,7 @@ export default function SaaSSection() {
 
           {/* Visual CTA Card */}
           <motion.div
-            className="mt-8 w-full max-w-[640px] h-[180px] rounded-[16px] border border-[#c9a84c] flex items-center px-6 py-4"
+            className="mt-8 w-full max-w-[640px] h-auto md:h-[180px] rounded-[16px] border border-[#c9a84c] flex flex-col md:flex-row items-stretch md:items-center px-4 md:px-6 py-4"
             style={{
               background: 'rgba(255, 255, 255, 0.85)',
               backdropFilter: 'blur(8px)',
@@ -90,7 +90,7 @@ export default function SaaSSection() {
             transition={{ duration: 0.7, ease: "easeOut", delay: 1.8 }}
           >
             {/* Column 1: Line Chart (40%) */}
-            <div className="w-[40%] h-full flex flex-col justify-center border-r border-gray-100 pr-6">
+            <div className="w-full md:w-[40%] h-auto md:h-full flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-100 pb-4 md:pb-0 pr-0 md:pr-6">
               <div className="relative w-full h-[80px]">
                 <svg width="100%" height="100%" viewBox="0 0 200 80" preserveAspectRatio="none">
                   <motion.path
@@ -120,7 +120,7 @@ export default function SaaSSection() {
             </div>
 
             {/* Column 2: Metric (30%) */}
-            <div className="w-[30%] h-full flex flex-col items-center justify-center border-r border-gray-100 px-4">
+            <div className="w-full md:w-[30%] h-auto md:h-full flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-100 py-4 md:py-0 px-4">
               <div className="relative w-[80px] h-[80px] flex items-center justify-center mb-2">
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 80 80">
                   <circle cx="40" cy="40" r="36" fill="none" stroke="#f0f0f0" strokeWidth="2" />
@@ -148,7 +148,7 @@ export default function SaaSSection() {
             </div>
 
             {/* Column 3: Status (30%) */}
-            <div className="w-[30%] h-full flex flex-col justify-center pl-8 space-y-4">
+            <div className="w-full md:w-[30%] h-auto md:h-full flex flex-col justify-center pt-4 md:pt-0 pl-0 md:pl-8 space-y-4">
               {[
                 { label: "Escalável", delay: 0 },
                 { label: "Seguro", delay: 0.3 },

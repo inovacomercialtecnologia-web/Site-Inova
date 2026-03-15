@@ -63,7 +63,7 @@ const ArtificialIntelligencePage: React.FC = () => {
         particles = [];
         // Density based on screen size — reduced on mobile for performance
         const isMobile = W < 768;
-        const numParticles = isMobile ? Math.min(30, Math.floor((W * H) / 18000)) : Math.floor((W * H) / 10000);
+        const numParticles = isMobile ? Math.min(20, Math.floor((W * H) / 25000)) : Math.floor((W * H) / 10000);
         for (let i = 0; i < numParticles; i++) {
           const isHub = Math.random() > 0.92;
           particles.push({
@@ -108,7 +108,8 @@ const ArtificialIntelligencePage: React.FC = () => {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const maxDist = particles[i].isHub || particles[j].isHub ? 220 : 140;
+            const isMobileConn = W < 768;
+            const maxDist = particles[i].isHub || particles[j].isHub ? (isMobileConn ? 150 : 220) : (isMobileConn ? 100 : 140);
             
             if (dist < maxDist) {
               particles[i].connections.push(particles[j]);
@@ -209,8 +210,9 @@ const ArtificialIntelligencePage: React.FC = () => {
         ctx!.clearRect(0, 0, W, H);
         frame++;
 
-        if (frame % 20 === 0) spawnSignal();
-        if (frame % 35 === 0) spawnSignal();
+        const isMobileCanvas = W < 768;
+        if (frame % (isMobileCanvas ? 40 : 20) === 0) spawnSignal();
+        if (!isMobileCanvas && frame % 35 === 0) spawnSignal();
 
         drawConnections();
         drawNodes();
@@ -1147,64 +1149,131 @@ const ArtificialIntelligencePage: React.FC = () => {
           .iahero-wrapper {
             grid-template-columns: 1fr;
             grid-template-rows: auto auto;
+            min-height: auto;
+          }
+          .iahero-shield {
+            background: linear-gradient(
+              to bottom,
+              rgba(10,10,10,0.95) 0%,
+              rgba(10,10,10,0.80) 60%,
+              rgba(10,10,10,0.40) 100%
+            );
           }
           .iahero-left {
-            padding: 100px 24px 60px;
+            padding: 80px 20px 40px;
             grid-column: 1;
           }
           .iahero-right {
             grid-column: 1;
-            height: 220px;
+            height: 180px;
+          }
+          .iahero-breadcrumb {
+            font-size: 8px;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+          }
+          .iahero-line1,
+          .iahero-line2 {
+            font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+          }
+          .iahero-chapter-line {
+            margin: 20px 0 16px;
           }
           .iahero-sub-cols {
             flex-direction: column;
             gap: 16px;
             max-width: 100%;
           }
+          .iahero-sub-primary {
+            font-size: 0.85rem;
+            line-height: 1.65;
+          }
+          .iahero-sub-secondary {
+            font-size: 0.72rem;
+            line-height: 1.75;
+          }
           .iahero-sub-divider { display: none; }
+          .iahero-badges {
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+          }
+          .iahero-badge {
+            font-size: 8px;
+            letter-spacing: 2px;
+          }
           .s-connect {
             grid-template-columns: 1fr;
             min-height: auto;
           }
           .sc2-left {
-            padding: 60px 24px 40px;
+            padding: 48px 20px 32px;
           }
           .sc2-right {
-            min-height: 320px;
+            min-height: 280px;
             border-left: none;
             border-top: 1px solid rgba(201,168,76,.15);
           }
           .sc2-svg-panel {
             width: 90%;
-            max-width: 340px;
+            max-width: 300px;
+          }
+          .sc2-headline {
+            margin-bottom: 20px;
           }
           .sc2-headline .sc2-h-outline,
           .sc2-headline .sc2-h-solid {
-            font-size: clamp(1.8rem, 7vw, 3rem);
+            font-size: clamp(1.6rem, 7vw, 2.5rem);
           }
-          .sc2-lead { font-size: 0.9rem; }
+          .sc2-lead {
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+            line-height: 1.7;
+          }
+          .sc2-item-header {
+            gap: 12px;
+            padding: 16px 0;
+          }
+          .sc2-title {
+            font-size: 1rem;
+          }
+          .sc2-content p {
+            font-size: 0.82rem;
+            line-height: 1.7;
+            padding-bottom: 16px;
+          }
           .s-ecosystem { padding: 60px 20px; }
           .eco-inner {
             grid-template-columns: 1fr;
             gap: 32px;
           }
+          .eco-badge {
+            margin-bottom: 20px;
+            font-size: 0.6rem;
+          }
           .eco-title { font-size: clamp(1.8rem, 6vw, 3rem); margin-bottom: 24px; }
-          .eco-desc { font-size: 0.9rem; }
-          .eco-features { gap: 12px; }
-          .eco-feature { padding: 10px 14px; }
+          .eco-desc-wrapper {
+            margin-bottom: 32px;
+          }
+          .eco-desc { font-size: 0.88rem; max-width: 100%; line-height: 1.7; }
+          .eco-features { gap: 10px; }
+          .eco-feature { padding: 8px 12px; }
+          .eco-feature span { font-size: 0.65rem; }
+          .eco-feature-icon { width: 28px; height: 28px; }
           .eco-diagram { height: 280px; }
           .eco-ring-1 { width: 120px; height: 120px; }
           .eco-ring-2 { width: 200px; height: 200px; }
           .eco-ring-3 { width: 280px; height: 280px; }
           .eco-connections { width: 280px; height: 280px; }
-          .eco-core { width: 80px; height: 80px; }
-          .eco-core span { font-size: 0.85rem; }
-          .eco-sat { transform: translate(-50%, -50%) rotate(var(--angle)) translate(130px) rotate(calc(-1 * var(--angle))); }
-          .eco-sat-card { padding: 5px 10px; }
-          .eco-sat-label { font-size: 0.55rem; }
-          .eco-sat-dot { width: 5px; height: 5px; }
-          .s-cap { padding: 60px 20px; }
-          .cap-statement blockquote { font-size: clamp(1.4rem, 5vw, 2.5rem); }
+          .eco-core { width: 70px; height: 70px; }
+          .eco-core span { font-size: 0.8rem; }
+          .eco-sat { transform: translate(-50%, -50%) rotate(var(--angle)) translate(120px) rotate(calc(-1 * var(--angle))); }
+          .eco-sat-card { padding: 4px 8px; gap: 6px; }
+          .eco-sat-label { font-size: 0.5rem; }
+          .eco-sat-dot { width: 4px; height: 4px; }
+          .s-cap { padding: 60px 16px; }
+          .cap-statement { margin-bottom: 48px; }
+          .cap-statement blockquote { font-size: clamp(1.3rem, 5vw, 2.2rem); }
           .cap-row {
             grid-template-columns: 1fr;
             gap: 8px;
@@ -1214,7 +1283,35 @@ const ArtificialIntelligencePage: React.FC = () => {
           .cap-row h4 { font-size: 0.85rem; white-space: normal; }
           .cap-row p { font-size: 0.78rem; }
           .s-cta { padding: 80px 20px; }
-          .s-cta p { margin-bottom: 40px; }
+          .s-cta h2 { font-size: clamp(2rem, 8vw, 3.5rem); }
+          .s-cta p { font-size: 0.9rem; margin-bottom: 40px; }
+          .btn-gold { padding: 14px 32px; font-size: 0.65rem; letter-spacing: 0.12em; }
+          .cta-glow { width: 400px; height: 200px; }
+        }
+
+        @media (max-width: 400px) {
+          .iahero-left {
+            padding: 70px 16px 32px;
+          }
+          .iahero-line1,
+          .iahero-line2 {
+            font-size: 2rem !important;
+          }
+          .iahero-sub-primary {
+            font-size: 0.8rem;
+          }
+          .sc2-left {
+            padding: 40px 16px 28px;
+          }
+          .sc2-headline .sc2-h-outline,
+          .sc2-headline .sc2-h-solid {
+            font-size: 1.5rem;
+          }
+          .eco-diagram { height: 240px; }
+          .eco-ring-3 { width: 240px; height: 240px; }
+          .eco-connections { width: 240px; height: 240px; }
+          .eco-sat { transform: translate(-50%, -50%) rotate(var(--angle)) translate(105px) rotate(calc(-1 * var(--angle))); }
+          .s-cta h2 { font-size: 1.8rem; }
         }
       `}</style>
     </div>

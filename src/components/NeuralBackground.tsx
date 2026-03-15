@@ -8,8 +8,8 @@ interface NeuralBackgroundProps {
   color?: string; // rgba format
 }
 
-export default function NeuralBackground({ 
-  className = "absolute inset-0 z-[1]", 
+export default function NeuralBackground({
+  className = "absolute inset-0 z-[1]",
   opacity = 0.55,
   nodeCount = 55,
   connectionDist = 160,
@@ -25,6 +25,9 @@ export default function NeuralBackground({
     if (!ctx) return;
 
     let animationFrameId: number;
+    const isMobile = window.innerWidth < 768;
+    const actualNodeCount = isMobile ? Math.min(nodeCount, 20) : nodeCount;
+    const actualConnectionDist = isMobile ? Math.min(connectionDist, 100) : connectionDist;
 
     const resize = () => {
       const parent = canvas.parentElement;
@@ -42,7 +45,7 @@ export default function NeuralBackground({
 
     const nodes: any[] = [];
 
-    for (let i = 0; i < nodeCount; i++) {
+    for (let i = 0; i < actualNodeCount; i++) {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -69,8 +72,8 @@ export default function NeuralBackground({
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < connectionDist) {
-            const alpha = (1 - d / connectionDist) * 0.35;
+          if (d < actualConnectionDist) {
+            const alpha = (1 - d / actualConnectionDist) * 0.35;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);

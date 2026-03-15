@@ -165,7 +165,7 @@ export default function WebAppsHero() {
       </div>
 
       {/* Text Content */}
-      <div className="relative z-10 flex flex-col items-start text-left max-w-4xl px-8 ml-0 md:ml-[150px] lg:ml-[220px] w-full mt-16">
+      <div className="relative z-10 flex flex-col items-start text-left max-w-4xl px-5 md:px-8 ml-0 md:ml-[150px] lg:ml-[220px] w-full mt-16">
         <motion.h1 
           className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white tracking-tight mb-6"
           initial={{ opacity: 0, y: 20 }}

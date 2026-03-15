@@ -16,7 +16,7 @@ const PlatformScrollBanner = () => {
     <div className="bg-[#FFFFFF] py-8 md:py-12 border-y border-gray-100 overflow-hidden relative z-30">
       <div className="flex relative">
         <motion.div 
-          className="flex whitespace-nowrap gap-16 md:gap-32 items-center"
+          className="flex whitespace-nowrap gap-8 md:gap-32 items-center"
           animate={{ x: ["0%", "-33.33%"] }}
           transition={{ 
             repeat: Infinity, 
@@ -35,8 +35,8 @@ const PlatformScrollBanner = () => {
         </motion.div>
         
         {/* Gradient masks for smooth edges */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FFFFFF] to-transparent z-10"></div>
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FFFFFF] to-transparent z-10"></div>
+        <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#FFFFFF] to-transparent z-10"></div>
+        <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#FFFFFF] to-transparent z-10"></div>
       </div>
     </div>
   );

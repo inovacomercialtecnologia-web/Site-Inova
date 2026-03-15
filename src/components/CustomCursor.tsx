@@ -8,6 +8,12 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    // Skip event listeners on mobile/touch devices to save performance
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
+      || 'ontouchstart' in window
+      || navigator.maxTouchPoints > 0;
+    if (isMobile) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);

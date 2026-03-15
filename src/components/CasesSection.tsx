@@ -268,11 +268,11 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           <div className="mb-8">
             <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-4"
               style={{ color: c.accent }}>Resultados</p>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 md:gap-3">
               {c.results.map((r, i) => (
                 <div key={i} className="rounded-xl p-4 border border-white/[0.06]"
                   style={{ background: `${c.accent}08` }}>
-                  <p className="font-black text-xl md:text-2xl leading-none mb-1.5"
+                  <p className="font-black text-base md:text-2xl leading-none mb-1.5"
                     style={{ color: c.accent }}>{r.value}</p>
                   <p className="text-white/40 text-[10px] uppercase tracking-wider font-medium">{r.label}</p>
                 </div>
@@ -335,7 +335,7 @@ export default function CasesSection() {
           style={{ transformOrigin: 'left' }}
           className="h-px bg-gradient-to-r from-[#D4AF37] via-[#D4AF37]/50 to-transparent" />
 
-        <div className="py-20 md:py-28 lg:py-32 flex gap-10 md:gap-16 items-start relative">
+        <div className="py-12 md:py-28 lg:py-32 flex gap-6 md:gap-16 items-start relative">
 
           {/* Section number column */}
           <div className="hidden lg:flex flex-col items-center gap-4 pt-3 flex-shrink-0 w-20">

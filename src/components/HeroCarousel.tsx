@@ -77,7 +77,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
               zIndex: currentSlide === index ? 1 : 0,
             }}
           >
-            <div className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 w-[200%] h-[200%] md:w-[300%] md:h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
               <iframe
                 className="w-full h-full pointer-events-none"
                 src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}
@@ -98,7 +98,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 z-[1]" />
 
       {/* Carousel Content */}
-      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-20">
+      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-16 md:pt-20 px-4 md:px-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -112,11 +112,11 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
               {slides[currentSlide].supertitle}
             </span>
 
-            <h1 className="text-[clamp(2.5rem,6vw,6rem)] font-serif font-light text-white leading-[1.1] md:leading-[1] tracking-tight mb-6 md:mb-10 max-w-[1000px] drop-shadow-xl">
+            <h1 className="text-[clamp(1.8rem,5.5vw,6rem)] font-serif font-light text-white leading-[1.1] md:leading-[1] tracking-tight mb-6 md:mb-10 max-w-[1000px] drop-shadow-xl">
               {slides[currentSlide].headline}
             </h1>
 
-            <p className="text-gray-200 text-[16px] md:text-[20px] font-light max-w-2xl mx-auto leading-relaxed tracking-wide drop-shadow-lg">
+            <p className="text-gray-200 text-[14px] md:text-[20px] font-light max-w-2xl mx-auto leading-relaxed tracking-wide drop-shadow-lg">
               {slides[currentSlide].subheadline}
             </p>
           </motion.div>

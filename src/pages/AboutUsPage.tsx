@@ -60,8 +60,8 @@ const AboutUsPage = () => {
       </section>
 
       {/* MANIFESTO SECTION */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-white text-[#080808] relative overflow-hidden">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+      <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-white text-[#080808] relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
           <div className="lg:col-span-5">
             <motion.div
               initial="hidden"
@@ -84,13 +84,13 @@ const AboutUsPage = () => {
               variants={revealVariants}
               className="space-y-8"
             >
-              <p className="text-xl md:text-2xl font-light leading-relaxed text-gray-600">
+              <p className="text-base md:text-2xl font-light leading-relaxed text-gray-600">
                 A Inova nasceu de uma frustração comum: ver empresas brilhantes presas a sistemas genéricos que engessam a operação em vez de impulsioná-la.
               </p>
               <p className="text-lg font-light leading-relaxed text-gray-500">
                 Acreditamos que a tecnologia deve ser o reflexo fiel da estratégia de um negócio. Por isso, somos estrategistas antes de sermos programadores. Mapeamos processos, estruturamos metodologias e só então construímos o código que vai escalar sua visão.
               </p>
-              <div className="pt-8 flex flex-wrap gap-12">
+              <div className="pt-8 flex flex-wrap gap-6 md:gap-12">
                 <div>
                   <div className="text-4xl font-bold text-[#C9A84C] mb-2">+50</div>
                   <div className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Projetos Entregues</div>
@@ -110,11 +110,11 @@ const AboutUsPage = () => {
       </section>
 
       {/* VALUES SECTION - Technical Grid Style */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-[#0A0A0A] relative overflow-hidden">
+      <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-[#0A0A0A] relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-light opacity-[0.02] pointer-events-none" />
         
         <div className="max-w-[1440px] mx-auto">
-          <div className="text-center mb-24">
+          <div className="text-center mb-12 md:mb-24">
             <motion.span 
               initial="hidden"
               whileInView="visible"
@@ -190,9 +190,9 @@ const AboutUsPage = () => {
       </section>
 
       {/* TEAM SECTION - Abstract/Modern */}
-      <section className="py-32 px-6 md:px-12 lg:px-24 bg-white text-[#080808]">
+      <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-white text-[#080808]">
         <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -246,8 +246,8 @@ const AboutUsPage = () => {
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
-              <div className="absolute bottom-12 left-12">
-                <div className="text-white text-2xl font-light italic">"Cultura de excelência em cada entrega."</div>
+              <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12">
+                <div className="text-white text-lg md:text-2xl font-light italic">"Cultura de excelência em cada entrega."</div>
               </div>
             </motion.div>
           </div>
@@ -255,8 +255,8 @@ const AboutUsPage = () => {
       </section>
 
       {/* CTA SECTION */}
-      <section className="py-44 px-6 text-center relative overflow-hidden bg-[#080808]">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[radial-gradient(circle,_rgba(201,168,76,0.05)_0%,_transparent_70%)] pointer-events-none" />
+      <section className="py-20 md:py-44 px-6 text-center relative overflow-hidden bg-[#080808]">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[400px] bg-[radial-gradient(circle,_rgba(201,168,76,0.05)_0%,_transparent_70%)] pointer-events-none" />
         <motion.div 
           initial="hidden"
           whileInView="visible"
