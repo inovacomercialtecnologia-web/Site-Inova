@@ -93,7 +93,7 @@ const MVVPage = () => {
             <span className="mvv-h-outline">Missão, Visão</span>
             <span className="mvv-h-solid">& Valores</span>
           </h1>
-          <p className="mvv-sub">O que nos move, onde queremos chegar e o que nos guia.</p>
+          <p className="mvv-sub">O que nos move, onde queremos chegar e o que nos guia no dia a dia.</p>
           <div className="mvv-badge-row">
             <span className="mvv-badge">• Propósito</span>
             <span className="mvv-badge">• Direção</span>
