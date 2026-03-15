@@ -1,6 +1,11 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+header_remove('X-Powered-By');
 
 // ── CORS — allow only our domains ───────────────────────────────────────────
 $allowed = ['https://inovasystemssolutions.com', 'https://www.inovasystemssolutions.com'];
