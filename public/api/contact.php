@@ -73,10 +73,15 @@ if (!preg_match('/^[\d\s()+\-]{8,20}$/', trim($data['whatsapp']))) {
     exit;
 }
 
-// Google Sheets URL — injected at deploy time, never exposed to the client
-$sheetsUrl = '%%SHEETS_URL%%';
+// Google Sheets URL — read from config file if available, otherwise use default
+$configFile = __DIR__ . '/config.local.php';
+if (file_exists($configFile)) {
+    $sheetsUrl = require $configFile;
+} else {
+    $sheetsUrl = getenv('SHEETS_URL') ?: '';
+}
 
-if ($sheetsUrl === '%%SHEETS_URL%%' || empty($sheetsUrl)) {
+if (empty($sheetsUrl)) {
     http_response_code(500);
     echo json_encode(['error' => 'Server misconfigured']);
     exit;

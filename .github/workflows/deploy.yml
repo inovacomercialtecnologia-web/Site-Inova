@@ -24,8 +24,9 @@ jobs:
       - name: Build do projeto
         run: npm run build
 
-      - name: Inject Sheets URL into contact.php
-        run: sed -i "s|%%SHEETS_URL%%|${{ secrets.SHEETS_URL }}|g" dist/api/contact.php
+      - name: Create config.local.php with Sheets URL
+        run: |
+          echo "<?php return '${{ secrets.SHEETS_URL }}';" > dist/api/config.local.php
 
       - name: Setup SSH
         run: |
