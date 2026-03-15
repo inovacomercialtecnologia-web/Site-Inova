@@ -9,6 +9,18 @@ import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 const CONTACT_API = '/api/contact.php';
+const TOKEN_SECRET = 'inova-contact-2024-hmac-key';
+
+async function generateToken(): Promise<string> {
+  const ts = Math.floor(Date.now() / 1000).toString();
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', enc.encode(TOKEN_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(ts));
+  const hash = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+  return `${ts}.${hash}`;
+}
 
 // ─── Types & Data ─────────────────────────────────────────────────────────────
 
@@ -442,9 +454,10 @@ const ContactQuizPage = () => {
         whatsapp: ans.whatsapp.trim(),
         email: ans.email.trim(),
       };
+      const token = await generateToken();
       const res = await fetch(CONTACT_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Contact-Token': token },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });

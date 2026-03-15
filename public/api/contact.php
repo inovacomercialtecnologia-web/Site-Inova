@@ -1,14 +1,15 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
 
-// CORS — allow only our domain
+// ── CORS — allow only our domains ───────────────────────────────────────────
 $allowed = ['https://inovasystemssolutions.com', 'https://www.inovasystemssolutions.com'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowed, true)) {
     header("Access-Control-Allow-Origin: $origin");
 }
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Contact-Token');
 
 // Preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -23,25 +24,68 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Rate limiting by IP (max 1 request per 30 seconds)
+// ── Anti-spam: verify time-based token ──────────────────────────────────────
+// The frontend generates a token = HMAC(timestamp, secret). Bots/scripts
+// without JS execution cannot produce a valid token.
+$token = $_SERVER['HTTP_X_CONTACT_TOKEN'] ?? '';
+$tokenParts = explode('.', $token, 2);
+if (count($tokenParts) !== 2) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Acesso negado']);
+    exit;
+}
+[$ts, $hash] = $tokenParts;
+$tokenSecret = 'inova-contact-2024-hmac-key';
+$expectedHash = hash_hmac('sha256', $ts, $tokenSecret);
+
+// Token must match and be at most 5 minutes old
+if (!hash_equals($expectedHash, $hash) || abs(time() - (int)$ts) > 300) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Token invalido ou expirado']);
+    exit;
+}
+
+// ── Rate limiting by IP ─────────────────────────────────────────────────────
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $rateDir = sys_get_temp_dir() . '/contact_rate';
 if (!is_dir($rateDir)) {
     @mkdir($rateDir, 0700, true);
 }
-$rateFile = $rateDir . '/' . md5($ip) . '.txt';
-if (file_exists($rateFile)) {
-    $lastTime = (int) file_get_contents($rateFile);
-    if (time() - $lastTime < 30) {
-        http_response_code(429);
-        echo json_encode(['error' => 'Aguarde antes de enviar novamente.']);
-        exit;
-    }
-}
-file_put_contents($rateFile, time());
 
-// Parse body
-$raw = file_get_contents('php://input');
+$ipHash = md5($ip);
+$rateFile = $rateDir . '/' . $ipHash . '.json';
+$rateData = file_exists($rateFile) ? json_decode(file_get_contents($rateFile), true) : null;
+
+if (!$rateData || !isset($rateData['date']) || $rateData['date'] !== date('Y-m-d')) {
+    $rateData = ['date' => date('Y-m-d'), 'count' => 0, 'last' => 0];
+}
+
+// Max 1 request per 30 seconds
+if (time() - ($rateData['last'] ?? 0) < 30) {
+    http_response_code(429);
+    echo json_encode(['error' => 'Aguarde antes de enviar novamente.']);
+    exit;
+}
+
+// Max 5 submissions per day per IP
+if (($rateData['count'] ?? 0) >= 5) {
+    http_response_code(429);
+    echo json_encode(['error' => 'Limite diario atingido. Tente novamente amanha.']);
+    exit;
+}
+
+$rateData['count']++;
+$rateData['last'] = time();
+file_put_contents($rateFile, json_encode($rateData));
+
+// ── Request body size limit (16KB) ──────────────────────────────────────────
+$raw = file_get_contents('php://input', false, null, 0, 16384);
+if (strlen($raw) >= 16384) {
+    http_response_code(413);
+    echo json_encode(['error' => 'Payload too large']);
+    exit;
+}
+
 $data = json_decode($raw, true);
 if (!$data) {
     http_response_code(400);
@@ -49,7 +93,7 @@ if (!$data) {
     exit;
 }
 
-// Validate required fields
+// ── Validate required fields ────────────────────────────────────────────────
 $required = ['nome', 'empresa', 'whatsapp', 'email'];
 foreach ($required as $field) {
     if (empty(trim($data[$field] ?? ''))) {
@@ -73,7 +117,7 @@ if (!preg_match('/^[\d\s()+\-]{8,20}$/', trim($data['whatsapp']))) {
     exit;
 }
 
-// Google Sheets URL — read from config file if available, otherwise use default
+// ── Load Google Sheets URL ──────────────────────────────────────────────────
 $configFile = __DIR__ . '/config.local.php';
 if (file_exists($configFile)) {
     $sheetsUrl = require $configFile;
@@ -87,7 +131,7 @@ if (empty($sheetsUrl)) {
     exit;
 }
 
-// Sanitize all string fields
+// ── Sanitize all string fields ──────────────────────────────────────────────
 $sanitize = function($val, $maxLen = 200) {
     return mb_substr(preg_replace('/[<>{}]/', '', $val), 0, $maxLen);
 };
@@ -105,7 +149,7 @@ $payload = json_encode([
     'email'       => $sanitize($data['email'] ?? '', 120),
 ]);
 
-// Forward to Google Sheets via cURL
+// ── Forward to Google Sheets via cURL ───────────────────────────────────────
 $ch = curl_init($sheetsUrl);
 curl_setopt_array($ch, [
     CURLOPT_POST           => true,
@@ -120,7 +164,7 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $error = curl_error($ch);
 curl_close($ch);
 
-if ($error) {
+if ($error || $httpCode >= 400) {
     http_response_code(502);
     echo json_encode(['error' => 'Falha ao enviar dados']);
     exit;
