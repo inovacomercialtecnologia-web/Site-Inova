@@ -13,39 +13,12 @@ jobs:
       - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Instalar dependências
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Injetar URL do Sheets no PHP proxy
-        run: sed -i "s|%%SHEETS_URL%%|${{ secrets.VITE_SHEETS_URL }}|g" dist/api/contact.php
-
-      - name: Criar .htaccess para SPA routing
-        run: |
-          cat > dist/.htaccess << 'HTACCESS'
-          <IfModule mod_rewrite.c>
-          RewriteEngine On
-          RewriteBase /
-          RewriteRule ^index\.html$ - [L]
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteRule . /index.html [L]
-          </IfModule>
-          HTACCESS
-
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: /
+          local-dir: ./
+          server-dir: /public_html/
+          dangerous-clean-slate: true
