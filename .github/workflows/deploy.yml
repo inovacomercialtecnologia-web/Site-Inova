@@ -24,12 +24,18 @@ jobs:
       - name: Build do projeto
         run: npm run build
 
-      - name: Deploy via SSH
+      - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p 65002" \
-            dist/ u257882461@147.93.37.106:~/public_html/
+
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "pwd && ls ~/public_html/"
+
+      - name: Deploy via SSH
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf ~/public_html/*"
+          scp -i ~/.ssh/deploy_key -P 65002 -r dist/* u257882461@147.93.37.106:~/public_html/
