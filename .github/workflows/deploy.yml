@@ -31,9 +31,13 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null
 
+      - name: Clean old public_html
+        run: |
+          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf /home/u257882461/public_html/*"
+
       - name: Deploy via SSH
         run: |
           REMOTE_DIR="/home/u257882461/domains/inovasystemssolutions.com/public_html"
-          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf ${REMOTE_DIR}/* "
+          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf ${REMOTE_DIR}/*"
           scp -i ~/.ssh/deploy_key -P 65002 -r dist/* u257882461@147.93.37.106:${REMOTE_DIR}/
           ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "ls ${REMOTE_DIR}/"
