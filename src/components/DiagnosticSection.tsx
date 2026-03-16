@@ -100,7 +100,7 @@ export default function DiagnosticSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: easePremium }}
-            className="text-[24px] md:text-[40px] lg:text-[56px] font-light leading-[1.1] tracking-tight text-gray-900 mb-8 md:mb-10"
+            className="text-[20px] sm:text-[28px] md:text-[40px] lg:text-[56px] font-light leading-[1.1] tracking-tight text-gray-900 mb-8 md:mb-10"
           >
             Sua empresa cresce, mas a operação <br className="hidden md:block" />
             <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent font-light tracking-tight">pede socorro.</span>
@@ -187,7 +187,7 @@ const DiagnosticCard: React.FC<DiagnosticCardProps> = ({ topic, index, scrollYPr
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-      className="relative bg-[#000000] rounded-[24px] md:rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 overflow-hidden group/card p-8 md:p-12 lg:p-16 cursor-pointer"
+      className="relative bg-[#000000] rounded-[24px] md:rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 overflow-hidden group/card p-5 sm:p-8 md:p-12 lg:p-16 cursor-pointer"
     >
       {/* Spotlight Effect */}
       <div 

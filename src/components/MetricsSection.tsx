@@ -40,7 +40,7 @@ const MetricsSection = () => {
       </div>
 
       <div className="max-w-[1440px] w-full mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-32">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-32">
           {metrics.map((metric, i) => (
             <motion.div 
               key={i}
@@ -51,7 +51,7 @@ const MetricsSection = () => {
               className="flex flex-col items-center md:items-start text-center md:text-left group"
             >
               <div className="relative mb-6">
-                <span className="text-[40px] md:text-[96px] font-black bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent leading-none tracking-tighter block group-hover:scale-105 transition-transform duration-700">
+                <span className="text-[32px] sm:text-[40px] md:text-[96px] font-black bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent leading-none tracking-tighter block group-hover:scale-105 transition-transform duration-700">
                   {metric.value}
                 </span>
                 <div className="absolute -bottom-2 left-0 w-12 h-[3px] bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] group-hover:w-full transition-all duration-700 ease-in-out"></div>

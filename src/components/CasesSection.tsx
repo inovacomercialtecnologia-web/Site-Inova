@@ -184,7 +184,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[200] flex items-end md:items-center justify-center p-0 md:p-6"
+      className="fixed inset-0 z-[200] flex items-end md:items-center justify-center p-2 sm:p-4 md:p-6"
       style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
       onClick={onClose}
     >
@@ -207,7 +207,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* Case number watermark */}
           <span className="absolute bottom-0 right-4 font-serif font-black leading-none text-white select-none"
-            style={{ fontSize: '7rem', opacity: 0.06 }}>{c.num}</span>
+            style={{ fontSize: 'clamp(4rem, 12vw, 7rem)', opacity: 0.06 }}>{c.num}</span>
 
           {/* Close button */}
           <button onClick={onClose}
@@ -363,7 +363,7 @@ export default function CasesSection() {
               <motion.h2 initial={{ x: -100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}
                 viewport={{ once: true }} transition={{ duration: 0.9, ease: E }}
                 className="font-serif font-light text-white tracking-tight leading-[0.92] block"
-                style={{ fontSize: 'clamp(2.8rem, 6vw, 6.2rem)' }}>
+                style={{ fontSize: 'clamp(1.8rem, 6vw, 6.2rem)' }}>
                 Cada projeto começa
               </motion.h2>
             </div>
@@ -371,7 +371,7 @@ export default function CasesSection() {
               <motion.h2 initial={{ x: 100, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }}
                 viewport={{ once: true }} transition={{ duration: 0.9, ease: E, delay: 0.1 }}
                 className="font-serif font-light text-white tracking-tight leading-[0.92] block"
-                style={{ fontSize: 'clamp(2.8rem, 6vw, 6.2rem)' }}>
+                style={{ fontSize: 'clamp(1.8rem, 6vw, 6.2rem)' }}>
                 pelo processo.
               </motion.h2>
             </div>
@@ -380,7 +380,7 @@ export default function CasesSection() {
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E, delay: 0.22 }}
               className="font-serif font-light tracking-tight leading-tight
                          bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
-              style={{ fontSize: 'clamp(1.5rem, 3.2vw, 3rem)', marginTop: '0.5em' }}>
+              style={{ fontSize: 'clamp(1.1rem, 3.2vw, 3rem)', marginTop: '0.5em' }}>
               Tecnologia construída sob medida.
             </motion.p>
 
@@ -440,7 +440,7 @@ export default function CasesSection() {
                   <div className="h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{ background: `linear-gradient(to right, ${c.accent}80, transparent)` }} />
 
-                  <div className="flex flex-col flex-grow p-7 md:p-8">
+                  <div className="flex flex-col flex-grow p-5 md:p-8">
                     <div className="flex items-center gap-2 mb-5">
                       <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.accent }} />
                       <span className="text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: `${c.accent}AA` }}>

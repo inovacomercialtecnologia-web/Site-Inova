@@ -153,14 +153,14 @@ export default function ImpactCarousel() {
           <div className="mb-10">
             <motion.h2
               style={{ x: line1X, opacity: line1Op }}
-              className="text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
+              className="text-[1.6rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
                          font-serif font-light tracking-tight leading-[1.1] text-white block"
             >
               Você não tem problema de tecnologia.
             </motion.h2>
             <motion.h2
               style={{ x: line2X, opacity: line2Op }}
-              className="text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
+              className="text-[1.6rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
                          font-serif font-light tracking-tight leading-[1.1] block
                          bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
             >

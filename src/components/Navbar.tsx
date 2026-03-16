@@ -215,7 +215,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full left-0 w-[320px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
+                      className="absolute top-full left-0 w-[280px] sm:w-[320px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
                     >
                       <div className="flex flex-col gap-1 max-h-[400px] overflow-y-auto custom-scrollbar">
                         <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium mb-2 px-2">Nossas Soluções</span>
@@ -251,7 +251,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full left-0 w-[240px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
+                      className="absolute top-full left-0 w-[200px] sm:w-[240px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
                     >
                       <div className="flex flex-col gap-1">
                         <Link

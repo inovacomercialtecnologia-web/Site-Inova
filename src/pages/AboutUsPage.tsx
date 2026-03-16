@@ -45,7 +45,7 @@ const AboutUsPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-[clamp(2rem,6vw,6rem)] font-serif font-extrabold leading-[1.05] tracking-tighter mb-10 md:mb-16 uppercase"
+            className="text-[clamp(1.6rem,6vw,6rem)] font-serif font-extrabold leading-[1.05] tracking-tighter mb-10 md:mb-16 uppercase"
           >
             Inova<span className="text-[#C9A84C]">.</span><br />
             <span className="font-light italic">Digital</span>
