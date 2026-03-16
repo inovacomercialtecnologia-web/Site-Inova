@@ -20,27 +20,27 @@ export default function ScrollSection({ children, className = "", isFirst = fals
   // Exit (0.7 -> 1.0): Disruptive (Scale up aggressively, Blur, Rotate, Fade out)
 
   const opacity = useTransform(
-    scrollYProgress, 
-    isFirst ? [0, 0.8, 1] : [0, 0.2, 0.8, 1], 
+    scrollYProgress,
+    isFirst ? [0, 0.85, 1] : [0, 0.15, 0.85, 1],
     isFirst ? [1, 1, 0] : [0, 1, 1, 0]
   );
-  
+
   const scale = useTransform(
     scrollYProgress,
-    isFirst ? [0, 0.8, 1] : [0, 0.2, 0.8, 1],
-    isFirst ? [1, 1, 1.5] : [0.8, 1, 1, 1.5]
+    isFirst ? [0, 0.85, 1] : [0, 0.15, 0.85, 1],
+    isFirst ? [1, 1, 1.3] : [0.85, 1, 1, 1.3]
   );
-  
+
   const filter = useTransform(
     scrollYProgress,
-    [0.8, 1],
-    ["blur(0px)", "blur(12px)"]
+    [0.85, 1],
+    ["blur(0px)", "blur(10px)"]
   );
 
   const rotate = useTransform(
     scrollYProgress,
-    [0.8, 1],
-    [0, -2]
+    [0.85, 1],
+    [0, -1.5]
   );
 
   return (

@@ -69,37 +69,37 @@ export default function TriadeSection() {
   });
 
   // ─── Entry / exit curtains ───────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.10], [1, 0]);
-  const exitCurtain  = useTransform(scrollYProgress, [0.87, 1.0], [0, 1]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
+  const exitCurtain  = useTransform(scrollYProgress, [0.90, 1.0], [0, 1]);
 
   // ─── Background rays ─────────────────────────────────────────────────────
-  const raysOp = useTransform(scrollYProgress, [0.06, 0.22], [0, 1]);
+  const raysOp = useTransform(scrollYProgress, [0.03, 0.16], [0, 1]);
 
   // ─── Soft gold radial breath ─────────────────────────────────────────────
-  const bgPulse = useTransform(scrollYProgress, [0.06, 0.28], [0, 1]);
+  const bgPulse = useTransform(scrollYProgress, [0.03, 0.20], [0, 1]);
 
   // ─── Header ──────────────────────────────────────────────────────────────
-  const labelOp = useTransform(scrollYProgress, [0.10, 0.22], [0, 1]);
-  const labelY  = useTransform(scrollYProgress, [0.10, 0.22], [20, 0]);
-  const titleOp = useTransform(scrollYProgress, [0.14, 0.28], [0, 1]);
-  const titleSc = useTransform(scrollYProgress, [0.14, 0.28], [0.62, 1]);
+  const labelOp = useTransform(scrollYProgress, [0.04, 0.14], [0, 1]);
+  const labelY  = useTransform(scrollYProgress, [0.04, 0.14], [20, 0]);
+  const titleOp = useTransform(scrollYProgress, [0.08, 0.20], [0, 1]);
+  const titleSc = useTransform(scrollYProgress, [0.08, 0.20], [0.62, 1]);
 
   // ─── Progress line ────────────────────────────────────────────────────────
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
 
   // ─── Exit ─────────────────────────────────────────────────────────────────
-  const exitSc      = useTransform(scrollYProgress, [0.84, 1.0], [1, 1.07]);
-  const exitOp      = useTransform(scrollYProgress, [0.84, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.84, 1.0], [0, 14]);
+  const exitSc      = useTransform(scrollYProgress, [0.88, 1.0], [1, 1.07]);
+  const exitOp      = useTransform(scrollYProgress, [0.88, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.88, 1.0], [0, 14]);
   const exitBlur    = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
 
   // ════════════════════════════════════════════════════════════════════════
   // CARD 1 — PROCESSO — enters from top-left, tilted on Y axis
   // ════════════════════════════════════════════════════════════════════════
-  const rawC1RotY = useTransform(scrollYProgress, [0.26, 0.40], [-28, 0]);
-  const rawC1RotX = useTransform(scrollYProgress, [0.26, 0.40], [-10, 0]);
-  const rawC1X    = useTransform(scrollYProgress, [0.26, 0.40], [-80, 0]);
-  const rawC1Op   = useTransform(scrollYProgress, [0.26, 0.38], [0, 1]);
+  const rawC1RotY = useTransform(scrollYProgress, [0.18, 0.32], [-28, 0]);
+  const rawC1RotX = useTransform(scrollYProgress, [0.18, 0.32], [-10, 0]);
+  const rawC1X    = useTransform(scrollYProgress, [0.18, 0.32], [-80, 0]);
+  const rawC1Op   = useTransform(scrollYProgress, [0.18, 0.30], [0, 1]);
 
   const c1RotY = useSpring(rawC1RotY, SNAP);
   const c1RotX = useSpring(rawC1RotX, SNAP);
@@ -108,10 +108,10 @@ export default function TriadeSection() {
   // ════════════════════════════════════════════════════════════════════════
   // CARD 2 — METODOLOGIA — enters from top-right, opposite tilt
   // ════════════════════════════════════════════════════════════════════════
-  const rawC2RotY = useTransform(scrollYProgress, [0.37, 0.52], [28, 0]);
-  const rawC2RotX = useTransform(scrollYProgress, [0.37, 0.52], [-10, 0]);
-  const rawC2X    = useTransform(scrollYProgress, [0.37, 0.52], [80, 0]);
-  const rawC2Op   = useTransform(scrollYProgress, [0.37, 0.50], [0, 1]);
+  const rawC2RotY = useTransform(scrollYProgress, [0.30, 0.44], [28, 0]);
+  const rawC2RotX = useTransform(scrollYProgress, [0.30, 0.44], [-10, 0]);
+  const rawC2X    = useTransform(scrollYProgress, [0.30, 0.44], [80, 0]);
+  const rawC2Op   = useTransform(scrollYProgress, [0.30, 0.42], [0, 1]);
 
   const c2RotY = useSpring(rawC2RotY, SNAP);
   const c2RotX = useSpring(rawC2RotX, SNAP);
@@ -120,9 +120,9 @@ export default function TriadeSection() {
   // ════════════════════════════════════════════════════════════════════════
   // CARD 3 — TECNOLOGIA — enters from below, tilted forward (rotateX)
   // ════════════════════════════════════════════════════════════════════════
-  const rawC3RotX = useTransform(scrollYProgress, [0.49, 0.64], [20, 0]);
-  const rawC3Y    = useTransform(scrollYProgress, [0.49, 0.64], [80, 0]);
-  const rawC3Op   = useTransform(scrollYProgress, [0.49, 0.61], [0, 1]);
+  const rawC3RotX = useTransform(scrollYProgress, [0.42, 0.56], [20, 0]);
+  const rawC3Y    = useTransform(scrollYProgress, [0.42, 0.56], [80, 0]);
+  const rawC3Op   = useTransform(scrollYProgress, [0.42, 0.53], [0, 1]);
 
   const c3RotX = useSpring(rawC3RotX, SNAP);
   const c3Y    = useSpring(rawC3Y,    SNAP);
@@ -158,11 +158,11 @@ export default function TriadeSection() {
           />
         </div>
 
-        {/* Curtains */}
-        <motion.div style={{ opacity: entryCurtain, background: '#F5F2EC' }}
-          className="absolute inset-0 z-40 pointer-events-none" />
-        <motion.div style={{ opacity: exitCurtain, background: '#F5F2EC' }}
-          className="absolute inset-0 z-40 pointer-events-none" />
+        {/* Curtains — entry starts black (matching ImpactCarousel exit) then blends away */}
+        <motion.div style={{ opacity: entryCurtain }}
+          className="absolute inset-0 z-40 pointer-events-none bg-black" />
+        <motion.div style={{ opacity: exitCurtain }}
+          className="absolute inset-0 z-40 pointer-events-none bg-black" />
 
         {/* ── Content ─────────────────────────────────────────────────────── */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
