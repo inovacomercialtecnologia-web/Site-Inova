@@ -128,7 +128,7 @@ export default function TriadeSection() {
   const c3Y    = useSpring(rawC3Y,    SNAP);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '300vh' : '500vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '200vh' : '300vh' }} className="relative">
 
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div
