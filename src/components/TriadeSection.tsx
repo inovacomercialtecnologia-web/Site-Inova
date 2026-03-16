@@ -192,7 +192,7 @@ export default function TriadeSection() {
             {/* ── Card 1 — PROCESSO ── enters from left, Y-rotated ── */}
             <motion.div
               style={{ rotateY: c1RotY, rotateX: c1RotX, x: c1X, opacity: rawC1Op }}
-              className="md:col-span-2"
+              className="md:col-span-1"
             >
               <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
@@ -226,7 +226,7 @@ export default function TriadeSection() {
             {/* ── Card 2 — METODOLOGIA ── enters from right, opposite Y-rotation ── */}
             <motion.div
               style={{ rotateY: c2RotY, rotateX: c2RotX, x: c2X, opacity: rawC2Op }}
-              className="md:col-span-1"
+              className="md:col-span-2"
             >
               <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
