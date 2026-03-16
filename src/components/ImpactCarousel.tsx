@@ -94,11 +94,11 @@ export default function ImpactCarousel() {
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.92, 1.0], [1, 0.94]);
-  const exitOp      = useTransform(scrollYProgress, [0.92, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.92, 1.0], [0, 14]);
+  const exitScale   = useTransform(scrollYProgress, [0.95, 1.0], [1, 0.96]);
+  const exitOp      = useTransform(scrollYProgress, [0.95, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.95, 1.0], [0, 10]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.93, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.96, 1.0], [0, 1]);
 
   return (
     <section ref={sectionRef} style={{ height: '450vh' }} className="relative">
