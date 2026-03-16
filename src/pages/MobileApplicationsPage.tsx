@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 
 const MobileApplicationsPage = () => {
   React.useEffect(() => {
@@ -261,6 +262,7 @@ const MobileApplicationsPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Aplicações Mobile" description="Desenvolvimento de aplicativos iOS e Android sob medida para empresas. Apps corporativos, de gestão e voltados para o cliente final." />
       {/* Hero Section */}
       <section className="mhero-wrapper">
         <MHeroCanvas />

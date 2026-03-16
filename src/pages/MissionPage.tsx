@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PageMeta from '../components/PageMeta';
 
 const MissionPage = () => {
   useEffect(() => {
@@ -78,6 +79,7 @@ const MissionPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Nossa Missão" description="Conheça a missão da Inova Systems Solutions: transformar operações empresariais com tecnologia sob medida, processo estruturado e metodologia aplicada." />
       {/* Hero Section */}
       <section className="nmhero-section" id="nossaMissaoHero">
         {/* Dotted grid background canvas */}

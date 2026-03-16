@@ -85,7 +85,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 sandbox="allow-scripts allow-same-origin allow-presentation"
                 style={{ border: 'none' }}
-                loading="eager"
+                loading="lazy"
               />
             </div>
           </div>

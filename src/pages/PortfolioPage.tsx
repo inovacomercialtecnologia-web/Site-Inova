@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PageMeta from '../components/PageMeta';
 import {
   ArrowRight, X,
   BarChart3, Users, TrendingUp, ShoppingBag, LayoutDashboard, BookOpen, Building2,
@@ -485,6 +486,7 @@ const PortfolioPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Portfólio" description="Cases reais de transformação digital: ERPs, CRMs, dashboards de BI, e-commerce, apps mobile e automações desenvolvidos pela Inova." />
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative pt-28 sm:pt-40 pb-20 sm:pb-32 px-5 sm:px-6 overflow-hidden">

@@ -107,7 +107,7 @@ export default function Footer() {
                 key={social.id}
                 href={social.href}
                 className="text-gray-500 hover:text-[#D4AF37] transition-colors"
-                aria-label={social.id}
+                aria-label={`Visitar ${social.id}`}
               >
                 <social.icon className="w-5 h-5" strokeWidth={1.5} />
               </a>

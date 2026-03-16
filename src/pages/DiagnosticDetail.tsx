@@ -116,11 +116,12 @@ export default function DiagnosticDetailPage() {
             transition={{ duration: 1 }}
             className="relative aspect-[4/3] rounded-[20px] md:rounded-[32px] lg:rounded-[48px] overflow-hidden shadow-2xl border border-gray-100"
           >
-            <img 
-              src={topic.image} 
+            <img
+              src={topic.image}
               alt={topic.title}
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              loading="lazy"
             />
             <div className="absolute top-4 right-4 md:top-8 md:right-8 text-[48px] md:text-[96px] font-bold text-white/10 font-mono leading-none select-none">{topic.id}</div>
           </motion.div>

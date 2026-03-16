@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 
 const ArtificialIntelligencePage: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -312,6 +313,7 @@ const ArtificialIntelligencePage: React.FC = () => {
 
   return (
     <div className="ia-page-container">
+      <PageMeta title="Inteligência Artificial" description="Soluções de IA aplicada para empresas: assistentes inteligentes, automação com IA, análise preditiva e processamento de dados." />
       <div className="progress" id="progress"></div>
 
       {/* HERO */}

@@ -247,6 +247,7 @@ export default function ImpactCarousel() {
                         alt={card.title}
                         className="w-full h-full object-cover grayscale
                                    transition-transform duration-1000 group-hover:scale-110"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 mix-blend-overlay
                                       bg-[#C9A84C]/0 group-hover:bg-[#C9A84C]/15

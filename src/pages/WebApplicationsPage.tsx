@@ -6,6 +6,7 @@ import WebAppsHero from '../components/WebAppsHero';
 import SaaSSection from '../components/SaaSSection';
 import AnimatedSvgDivider from '../components/AnimatedSvgDivider';
 import SystemsStorytelling from '../components/SystemsStorytelling';
+import PageMeta from '../components/PageMeta';
 
 const WebApplicationsPage = () => {
   useEffect(() => {
@@ -76,6 +77,7 @@ const WebApplicationsPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Aplicações Web" description="Desenvolvimento de sistemas web sob medida: ERP, CRM, dashboards, e-commerce, portais e plataformas SaaS para empresas B2B." />
       {/* Hero Section */}
       <WebAppsHero />
 

@@ -24,11 +24,12 @@ const MetricsSection = () => {
     <section className="relative min-h-[500px] md:h-[650px] w-full overflow-hidden flex items-center justify-center bg-[#000000] py-20 md:py-0">
       {/* Background Image with Parallax-like feel */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" 
-          alt="Tech Infrastructure" 
+        <img
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+          alt="Tech Infrastructure"
           className="w-full h-full object-cover brightness-[0.2] scale-110"
           referrerPolicy="no-referrer"
+          loading="lazy"
         />
         {/* Overlays for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>

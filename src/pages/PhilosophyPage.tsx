@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PageMeta from '../components/PageMeta';
 
 const PhilosophyPage = () => {
   useEffect(() => {
@@ -66,6 +67,7 @@ const PhilosophyPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Nossa Filosofia" description="Descubra a filosofia da Inova: processo antes de tecnologia. Mapeamos, estruturamos e só então construímos soluções digitais." />
       {/* Hero Section */}
       <section className="nfhero-section" id="filosofiaHero">
         <canvas id="nfhero-grid" className="nfhero-grid-canvas"></canvas>

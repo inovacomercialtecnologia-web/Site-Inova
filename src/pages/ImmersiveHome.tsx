@@ -7,12 +7,14 @@ import ImpactCarousel from '../components/ImpactCarousel';
 import ScrollSection from '../components/ScrollSection';
 import TriadeSection from '../components/TriadeSection';
 import CasesSection from '../components/CasesSection';
+import PageMeta from '../components/PageMeta';
 
 // --- MAIN COMPONENT ---
 const ImmersiveHome = () => {
   return (
     <div className="relative bg-[#080808] selection:bg-[#C9A84C]/30">
-      
+      <PageMeta title="Transformação Digital Estratégica" description="Transformamos inteligência operacional em tecnologia sob medida. Sistemas web, aplicativos mobile, automações e IA para empresas B2B." />
+
       {/* CONTENT LAYERS */}
       <div className="relative z-10">
         

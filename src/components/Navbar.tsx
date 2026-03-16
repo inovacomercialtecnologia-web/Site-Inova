@@ -289,7 +289,7 @@ export default function Navbar() {
               </Link>
 
               {/* Language Selector (Desktop only) */}
-              <div className={`hidden md:flex items-center gap-2 text-[11px] font-medium ${textColor} tracking-[0.2em] cursor-pointer hover:opacity-80 transition-colors group`}>
+              <div role="button" aria-label="Selecionar idioma" className={`hidden md:flex items-center gap-2 text-[11px] font-medium ${textColor} tracking-[0.2em] cursor-pointer hover:opacity-80 transition-colors group`}>
                 <Globe className="w-3.5 h-3.5 group-hover:text-[#C9A84C] transition-colors" strokeWidth={2} />
                 <span className="group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#C9A84C] group-hover:to-[#E5C05C] transition-all">BRASIL</span>
                 <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-all" strokeWidth={2} />

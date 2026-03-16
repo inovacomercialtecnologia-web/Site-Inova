@@ -90,6 +90,7 @@ export default function SocialSidebar() {
               whileHover={{ scale: 1.15, x: 2 }}
               className={`text-white/60 ${social.color} transition-all duration-300 group relative`}
               title={social.name}
+              aria-label={social.name}
             >
               <social.icon className="w-4 h-4" strokeWidth={1.5} />
               

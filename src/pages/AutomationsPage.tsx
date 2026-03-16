@@ -1,4 +1,5 @@
 import React from 'react';
+import PageMeta from '../components/PageMeta';
 
 const AutomationsPage = () => {
   React.useEffect(() => {
@@ -279,6 +280,7 @@ const AutomationsPage = () => {
 
   return (
     <div className="bg-[#080808] text-white min-h-screen">
+      <PageMeta title="Automações" description="Automação de processos empresariais: fluxos automáticos, integração entre sistemas e automação de marketing e vendas." />
       {/* Hero Section */}
       <div className="ahero-wrapper">
         <div className="ahero-text-block">

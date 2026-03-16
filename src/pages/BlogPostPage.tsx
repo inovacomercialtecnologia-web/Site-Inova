@@ -254,7 +254,7 @@ const BlogPostPage = () => {
                   .map(([s, p]) => (
                     <Link key={s} to={`/blog/${s}`} className="group block">
                       <div className="aspect-video rounded-2xl overflow-hidden mb-4">
-                        <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
+                        <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" />
                       </div>
                       <h5 className="text-sm font-bold leading-tight group-hover:text-[#C9A84C] transition-colors line-clamp-2">{p.title}</h5>
                     </Link>

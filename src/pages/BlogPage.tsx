@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Clock, User, Search, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 
 const blogPosts = [
   {
@@ -49,7 +50,8 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#FAFAF8] font-sans overflow-x-hidden pt-24">
-      
+      <PageMeta title="Blog" description="Artigos sobre transformação digital, tecnologia empresarial, automação e inteligência artificial para negócios B2B." />
+
       {/* HERO SECTION */}
       <section className="relative py-20 px-6 md:px-12 lg:px-24 border-b border-white/5 overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C9A84C]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -116,11 +118,12 @@ const BlogPage = () => {
               >
                 {/* Image Container */}
                 <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
+                  <img
+                    src={post.image}
+                    alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4">

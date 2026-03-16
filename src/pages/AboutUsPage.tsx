@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, Target, Users, Shield, Zap, Globe, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 
 const AboutUsPage = () => {
   useEffect(() => {
@@ -19,7 +20,8 @@ const AboutUsPage = () => {
 
   return (
     <div className="bg-[#080808] text-[#FAFAF8] font-sans overflow-x-hidden">
-      
+      <PageMeta title="Quem Somos" description="Estrategistas e engenheiros transformando negócios B2B com tecnologia de alta performance. Conheça a equipe Inova Systems Solutions." />
+
       {/* HERO SECTION - Editorial Style */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-24 pt-24 pb-12">
         {/* Background Elements */}
@@ -239,11 +241,12 @@ const AboutUsPage = () => {
               transition={{ duration: 1 }}
               className="relative aspect-square rounded-[40px] overflow-hidden bg-gray-100"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200" 
-                alt="Inova Team Collaboration" 
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
+                alt="Inova Team Collaboration"
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
               <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12">

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
+import PageMeta from '../components/PageMeta';
 
 const CONTACT_API = '/api/contact.php';
 const TOKEN_SECRET = 'inova-contact-2024-hmac-key';
@@ -594,6 +595,7 @@ const ContactQuizPage = () => {
   // ── Quiz ──────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#080808] text-[#FAFAF8] overflow-x-hidden">
+      <PageMeta title="Contato" description="Entre em contato com a Inova Systems Solutions. Conte sobre seu projeto e receba uma proposta personalizada." />
 
       {/* ── Ambient background ── */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
