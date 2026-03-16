@@ -165,7 +165,7 @@ export default function TriadeSection() {
           className="absolute inset-0 z-40 pointer-events-none bg-black" />
 
         {/* ── Content ─────────────────────────────────────────────────────── */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
           {/* Header */}
           <div className="text-center mb-1 md:mb-8 lg:mb-10">

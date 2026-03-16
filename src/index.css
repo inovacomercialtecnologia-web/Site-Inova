@@ -27,11 +27,9 @@ html {
   html { font-size: 14px; }
 }
 
-/* Mobile overflow prevention — use clip instead of hidden to preserve sticky */
-@media (max-width: 767px) {
-  body {
-    overflow-x: clip;
-  }
+/* Prevent horizontal overflow from scale animations — clip preserves sticky */
+body {
+  overflow-x: clip;
 }
 
 body {

@@ -327,7 +327,7 @@ export default function CasesSection() {
       {/* ══════════════════════════════════════
           EDITORIAL HEADER
       ══════════════════════════════════════ */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
         {/* Top rule */}
         <motion.div initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }}
@@ -411,7 +411,7 @@ export default function CasesSection() {
       {/* ══════════════════════════════════════
           CASES GRID
       ══════════════════════════════════════ */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-20 md:py-24">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 py-20 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {CASES.map((c, i) => {
             const spanClass = i >= 3 && CASES.length === 5
