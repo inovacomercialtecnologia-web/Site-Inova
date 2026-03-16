@@ -57,38 +57,38 @@ export default function ImpactCarousel() {
   });
 
   // ─── entry curtain ───────────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.04], [1, 0]);
 
   // ─── text phase ──────────────────────────────────────────────────────
-  const textGroupOp = useTransform(scrollYProgress, [0.02, 0.14, 0.34, 0.46], [0, 1, 1, 0]);
-  const textGroupY  = useTransform(scrollYProgress, [0.02, 0.14, 0.34, 0.46], [70, 0, 0, -90]);
+  const textGroupOp = useTransform(scrollYProgress, [0.02, 0.12, 0.30, 0.40], [0, 1, 1, 0]);
+  const textGroupY  = useTransform(scrollYProgress, [0.02, 0.12, 0.30, 0.40], [70, 0, 0, -90]);
 
-  const line1Op = useTransform(scrollYProgress, [0.03, 0.16], [0, 1]);
-  const line1X  = useTransform(scrollYProgress, [0.03, 0.16], [-100, 0]);
-  const line2Op = useTransform(scrollYProgress, [0.07, 0.20], [0, 1]);
-  const line2X  = useTransform(scrollYProgress, [0.07, 0.20], [100, 0]);
+  const line1Op = useTransform(scrollYProgress, [0.03, 0.14], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, [0.03, 0.14], [-100, 0]);
+  const line2Op = useTransform(scrollYProgress, [0.06, 0.17], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, [0.06, 0.17], [100, 0]);
 
-  const paraOp = useTransform(scrollYProgress, [0.14, 0.26], [0, 1]);
-  const paraY  = useTransform(scrollYProgress, [0.14, 0.26], [40, 0]);
+  const paraOp = useTransform(scrollYProgress, [0.12, 0.22], [0, 1]);
+  const paraY  = useTransform(scrollYProgress, [0.12, 0.22], [40, 0]);
 
-  const scrollHintOp = useTransform(scrollYProgress, [0.18, 0.30], [0.45, 0]);
+  const scrollHintOp = useTransform(scrollYProgress, [0.16, 0.26], [0.45, 0]);
 
   // ─── cards phase ─────────────────────────────────────────────────────
-  const cardsGroupOp = useTransform(scrollYProgress, [0.40, 0.52], [0, 1]);
-  const cardsGroupY  = useTransform(scrollYProgress, [0.40, 0.52], [80, 0]);
+  const cardsGroupOp = useTransform(scrollYProgress, [0.35, 0.45], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, [0.35, 0.45], [80, 0]);
 
   // horizontal scroll driven by vertical scroll (reactive to measured distance)
   const rawX = useTransform(
     [scrollYProgress, scrollDistMV] as const,
     ([yP, dist]: number[]) => {
-      const t = Math.max(0, Math.min(1, (yP - 0.52) / (0.88 - 0.52)));
+      const t = Math.max(0, Math.min(1, (yP - 0.45) / (0.88 - 0.45)));
       return -dist * t;
     }
   );
   const isMobile = useIsMobile();
   const cardsX = useSpring(rawX, { stiffness: isMobile ? 45 : 75, damping: isMobile ? 30 : 26, restDelta: 0.5 });
 
-  const cardsHintOp = useTransform(scrollYProgress, [0.46, 0.56], [0.45, 0]);
+  const cardsHintOp = useTransform(scrollYProgress, [0.40, 0.50], [0.45, 0]);
 
   // ─── progress line ───────────────────────────────────────────────────
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.90], [0, 1]);
@@ -101,7 +101,7 @@ export default function ImpactCarousel() {
   const exitCurtain = useTransform(scrollYProgress, [0.92, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: '380vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: '300vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
