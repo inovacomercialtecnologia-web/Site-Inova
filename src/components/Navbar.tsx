@@ -89,7 +89,7 @@ export default function Navbar() {
           style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
           className="bg-[#000000] flex flex-col p-8"
         >
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-2">
               <Logo className="h-10 w-auto" color="#FFFFFF" />
               <div className="flex flex-col">
@@ -107,12 +107,12 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="flex flex-col gap-8 overflow-y-auto">
-            <Link to="/" onClick={handleHomeClick} className="text-2xl font-light text-white">Home</Link>
+          <div className="flex flex-col gap-6 overflow-y-auto">
+            <Link to="/" onClick={handleHomeClick} className="text-lg font-light text-white">Home</Link>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">O que fazemos</span>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-3">
                 {solutions.map((sol, i) => (
                   <Link
                     key={i}
@@ -120,43 +120,43 @@ export default function Navbar() {
                     onClick={() => handleLinkClick(sol.path)}
                     className="flex flex-col"
                   >
-                    <span className="text-lg font-light text-gray-300">{sol.title}</span>
+                    <span className="text-base font-light text-gray-300">{sol.title}</span>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">Quem somos</span>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-3">
                 <Link
                   to="/missao"
                   onClick={() => handleLinkClick("/missao")}
-                  className="text-lg font-light text-gray-300"
+                  className="text-base font-light text-gray-300"
                 >
                   Nossa missão
                 </Link>
                 <Link
                   to="/filosofia"
                   onClick={() => handleLinkClick("/filosofia")}
-                  className="text-lg font-light text-gray-300"
+                  className="text-base font-light text-gray-300"
                 >
                   Nossa filosofia
                 </Link>
               </div>
             </div>
 
-            <Link to="/portfolio" onClick={() => handleLinkClick("/portfolio")} className="text-2xl font-light text-white">Portfólio</Link>
-            <Link to="/blog" onClick={() => handleLinkClick("/blog")} className="text-2xl font-light text-white">Blog</Link>
+            <Link to="/portfolio" onClick={() => handleLinkClick("/portfolio")} className="text-lg font-light text-white">Portfólio</Link>
+            <Link to="/blog" onClick={() => handleLinkClick("/blog")} className="text-lg font-light text-white">Blog</Link>
 
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-col gap-3">
               <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">Diagnósticos</span>
               {diagnosticLinks.map((link, i) => (
                 <Link
                   key={i}
                   to={link.path}
                   onClick={() => handleLinkClick(link.path)}
-                  className="text-lg font-light text-gray-400 hover:text-[#C5A059]"
+                  className="text-base font-light text-gray-400 hover:text-[#C5A059]"
                 >
                   {link.name}
                 </Link>
@@ -166,7 +166,7 @@ export default function Navbar() {
             <Link
               to="/contato-quiz"
               onClick={() => handleLinkClick("/contato-quiz")}
-              className="w-full py-5 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-black font-medium tracking-[0.2em] uppercase rounded-2xl mt-8 text-center"
+              className="w-full py-4 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-black text-sm font-medium tracking-[0.2em] uppercase rounded-2xl mt-6 text-center"
             >
               Contato
             </Link>
