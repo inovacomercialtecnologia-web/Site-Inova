@@ -185,22 +185,21 @@ export default function TriadeSection() {
 
           {/* ── Bento Grid — perspective parent for 3D snap ──────────────── */}
           <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
             style={{ perspective: '1100px', perspectiveOrigin: '50% 40%' }}
           >
 
             {/* ── Card 1 — PROCESSO ── enters from left, Y-rotated ── */}
             <motion.div
               style={{ rotateY: c1RotY, rotateX: c1RotX, x: c1X, opacity: rawC1Op }}
-              className="md:col-span-1"
             >
-              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-5 lg:p-6 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
                               hover:-translate-y-1
                               hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12),0_0_0_1px_rgba(201,168,76,0.18)]">
-                <div className="absolute -top-2 right-3 opacity-[0.05] text-[130px]
+                <div className="absolute -top-2 right-3 opacity-[0.05] text-[90px] md:text-[110px]
                                 font-serif font-black leading-none pointer-events-none select-none text-black">
                   01
                 </div>
@@ -209,15 +208,14 @@ export default function TriadeSection() {
                                 group-hover:from-[#C9A84C]/[0.03]
                                 transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="w-7 h-7 md:w-9 md:h-9 mb-2 md:mb-5"><ProcessIcon /></div>
-                  <h3 className="text-sm md:text-lg font-serif font-normal text-black mb-1 md:mb-1.5 tracking-tight">PROCESSO</h3>
-                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2 md:mb-3">
+                  <div className="w-6 h-6 md:w-7 md:h-7 mb-2 md:mb-3"><ProcessIcon /></div>
+                  <h3 className="text-sm md:text-base font-serif font-normal text-black mb-0.5 md:mb-1 tracking-tight">PROCESSO</h3>
+                  <p className="text-[#C9A84C] text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
                     Mapeamento da sua operação
                   </p>
-                  <p className="text-gray-500 text-xs md:text-sm leading-snug md:leading-relaxed font-light max-w-xl line-clamp-3 md:line-clamp-none">
+                  <p className="text-gray-500 text-[11px] md:text-xs leading-snug font-light max-w-xl line-clamp-3 md:line-clamp-none">
                     Entendemos como sua empresa funciona, identificando gargalos e documentando
-                    fluxos que hoje são invisíveis. A base de qualquer sistema inteligente é
-                    um processo bem definido e estruturado.
+                    fluxos que hoje são invisíveis.
                   </p>
                 </div>
               </div>
@@ -226,15 +224,14 @@ export default function TriadeSection() {
             {/* ── Card 2 — METODOLOGIA ── enters from right, opposite Y-rotation ── */}
             <motion.div
               style={{ rotateY: c2RotY, rotateX: c2RotX, x: c2X, opacity: rawC2Op }}
-              className="md:col-span-2"
             >
-              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8 h-full
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-5 lg:p-6 h-full
                               bg-white border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_2px_20px_rgba(0,0,0,0.07)]
                               group transition-all duration-600
                               hover:-translate-y-1
                               hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12),0_0_0_1px_rgba(201,168,76,0.18)]">
-                <div className="absolute -top-2 right-3 opacity-[0.05] text-[130px]
+                <div className="absolute -top-2 right-3 opacity-[0.05] text-[90px] md:text-[110px]
                                 font-serif font-black leading-none pointer-events-none select-none text-black">
                   02
                 </div>
@@ -243,12 +240,12 @@ export default function TriadeSection() {
                                 group-hover:from-[#C9A84C]/[0.03]
                                 transition-colors duration-700 pointer-events-none" />
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="w-7 h-7 md:w-9 md:h-9 mb-2 md:mb-5"><MethodIcon /></div>
-                  <h3 className="text-sm md:text-lg font-serif font-normal text-black mb-1 md:mb-1.5 tracking-tight">METODOLOGIA</h3>
-                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2 md:mb-3">
+                  <div className="w-6 h-6 md:w-7 md:h-7 mb-2 md:mb-3"><MethodIcon /></div>
+                  <h3 className="text-sm md:text-base font-serif font-normal text-black mb-0.5 md:mb-1 tracking-tight">METODOLOGIA</h3>
+                  <p className="text-[#C9A84C] text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
                     Estruturação
                   </p>
-                  <p className="text-gray-500 text-xs md:text-sm leading-snug md:leading-relaxed font-light line-clamp-3 md:line-clamp-none">
+                  <p className="text-gray-500 text-[11px] md:text-xs leading-snug font-light line-clamp-3 md:line-clamp-none">
                     Transformamos o conhecimento em processos replicáveis e mensuráveis,
                     tornando a operação independente de pessoas específicas.
                   </p>
@@ -259,9 +256,9 @@ export default function TriadeSection() {
             {/* ── Card 3 — TECNOLOGIA ── enters from below, X-rotation (forward tilt) ── */}
             <motion.div
               style={{ rotateX: c3RotX, y: c3Y, opacity: rawC3Op }}
-              className="md:col-span-3"
+              className="md:col-span-2"
             >
-              <div className="relative overflow-hidden rounded-2xl p-5 md:p-6 lg:p-8
+              <div className="relative overflow-hidden rounded-2xl p-4 md:p-5 lg:p-6
                               bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C]
                               shadow-[0_4px_32px_rgba(0,0,0,0.22)]
                               group transition-all duration-600
