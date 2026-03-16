@@ -133,7 +133,7 @@ export default function TriadeSection() {
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div
         style={{ scale: exitSc, opacity: exitOp, filter: exitBlur, background: '#F5F2EC' }}
-        className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-start md:justify-center pt-16 md:pt-0 pb-20 md:pb-0"
+        className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center pt-20 md:pt-24 pb-6 md:pb-10"
       >
 
         {/* Minimal rays */}
@@ -168,7 +168,7 @@ export default function TriadeSection() {
         <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
           {/* Header */}
-          <div className="text-center mb-1 md:mb-8 lg:mb-10">
+          <div className="text-center mb-3 md:mb-6 lg:mb-8">
             <motion.p style={{ opacity: labelOp, y: labelY }}
               className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-2 md:mb-4">
               O Método
