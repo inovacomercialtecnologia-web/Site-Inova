@@ -81,7 +81,7 @@ export default function ImpactCarousel() {
   const rawX = useTransform(
     [scrollYProgress, scrollDistMV] as const,
     ([yP, dist]: number[]) => {
-      const t = Math.max(0, Math.min(1, (yP - 0.32) / (0.84 - 0.32)));
+      const t = Math.max(0, Math.min(1, (yP - 0.32) / (0.92 - 0.32)));
       return -dist * t;
     }
   );
@@ -91,14 +91,14 @@ export default function ImpactCarousel() {
   const cardsHintOp = useTransform(scrollYProgress, [0.28, 0.36], [0.45, 0]);
 
   // ─── progress line ───────────────────────────────────────────────────
-  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.86], [0, 1]);
+  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.93], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.86, 1.0], [1, 0.96]);
-  const exitOp      = useTransform(scrollYProgress, [0.86, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.86, 1.0], [0, 10]);
+  const exitScale   = useTransform(scrollYProgress, [0.93, 1.0], [1, 0.96]);
+  const exitOp      = useTransform(scrollYProgress, [0.93, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.93, 1.0], [0, 10]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.88, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.95, 1.0], [0, 1]);
 
   return (
     <section ref={sectionRef} style={{ height: '400vh' }} className="relative">

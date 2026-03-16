@@ -69,7 +69,7 @@ export default function TriadeSection() {
   });
 
   // ─── Entry / exit curtains ───────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.015], [1, 0]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.01], [1, 0]);
   const exitCurtain  = useTransform(scrollYProgress, [0.93, 1.0], [0, 1]);
 
   // ─── Background rays ─────────────────────────────────────────────────────
