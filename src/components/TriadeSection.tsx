@@ -69,20 +69,20 @@ export default function TriadeSection() {
   });
 
   // ─── Entry / exit curtains ───────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.06], [1, 0]);
-  const exitCurtain  = useTransform(scrollYProgress, [0.90, 1.0], [0, 1]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.03], [1, 0]);
+  const exitCurtain  = useTransform(scrollYProgress, [0.92, 1.0], [0, 1]);
 
   // ─── Background rays ─────────────────────────────────────────────────────
-  const raysOp = useTransform(scrollYProgress, [0.03, 0.16], [0, 1]);
+  const raysOp = useTransform(scrollYProgress, [0.01, 0.10], [0, 1]);
 
   // ─── Soft gold radial breath ─────────────────────────────────────────────
-  const bgPulse = useTransform(scrollYProgress, [0.03, 0.20], [0, 1]);
+  const bgPulse = useTransform(scrollYProgress, [0.01, 0.12], [0, 1]);
 
   // ─── Header ──────────────────────────────────────────────────────────────
-  const labelOp = useTransform(scrollYProgress, [0.04, 0.14], [0, 1]);
-  const labelY  = useTransform(scrollYProgress, [0.04, 0.14], [20, 0]);
-  const titleOp = useTransform(scrollYProgress, [0.08, 0.20], [0, 1]);
-  const titleSc = useTransform(scrollYProgress, [0.08, 0.20], [0.62, 1]);
+  const labelOp = useTransform(scrollYProgress, [0.02, 0.08], [0, 1]);
+  const labelY  = useTransform(scrollYProgress, [0.02, 0.08], [20, 0]);
+  const titleOp = useTransform(scrollYProgress, [0.04, 0.12], [0, 1]);
+  const titleSc = useTransform(scrollYProgress, [0.04, 0.12], [0.62, 1]);
 
   // ─── Progress line ────────────────────────────────────────────────────────
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
