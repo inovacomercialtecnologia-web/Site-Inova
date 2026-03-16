@@ -57,51 +57,51 @@ export default function ImpactCarousel() {
   });
 
   // ─── entry curtain ───────────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.04], [1, 0]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.03], [1, 0]);
 
   // ─── text phase ──────────────────────────────────────────────────────
-  const textGroupOp = useTransform(scrollYProgress, [0.02, 0.12, 0.30, 0.40], [0, 1, 1, 0]);
-  const textGroupY  = useTransform(scrollYProgress, [0.02, 0.12, 0.30, 0.40], [70, 0, 0, -90]);
+  const textGroupOp = useTransform(scrollYProgress, [0.01, 0.10, 0.25, 0.35], [0, 1, 1, 0]);
+  const textGroupY  = useTransform(scrollYProgress, [0.01, 0.10, 0.25, 0.35], [50, 0, 0, -60]);
 
-  const line1Op = useTransform(scrollYProgress, [0.03, 0.14], [0, 1]);
-  const line1X  = useTransform(scrollYProgress, [0.03, 0.14], [-100, 0]);
-  const line2Op = useTransform(scrollYProgress, [0.06, 0.17], [0, 1]);
-  const line2X  = useTransform(scrollYProgress, [0.06, 0.17], [100, 0]);
+  const line1Op = useTransform(scrollYProgress, [0.02, 0.12], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, [0.02, 0.12], [-80, 0]);
+  const line2Op = useTransform(scrollYProgress, [0.05, 0.15], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, [0.05, 0.15], [80, 0]);
 
-  const paraOp = useTransform(scrollYProgress, [0.12, 0.22], [0, 1]);
-  const paraY  = useTransform(scrollYProgress, [0.12, 0.22], [40, 0]);
+  const paraOp = useTransform(scrollYProgress, [0.10, 0.18], [0, 1]);
+  const paraY  = useTransform(scrollYProgress, [0.10, 0.18], [30, 0]);
 
-  const scrollHintOp = useTransform(scrollYProgress, [0.16, 0.26], [0.45, 0]);
+  const scrollHintOp = useTransform(scrollYProgress, [0.14, 0.22], [0.45, 0]);
 
   // ─── cards phase ─────────────────────────────────────────────────────
-  const cardsGroupOp = useTransform(scrollYProgress, [0.35, 0.45], [0, 1]);
-  const cardsGroupY  = useTransform(scrollYProgress, [0.35, 0.45], [80, 0]);
+  const cardsGroupOp = useTransform(scrollYProgress, [0.30, 0.38], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, [0.30, 0.38], [60, 0]);
 
   // horizontal scroll driven by vertical scroll (reactive to measured distance)
   const rawX = useTransform(
     [scrollYProgress, scrollDistMV] as const,
     ([yP, dist]: number[]) => {
-      const t = Math.max(0, Math.min(1, (yP - 0.45) / (0.88 - 0.45)));
+      const t = Math.max(0, Math.min(1, (yP - 0.38) / (0.86 - 0.38)));
       return -dist * t;
     }
   );
   const isMobile = useIsMobile();
-  const cardsX = useSpring(rawX, { stiffness: isMobile ? 45 : 75, damping: isMobile ? 30 : 26, restDelta: 0.5 });
+  const cardsX = useSpring(rawX, { stiffness: isMobile ? 55 : 85, damping: isMobile ? 28 : 24, restDelta: 0.5 });
 
-  const cardsHintOp = useTransform(scrollYProgress, [0.40, 0.50], [0.45, 0]);
+  const cardsHintOp = useTransform(scrollYProgress, [0.34, 0.42], [0.45, 0]);
 
   // ─── progress line ───────────────────────────────────────────────────
-  const lineScaleX = useTransform(scrollYProgress, [0.04, 0.90], [0, 1]);
+  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.88], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.90, 1.0], [1, 0.96]);
-  const exitOp      = useTransform(scrollYProgress, [0.90, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.90, 1.0], [0, 10]);
+  const exitScale   = useTransform(scrollYProgress, [0.88, 1.0], [1, 0.96]);
+  const exitOp      = useTransform(scrollYProgress, [0.88, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.88, 1.0], [0, 10]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.92, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.90, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: '300vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: '220vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
