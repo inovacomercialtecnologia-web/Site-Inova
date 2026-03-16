@@ -57,51 +57,51 @@ export default function ImpactCarousel() {
   });
 
   // ─── entry curtain ───────────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.03], [1, 0]);
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.04], [1, 0]);
 
-  // ─── text phase ──────────────────────────────────────────────────────
-  const textGroupOp = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [0, 1, 1, 0]);
-  const textGroupY  = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [40, 0, 0, -50]);
+  // ─── text phase (no separate phase — stays as header) ──────────────
+  const textGroupOp = useTransform(scrollYProgress, [0, 1], [1, 1]);
+  const textGroupY  = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
-  const line1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]);
-  const line1X  = useTransform(scrollYProgress, [0.02, 0.10], [-60, 0]);
-  const line2Op = useTransform(scrollYProgress, [0.04, 0.12], [0, 1]);
-  const line2X  = useTransform(scrollYProgress, [0.04, 0.12], [60, 0]);
+  const line1Op = useTransform(scrollYProgress, [0.01, 0.08], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, [0.01, 0.08], [-40, 0]);
+  const line2Op = useTransform(scrollYProgress, [0.03, 0.10], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, [0.03, 0.10], [40, 0]);
 
-  const paraOp = useTransform(scrollYProgress, [0.08, 0.15], [0, 1]);
-  const paraY  = useTransform(scrollYProgress, [0.08, 0.15], [20, 0]);
+  const paraOp = useTransform(scrollYProgress, [0, 1], [0, 0]);
+  const paraY  = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
-  const scrollHintOp = useTransform(scrollYProgress, [0.12, 0.20], [0.45, 0]);
+  const scrollHintOp = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
-  // ─── cards phase ─────────────────────────────────────────────────────
-  const cardsGroupOp = useTransform(scrollYProgress, [0.25, 0.32], [0, 1]);
-  const cardsGroupY  = useTransform(scrollYProgress, [0.25, 0.32], [50, 0]);
+  // ─── cards phase (visible from start) ──────────────────────────────
+  const cardsGroupOp = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, [0.02, 0.10], [30, 0]);
 
-  // horizontal scroll driven by vertical scroll (reactive to measured distance)
+  // horizontal scroll driven by vertical scroll
   const rawX = useTransform(
     [scrollYProgress, scrollDistMV] as const,
     ([yP, dist]: number[]) => {
-      const t = Math.max(0, Math.min(1, (yP - 0.32) / (0.84 - 0.32)));
+      const t = Math.max(0, Math.min(1, (yP - 0.08) / (0.82 - 0.08)));
       return -dist * t;
     }
   );
   const isMobile = useIsMobile();
   const cardsX = useSpring(rawX, { stiffness: isMobile ? 60 : 90, damping: isMobile ? 26 : 22, restDelta: 0.5 });
 
-  const cardsHintOp = useTransform(scrollYProgress, [0.28, 0.36], [0.45, 0]);
+  const cardsHintOp = useTransform(scrollYProgress, [0.06, 0.14], [0.45, 0]);
 
   // ─── progress line ───────────────────────────────────────────────────
-  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.86], [0, 1]);
+  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.84], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.86, 1.0], [1, 0.96]);
-  const exitOp      = useTransform(scrollYProgress, [0.86, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.86, 1.0], [0, 10]);
+  const exitScale   = useTransform(scrollYProgress, [0.84, 1.0], [1, 0.96]);
+  const exitOp      = useTransform(scrollYProgress, [0.84, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.84, 1.0], [0, 10]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.88, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.86, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: '150vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: '110vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
@@ -137,69 +137,7 @@ export default function ImpactCarousel() {
         <motion.div style={{ opacity: exitCurtain }} className="absolute inset-0 bg-black z-40 pointer-events-none" />
 
         {/* ══════════════════════════════════════
-            TEXT PHASE
-        ══════════════════════════════════════ */}
-        <motion.div
-          style={{ opacity: textGroupOp, y: textGroupY }}
-          className="absolute inset-0 z-[5] flex flex-col justify-center pointer-events-none
-                     px-6 md:px-12 lg:px-24 max-w-[1440px] w-full mx-auto left-0 right-0"
-        >
-          {/* Label */}
-          <p className="text-[#D4AF37] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-8">
-            POR QUE O SISTEMA SOZINHO NÃO RESOLVE
-          </p>
-
-          {/* Headline — opposite directions */}
-          <div className="mb-10">
-            <motion.h2
-              style={{ x: line1X, opacity: line1Op }}
-              className="text-[1.6rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
-                         font-serif font-light tracking-tight leading-[1.1] text-white block"
-            >
-              Você não tem problema de tecnologia.
-            </motion.h2>
-            <motion.h2
-              style={{ x: line2X, opacity: line2Op }}
-              className="text-[1.6rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
-                         font-serif font-light tracking-tight leading-[1.1] block
-                         bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
-            >
-              Tem problema de processo.
-            </motion.h2>
-          </div>
-
-          {/* Paragraph */}
-          <motion.div
-            style={{ opacity: paraOp, y: paraY }}
-            className="max-w-2xl p-5 md:p-7 rounded-xl
-                       bg-white/[0.025] border border-white/[0.07] relative overflow-hidden"
-          >
-            <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full
-                            bg-gradient-to-b from-[#D4AF37] via-[#C9A84C] to-transparent" />
-            <p className="text-gray-300 font-light text-base md:text-[1.05rem] leading-relaxed pl-4">
-              A maioria das empresas já investiu em sistema, já contratou ferramenta, já tentou organizar
-              com planilha. E o resultado foi sempre o mesmo: tecnologia rodando em cima de um processo
-              que nunca foi estruturado.
-            </p>
-          </motion.div>
-
-          {/* Scroll hint */}
-          <motion.div
-            style={{ opacity: scrollHintOp }}
-            className="mt-10 flex items-center gap-3 text-white/30 text-[10px] uppercase tracking-widest"
-          >
-            <motion.span
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-            >
-              ↓
-            </motion.span>
-            <span>role para continuar</span>
-          </motion.div>
-        </motion.div>
-
-        {/* ══════════════════════════════════════
-            CARDS PHASE
+            CONTENT — heading + cards in one phase
         ══════════════════════════════════════ */}
         <motion.div
           style={{ opacity: cardsGroupOp, y: cardsGroupY }}
