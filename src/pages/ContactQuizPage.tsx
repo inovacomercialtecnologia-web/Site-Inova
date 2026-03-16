@@ -496,8 +496,8 @@ const ContactQuizPage = () => {
     const qualified = ans.status === 'Lead qualificado';
 
     return (
-      <div className="min-h-screen bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden">
-        <div className="fixed inset-0 pointer-events-none">
+      <div className="relative bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden" style={{ minHeight: 'calc(100vh - 80px)' }}>
+        <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] max-w-[640px] max-h-[640px] rounded-full"
                style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%)', filter: 'blur(50px)' }} />
         </div>
@@ -594,11 +594,11 @@ const ContactQuizPage = () => {
 
   // ── Quiz ──────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#080808] text-[#FAFAF8] overflow-x-hidden">
+    <div className="relative bg-[#080808] text-[#FAFAF8] overflow-x-hidden">
       <PageMeta title="Contato" description="Entre em contato com a Inova Systems Solutions. Conte sobre seu projeto e receba uma proposta personalizada." />
 
       {/* ── Ambient background ── */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_110%_60%_at_50%_0%,#0d0a05_0%,#080808_50%)]" />
         <div className="absolute inset-0 opacity-[0.018]"
              style={{ backgroundImage: 'radial-gradient(circle,#C9A84C 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
@@ -619,16 +619,16 @@ const ContactQuizPage = () => {
       <StepProgress current={step} total={TOTAL} />
 
       {/* ── Step counter ── */}
-      <div className="fixed top-[106px] right-6 md:right-12 z-[90] text-[10px] tracking-[0.28em] text-white/20 uppercase select-none">
+      <div className="absolute top-[106px] right-6 md:right-12 z-[90] text-[10px] tracking-[0.28em] text-white/20 uppercase select-none">
         {String(step).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
       </div>
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6 pt-40 pb-24">
+      <div className="relative z-10 flex items-center justify-center px-6 pt-40 pb-24" style={{ minHeight: 'calc(100vh - 80px)' }}>
 
         {/* Watermark number */}
         <div
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none z-0 font-serif tabular-nums"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none z-0 font-serif tabular-nums"
           style={{
             fontSize: 'clamp(80px, 22vw, 340px)',
             color: 'rgba(201,168,76,0.022)',
