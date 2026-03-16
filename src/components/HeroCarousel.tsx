@@ -92,13 +92,13 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
         ))}
       </div>
 
-      {/* Overlays — lighter to let video quality breathe */}
-      <div className="absolute inset-0 bg-black/25 z-[1]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.55)_0%,_transparent_65%)] z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 z-[1]" />
+      {/* Overlays */}
+      <div className="absolute inset-0 bg-black/20 md:bg-black/25 z-[1]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.45)_0%,_transparent_65%)] z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/80 z-[1]" />
 
       {/* Carousel Content */}
-      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-16 md:pt-20 px-4 md:px-0">
+      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-20 md:pt-20 pb-24 md:pb-0 px-5 md:px-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -108,15 +108,15 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center justify-center w-full drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
           >
-            <span className="text-[#C9A84C] text-[10px] md:text-[12px] font-medium uppercase tracking-[0.2em] mb-6 md:mb-10 block drop-shadow-md">
+            <span className="text-[#C9A84C] text-[11px] md:text-[12px] font-semibold uppercase tracking-[0.25em] mb-5 md:mb-10 block drop-shadow-md">
               {slides[currentSlide].supertitle}
             </span>
 
-            <h1 className="text-[clamp(1.8rem,5.5vw,6rem)] font-serif font-light text-white leading-[1.1] md:leading-[1] tracking-tight mb-6 md:mb-10 max-w-[1000px] drop-shadow-xl">
+            <h1 className="text-[clamp(2rem,7vw,6rem)] font-serif font-light text-white leading-[1.08] md:leading-[1] tracking-tight mb-5 md:mb-10 max-w-[1000px] drop-shadow-xl">
               {slides[currentSlide].headline}
             </h1>
 
-            <p className="text-gray-200 text-[14px] md:text-[20px] font-light max-w-2xl mx-auto leading-relaxed tracking-wide drop-shadow-lg">
+            <p className="text-gray-200/90 text-[15px] md:text-[20px] font-light max-w-2xl mx-auto leading-[1.7] tracking-wide drop-shadow-lg">
               {slides[currentSlide].subheadline}
             </p>
           </motion.div>
@@ -124,16 +124,16 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
       </div>
 
       {/* Carousel Controls */}
-      <div className="absolute bottom-6 left-6 md:bottom-8 md:left-12 z-[10] flex items-center gap-6">
-        <div className="flex items-center gap-2">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-8 z-[10] flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-2.5">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-[2px] w-8 md:w-12 rounded-full transition-all duration-300 ${
+              className={`h-[3px] md:h-[2px] rounded-full transition-all duration-300 ${
                 currentSlide === index
-                  ? 'bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]'
-                  : 'bg-white/30 hover:bg-white/50'
+                  ? 'w-10 md:w-12 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]'
+                  : 'w-6 md:w-8 bg-white/30 hover:bg-white/50'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -142,7 +142,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
 
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg"
+          className="w-11 h-11 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg"
           aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
         >
           {isPlaying ? (
