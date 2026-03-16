@@ -60,48 +60,48 @@ export default function ImpactCarousel() {
   const entryCurtain = useTransform(scrollYProgress, [0, 0.03], [1, 0]);
 
   // ─── text phase ──────────────────────────────────────────────────────
-  const textGroupOp = useTransform(scrollYProgress, [0.01, 0.10, 0.25, 0.35], [0, 1, 1, 0]);
-  const textGroupY  = useTransform(scrollYProgress, [0.01, 0.10, 0.25, 0.35], [50, 0, 0, -60]);
+  const textGroupOp = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [0, 1, 1, 0]);
+  const textGroupY  = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [40, 0, 0, -50]);
 
-  const line1Op = useTransform(scrollYProgress, [0.02, 0.12], [0, 1]);
-  const line1X  = useTransform(scrollYProgress, [0.02, 0.12], [-80, 0]);
-  const line2Op = useTransform(scrollYProgress, [0.05, 0.15], [0, 1]);
-  const line2X  = useTransform(scrollYProgress, [0.05, 0.15], [80, 0]);
+  const line1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, [0.02, 0.10], [-60, 0]);
+  const line2Op = useTransform(scrollYProgress, [0.04, 0.12], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, [0.04, 0.12], [60, 0]);
 
-  const paraOp = useTransform(scrollYProgress, [0.10, 0.18], [0, 1]);
-  const paraY  = useTransform(scrollYProgress, [0.10, 0.18], [30, 0]);
+  const paraOp = useTransform(scrollYProgress, [0.08, 0.15], [0, 1]);
+  const paraY  = useTransform(scrollYProgress, [0.08, 0.15], [20, 0]);
 
-  const scrollHintOp = useTransform(scrollYProgress, [0.14, 0.22], [0.45, 0]);
+  const scrollHintOp = useTransform(scrollYProgress, [0.12, 0.20], [0.45, 0]);
 
   // ─── cards phase ─────────────────────────────────────────────────────
-  const cardsGroupOp = useTransform(scrollYProgress, [0.30, 0.38], [0, 1]);
-  const cardsGroupY  = useTransform(scrollYProgress, [0.30, 0.38], [60, 0]);
+  const cardsGroupOp = useTransform(scrollYProgress, [0.25, 0.32], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, [0.25, 0.32], [50, 0]);
 
   // horizontal scroll driven by vertical scroll (reactive to measured distance)
   const rawX = useTransform(
     [scrollYProgress, scrollDistMV] as const,
     ([yP, dist]: number[]) => {
-      const t = Math.max(0, Math.min(1, (yP - 0.38) / (0.86 - 0.38)));
+      const t = Math.max(0, Math.min(1, (yP - 0.32) / (0.84 - 0.32)));
       return -dist * t;
     }
   );
   const isMobile = useIsMobile();
-  const cardsX = useSpring(rawX, { stiffness: isMobile ? 55 : 85, damping: isMobile ? 28 : 24, restDelta: 0.5 });
+  const cardsX = useSpring(rawX, { stiffness: isMobile ? 60 : 90, damping: isMobile ? 26 : 22, restDelta: 0.5 });
 
-  const cardsHintOp = useTransform(scrollYProgress, [0.34, 0.42], [0.45, 0]);
+  const cardsHintOp = useTransform(scrollYProgress, [0.28, 0.36], [0.45, 0]);
 
   // ─── progress line ───────────────────────────────────────────────────
-  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.88], [0, 1]);
+  const lineScaleX = useTransform(scrollYProgress, [0.03, 0.86], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.88, 1.0], [1, 0.96]);
-  const exitOp      = useTransform(scrollYProgress, [0.88, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.88, 1.0], [0, 10]);
+  const exitScale   = useTransform(scrollYProgress, [0.86, 1.0], [1, 0.96]);
+  const exitOp      = useTransform(scrollYProgress, [0.86, 1.0], [1, 0]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.86, 1.0], [0, 10]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.90, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.88, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: '220vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: '150vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
