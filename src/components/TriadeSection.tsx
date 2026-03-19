@@ -68,9 +68,9 @@ export default function TriadeSection() {
     offset: ['start start', 'end end'],
   });
 
-  // ─── Entry / exit curtains ───────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.01], [1, 0]);
-  const exitCurtain  = useTransform(scrollYProgress, [0.93, 1.0], [0, 1]);
+  // ─── Entry / exit curtains (disabled on mobile — previous section handles it) ─
+  const entryCurtain = useTransform(scrollYProgress, [0, 0.01], isMobile ? [0, 0] : [1, 0]);
+  const exitCurtain  = useTransform(scrollYProgress, [0.93, 1.0], isMobile ? [0, 0] : [0, 1]);
 
   // ─── Background rays ─────────────────────────────────────────────────────
   const raysOp = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
@@ -78,11 +78,11 @@ export default function TriadeSection() {
   // ─── Soft gold radial breath ─────────────────────────────────────────────
   const bgPulse = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
 
-  // ─── Header ──────────────────────────────────────────────────────────────
-  const labelOp = useTransform(scrollYProgress, [0.005, 0.04], [0, 1]);
-  const labelY  = useTransform(scrollYProgress, [0.005, 0.04], [20, 0]);
-  const titleOp = useTransform(scrollYProgress, [0.02, 0.07], [0, 1]);
-  const titleSc = useTransform(scrollYProgress, [0.02, 0.07], [0.62, 1]);
+  // ─── Header (mobile: visible immediately) ────────────────────────────────
+  const labelOp = useTransform(scrollYProgress, isMobile ? [0, 0.01] : [0.005, 0.04], [0, 1]);
+  const labelY  = useTransform(scrollYProgress, isMobile ? [0, 0.01] : [0.005, 0.04], [20, 0]);
+  const titleOp = useTransform(scrollYProgress, isMobile ? [0, 0.02] : [0.02, 0.07], [0, 1]);
+  const titleSc = useTransform(scrollYProgress, isMobile ? [0, 0.02] : [0.02, 0.07], [0.62, 1]);
 
   // ─── Progress line ────────────────────────────────────────────────────────
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
@@ -95,12 +95,12 @@ export default function TriadeSection() {
 
   // ════════════════════════════════════════════════════════════════════════
   // CARD 1 — PROCESSO — enters from top-left, tilted on Y axis
-  // On mobile: simplified (no 3D rotation, just fade+slide)
+  // On mobile: simplified (no 3D rotation, just fade+slide), much earlier
   // ════════════════════════════════════════════════════════════════════════
-  const rawC1RotY = useTransform(scrollYProgress, [0.18, 0.32], isMobile ? [0, 0] : [-28, 0]);
-  const rawC1RotX = useTransform(scrollYProgress, [0.18, 0.32], isMobile ? [0, 0] : [-10, 0]);
-  const rawC1X    = useTransform(scrollYProgress, [0.18, 0.32], isMobile ? [-30, 0] : [-80, 0]);
-  const rawC1Op   = useTransform(scrollYProgress, [0.18, 0.30], [0, 1]);
+  const rawC1RotY = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [0, 0] : [-28, 0]);
+  const rawC1RotX = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [0, 0] : [-10, 0]);
+  const rawC1X    = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [-30, 0] : [-80, 0]);
+  const rawC1Op   = useTransform(scrollYProgress, isMobile ? [0.05, 0.15] : [0.18, 0.30], [0, 1]);
 
   const c1RotY = useSpring(rawC1RotY, SNAP);
   const c1RotX = useSpring(rawC1RotX, SNAP);
@@ -109,10 +109,10 @@ export default function TriadeSection() {
   // ════════════════════════════════════════════════════════════════════════
   // CARD 2 — METODOLOGIA — enters from top-right, opposite tilt
   // ════════════════════════════════════════════════════════════════════════
-  const rawC2RotY = useTransform(scrollYProgress, [0.30, 0.44], isMobile ? [0, 0] : [28, 0]);
-  const rawC2RotX = useTransform(scrollYProgress, [0.30, 0.44], isMobile ? [0, 0] : [-10, 0]);
-  const rawC2X    = useTransform(scrollYProgress, [0.30, 0.44], isMobile ? [30, 0] : [80, 0]);
-  const rawC2Op   = useTransform(scrollYProgress, [0.30, 0.42], [0, 1]);
+  const rawC2RotY = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [0, 0] : [28, 0]);
+  const rawC2RotX = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [0, 0] : [-10, 0]);
+  const rawC2X    = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [30, 0] : [80, 0]);
+  const rawC2Op   = useTransform(scrollYProgress, isMobile ? [0.12, 0.22] : [0.30, 0.42], [0, 1]);
 
   const c2RotY = useSpring(rawC2RotY, SNAP);
   const c2RotX = useSpring(rawC2RotX, SNAP);
@@ -121,15 +121,15 @@ export default function TriadeSection() {
   // ════════════════════════════════════════════════════════════════════════
   // CARD 3 — TECNOLOGIA — enters from below, tilted forward (rotateX)
   // ════════════════════════════════════════════════════════════════════════
-  const rawC3RotX = useTransform(scrollYProgress, [0.42, 0.56], isMobile ? [0, 0] : [20, 0]);
-  const rawC3Y    = useTransform(scrollYProgress, [0.42, 0.56], isMobile ? [30, 0] : [80, 0]);
-  const rawC3Op   = useTransform(scrollYProgress, [0.42, 0.53], [0, 1]);
+  const rawC3RotX = useTransform(scrollYProgress, isMobile ? [0.20, 0.33] : [0.42, 0.56], isMobile ? [0, 0] : [20, 0]);
+  const rawC3Y    = useTransform(scrollYProgress, isMobile ? [0.20, 0.33] : [0.42, 0.56], isMobile ? [30, 0] : [80, 0]);
+  const rawC3Op   = useTransform(scrollYProgress, isMobile ? [0.20, 0.30] : [0.42, 0.53], [0, 1]);
 
   const c3RotX = useSpring(rawC3RotX, SNAP);
   const c3Y    = useSpring(rawC3Y,    SNAP);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '100vh' : '300vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '130vh' : '300vh' }} className="relative">
 
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div

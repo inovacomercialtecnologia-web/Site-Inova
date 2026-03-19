@@ -19,7 +19,9 @@ export default function ScrollSection({ children, className = "", isFirst = fals
 
   const opacity = useTransform(
     scrollYProgress,
-    isFirst ? [0, 0.85, 1] : [0, 0.15, 0.85, 1],
+    isFirst
+      ? (isMobile ? [0, 0.93, 1] : [0, 0.85, 1])
+      : [0, 0.15, 0.85, 1],
     isFirst ? [1, 1, 0] : [0, 1, 1, 0]
   );
 

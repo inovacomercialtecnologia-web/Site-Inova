@@ -56,26 +56,34 @@ export default function ImpactCarousel() {
     offset: ['start start', 'end end'],
   });
 
-  // ─── entry curtain ───────────────────────────────────────────────────
-  const entryCurtain = useTransform(scrollYProgress, [0, 0.03], [1, 0]);
+  const isMobile = useIsMobile();
 
-  // ─── text phase ──────────────────────────────────────────────────────
-  const textGroupOp = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [0, 1, 1, 0]);
-  const textGroupY  = useTransform(scrollYProgress, [0.01, 0.08, 0.22, 0.30], [40, 0, 0, -50]);
+  // ─── entry curtain (disabled on mobile — ScrollSection handles transition) ─
+  const entryCurtain = useTransform(scrollYProgress, isMobile ? [0, 0] : [0, 0.03], isMobile ? [0, 0] : [1, 0]);
 
-  const line1Op = useTransform(scrollYProgress, [0.02, 0.10], [0, 1]);
-  const line1X  = useTransform(scrollYProgress, [0.02, 0.10], [-60, 0]);
-  const line2Op = useTransform(scrollYProgress, [0.04, 0.12], [0, 1]);
-  const line2X  = useTransform(scrollYProgress, [0.04, 0.12], [60, 0]);
+  // ─── text phase (mobile: appears immediately, no delay) ────────────────
+  const textGroupOp = useTransform(scrollYProgress,
+    isMobile ? [0, 0.02, 0.18, 0.25] : [0.01, 0.08, 0.22, 0.30],
+    [0, 1, 1, 0]
+  );
+  const textGroupY = useTransform(scrollYProgress,
+    isMobile ? [0, 0.02, 0.18, 0.25] : [0.01, 0.08, 0.22, 0.30],
+    [40, 0, 0, -50]
+  );
 
-  const paraOp = useTransform(scrollYProgress, [0.08, 0.15], [0, 1]);
-  const paraY  = useTransform(scrollYProgress, [0.08, 0.15], [20, 0]);
+  const line1Op = useTransform(scrollYProgress, isMobile ? [0, 0.04] : [0.02, 0.10], [0, 1]);
+  const line1X  = useTransform(scrollYProgress, isMobile ? [0, 0.04] : [0.02, 0.10], [-60, 0]);
+  const line2Op = useTransform(scrollYProgress, isMobile ? [0.01, 0.06] : [0.04, 0.12], [0, 1]);
+  const line2X  = useTransform(scrollYProgress, isMobile ? [0.01, 0.06] : [0.04, 0.12], [60, 0]);
+
+  const paraOp = useTransform(scrollYProgress, isMobile ? [0.03, 0.08] : [0.08, 0.15], [0, 1]);
+  const paraY  = useTransform(scrollYProgress, isMobile ? [0.03, 0.08] : [0.08, 0.15], [20, 0]);
 
   const scrollHintOp = useTransform(scrollYProgress, [0.12, 0.20], [0.45, 0]);
 
-  // ─── cards phase ─────────────────────────────────────────────────────
-  const cardsGroupOp = useTransform(scrollYProgress, [0.25, 0.32], [0, 1]);
-  const cardsGroupY  = useTransform(scrollYProgress, [0.25, 0.32], [50, 0]);
+  // ─── cards phase (mobile: appears earlier) ───────────────────────────
+  const cardsGroupOp = useTransform(scrollYProgress, isMobile ? [0.20, 0.27] : [0.25, 0.32], [0, 1]);
+  const cardsGroupY  = useTransform(scrollYProgress, isMobile ? [0.20, 0.27] : [0.25, 0.32], [50, 0]);
 
   // horizontal scroll driven by vertical scroll (reactive to measured distance)
   const rawX = useTransform(
@@ -85,7 +93,6 @@ export default function ImpactCarousel() {
       return -dist * t;
     }
   );
-  const isMobile = useIsMobile();
   const cardsX = useSpring(rawX, { stiffness: isMobile ? 60 : 90, damping: isMobile ? 26 : 22, restDelta: 0.5 });
 
   const cardsHintOp = useTransform(scrollYProgress, [0.28, 0.36], [0.45, 0]);
@@ -98,7 +105,7 @@ export default function ImpactCarousel() {
   const exitOp      = useTransform(scrollYProgress, [0.96, 1.0], [1, 0]);
   const exitBlurNum = useTransform(scrollYProgress, [0.96, 1.0], isMobile ? [0, 0] : [0, 8]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
-  const exitCurtain = useTransform(scrollYProgress, [0.97, 1.0], [0, 1]);
+  const exitCurtain = useTransform(scrollYProgress, [0.97, 1.0], isMobile ? [0, 0] : [0, 1]);
 
   return (
     <section ref={sectionRef} style={{ height: isMobile ? '160vh' : '400vh' }} className="relative">
