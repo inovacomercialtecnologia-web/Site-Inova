@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight, ArrowLeft, Check, Loader2,
@@ -51,6 +51,8 @@ const REVENUE = ['Até R$20 mil', 'R$20 mil a R$100 mil', 'R$100 mil a R$500 mil
 const B_FULL  = ['Menos de R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.000', 'Acima de R$100.000'];
 const B_AUTO  = ['Menos de R$3.000', 'R$3.000 a R$10.000', 'R$10.000 a R$30.000', 'R$30.000 a R$100.000', 'Acima de R$100.000'];
 
+const STORAGE_KEY = 'inova_quiz_progress';
+
 // Ambient orb per step — sizes clamped for mobile
 const ORB_DATA = [
   { color: 'rgba(201,168,76,0.12)',  x: '70%',  y: '-5%',  desktop: 700, mobile: 350 },
@@ -58,6 +60,7 @@ const ORB_DATA = [
   { color: 'rgba(16,185,129,0.08)', x: '74%',  y: '68%',  desktop: 620, mobile: 320 },
   { color: 'rgba(201,168,76,0.11)', x: '28%',  y: '22%',  desktop: 660, mobile: 340 },
   { color: 'rgba(139,92,246,0.09)', x: '64%',  y: '44%',  desktop: 640, mobile: 330 },
+  { color: 'rgba(201,168,76,0.10)', x: '40%',  y: '30%',  desktop: 680, mobile: 340 },
 ];
 function getOrb(step: number, isMobile: boolean) {
   const d = ORB_DATA[(step - 1) % ORB_DATA.length];
@@ -373,19 +376,61 @@ const sanitizeText = (text: string, maxLen = 200) =>
 
 const ContactQuizPage = () => {
   const isMobileOrb = useIsMobile();
-  const [step, setStep]     = useState(1);
+
+  // ── Restore saved progress from localStorage ──
+  const savedProgress = (() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // Expire after 7 days
+      if (parsed.savedAt && Date.now() - parsed.savedAt > 7 * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return parsed;
+    } catch { return null; }
+  })();
+
+  const [step, setStep]     = useState(savedProgress?.step || 1);
   const [dir,  setDir]      = useState(1);
   const [busy, setBusy]     = useState(false);
   const [done, setDone]     = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [lastSubmit, setLastSubmit] = useState(0);
-  const [ans,  setAns]      = useState<Answers>({
-    servico: [], tamanho: '', faturamento: '', budget: '',
-    status: '', descricao: '', nome: '', empresa: '', whatsapp: '', email: '',
-  });
+  const [resumed, setResumed] = useState(!!savedProgress);
+  const [ans,  setAns]      = useState<Answers>(
+    savedProgress?.ans || {
+      servico: [], tamanho: '', faturamento: '', budget: '',
+      status: '', descricao: '', nome: '', empresa: '', whatsapp: '', email: '',
+    }
+  );
 
-  const TOTAL = 5;
+  const TOTAL = 6;
   const orb   = getOrb(step, isMobileOrb);
+
+  // ── Save progress to localStorage on each step/answer change ──
+  const saveProgress = useCallback((currentStep: number, currentAns: Answers) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        step: currentStep,
+        ans: currentAns,
+        savedAt: Date.now(),
+      }));
+    } catch { /* quota exceeded — ignore */ }
+  }, []);
+
+  useEffect(() => {
+    if (!done) saveProgress(step, ans);
+  }, [step, ans, done, saveProgress]);
+
+  // ── Dismiss resumed banner after 5s ──
+  useEffect(() => {
+    if (resumed) {
+      const t = setTimeout(() => setResumed(false), 5000);
+      return () => clearTimeout(t);
+    }
+  }, [resumed]);
 
   const next = () => { setDir(1);  setStep(p => Math.min(p + 1, TOTAL)); window.scrollTo(0, 0); };
   const back = () => { setDir(-1); setStep(p => Math.max(p - 1, 1));     window.scrollTo(0, 0); };
@@ -423,9 +468,10 @@ const ContactQuizPage = () => {
   const valid = () => {
     if (step === 1) return ans.servico.length > 0;
     if (step === 2) return !!ans.tamanho;
-    if (step === 3) return !!ans.faturamento;
-    if (step === 4) return !!ans.budget;
-    if (step === 5) return !!ans.nome.trim() && !!ans.empresa.trim() && isValidPhone(ans.whatsapp) && isValidEmail(ans.email);
+    if (step === 3) return !!ans.nome.trim() && isValidEmail(ans.email);
+    if (step === 4) return !!ans.faturamento;
+    if (step === 5) return !!ans.budget;
+    if (step === 6) return !!ans.empresa.trim() && isValidPhone(ans.whatsapp);
     return false;
   };
 
@@ -467,6 +513,7 @@ const ContactQuizPage = () => {
         const err = await res.json().catch(() => null);
         throw new Error(err?.error || 'Erro ao enviar');
       }
+      localStorage.removeItem(STORAGE_KEY);
       setDone(true);
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -619,6 +666,22 @@ const ContactQuizPage = () => {
       {/* ── Progress ── */}
       <StepProgress current={step} total={TOTAL} />
 
+      {/* ── Resumed progress banner ── */}
+      <AnimatePresence>
+        {resumed && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed top-[140px] left-1/2 -translate-x-1/2 z-[95] px-5 py-2.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 backdrop-blur-sm"
+          >
+            <p className="text-[11px] text-[#C9A84C] font-light tracking-wide">
+              Retomamos de onde você parou
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── Step counter ── */}
       <div className="absolute top-[106px] right-6 md:right-12 z-[90] text-[10px] tracking-[0.28em] text-white/20 uppercase select-none">
         {String(step).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
@@ -688,9 +751,26 @@ const ContactQuizPage = () => {
               </motion.div>
             )}
 
-            {/* ══ STEP 3: Faturamento ══ */}
+            {/* ══ STEP 3: Nome + E-mail (captura antecipada) ══ */}
             {step === 3 && (
               <motion.div key="s3" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
+                          className="flex flex-col">
+                <Overline label="Para salvarmos seu progresso" />
+                <Question>Qual o seu <em>nome e e-mail?</em></Question>
+                <Sub>Assim conseguimos te identificar e retomar de onde parou, caso precise.</Sub>
+
+                <div className="flex flex-col gap-8 max-w-[480px]">
+                  <FloatingInput id="fNome"  label="Nome completo" value={ans.nome}  onChange={handleInput} />
+                  <FloatingInput id="fEmail" label="E-mail" type="email" value={ans.email} onChange={handleInput} />
+                </div>
+
+                <NavRow onBack={back} onNext={next} disabled={!valid()} />
+              </motion.div>
+            )}
+
+            {/* ══ STEP 4: Faturamento ══ */}
+            {step === 4 && (
+              <motion.div key="s4" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Seu negócio" />
                 <Question>Qual o faturamento <em>mensal aproximado?</em></Question>
@@ -708,9 +788,9 @@ const ContactQuizPage = () => {
               </motion.div>
             )}
 
-            {/* ══ STEP 4: Budget ══ */}
-            {step === 4 && (
-              <motion.div key="s4" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
+            {/* ══ STEP 5: Budget ══ */}
+            {step === 5 && (
+              <motion.div key="s5" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Seu projeto" />
                 <Question>Qual o <em>budget disponível</em> para esse projeto?</Question>
@@ -755,19 +835,17 @@ const ContactQuizPage = () => {
               </motion.div>
             )}
 
-            {/* ══ STEP 5: Contato ══ */}
-            {step === 5 && (
-              <motion.div key="s5" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
+            {/* ══ STEP 6: Empresa + WhatsApp + Resumo + Enviar ══ */}
+            {step === 6 && (
+              <motion.div key="s6" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Quase lá" />
-                <Question>Como podemos <em>te contatar?</em></Question>
+                <Question>Mais alguns <em>detalhes</em> para fecharmos</Question>
                 <Sub>Seus dados são confidenciais e usados apenas para contato da nossa equipe.</Sub>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 md:gap-x-12 gap-y-8 md:gap-y-10 mb-10">
-                  <FloatingInput id="fNome"    label="Nome completo" value={ans.nome}     onChange={handleInput} />
                   <FloatingInput id="fEmpresa" label="Empresa"       value={ans.empresa}  onChange={handleInput} />
                   <FloatingInput id="fWhats"   label="WhatsApp"  type="tel"   value={ans.whatsapp} onChange={handleInput} />
-                  <FloatingInput id="fEmail"   label="E-mail"    type="email" value={ans.email}    onChange={handleInput} />
                 </div>
                 {/* Honeypot anti-bot field — hidden from users */}
                 <input
