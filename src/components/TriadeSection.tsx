@@ -78,11 +78,12 @@ export default function TriadeSection() {
   // ─── Soft gold radial breath ─────────────────────────────────────────────
   const bgPulse = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
 
-  // ─── Header (mobile: visible immediately) ────────────────────────────────
-  const labelOp = useTransform(scrollYProgress, isMobile ? [0, 0.01] : [0.005, 0.04], [0, 1]);
-  const labelY  = useTransform(scrollYProgress, isMobile ? [0, 0.01] : [0.005, 0.04], [20, 0]);
-  const titleOp = useTransform(scrollYProgress, isMobile ? [0, 0.02] : [0.02, 0.07], [0, 1]);
-  const titleSc = useTransform(scrollYProgress, isMobile ? [0, 0.02] : [0.02, 0.07], [0.62, 1]);
+  // ─── Header (mobile: appears early but with readable pace) ───────────────
+  // 220vh → 120vh effective. Each 1% ≈ 10px.
+  const labelOp = useTransform(scrollYProgress, isMobile ? [0.02, 0.06] : [0.005, 0.04], [0, 1]);
+  const labelY  = useTransform(scrollYProgress, isMobile ? [0.02, 0.06] : [0.005, 0.04], [20, 0]);
+  const titleOp = useTransform(scrollYProgress, isMobile ? [0.04, 0.10] : [0.02, 0.07], [0, 1]);
+  const titleSc = useTransform(scrollYProgress, isMobile ? [0.04, 0.10] : [0.02, 0.07], [0.62, 1]);
 
   // ─── Progress line ────────────────────────────────────────────────────────
   const lineScaleX = useTransform(scrollYProgress, [0.04, 0.84], [0, 1]);
@@ -94,42 +95,42 @@ export default function TriadeSection() {
   const exitBlur    = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
 
   // ════════════════════════════════════════════════════════════════════════
-  // CARD 1 — PROCESSO — enters from top-left, tilted on Y axis
-  // On mobile: simplified (no 3D rotation, just fade+slide), much earlier
+  // CARD 1 — PROCESSO — enters from top-left
+  // Mobile 220vh: 120vh effective scroll. Cards spaced 15→55%.
   // ════════════════════════════════════════════════════════════════════════
-  const rawC1RotY = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [0, 0] : [-28, 0]);
-  const rawC1RotX = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [0, 0] : [-10, 0]);
-  const rawC1X    = useTransform(scrollYProgress, isMobile ? [0.05, 0.18] : [0.18, 0.32], isMobile ? [-30, 0] : [-80, 0]);
-  const rawC1Op   = useTransform(scrollYProgress, isMobile ? [0.05, 0.15] : [0.18, 0.30], [0, 1]);
+  const rawC1RotY = useTransform(scrollYProgress, isMobile ? [0.15, 0.28] : [0.18, 0.32], isMobile ? [0, 0] : [-28, 0]);
+  const rawC1RotX = useTransform(scrollYProgress, isMobile ? [0.15, 0.28] : [0.18, 0.32], isMobile ? [0, 0] : [-10, 0]);
+  const rawC1X    = useTransform(scrollYProgress, isMobile ? [0.15, 0.28] : [0.18, 0.32], isMobile ? [-30, 0] : [-80, 0]);
+  const rawC1Op   = useTransform(scrollYProgress, isMobile ? [0.15, 0.25] : [0.18, 0.30], [0, 1]);
 
   const c1RotY = useSpring(rawC1RotY, SNAP);
   const c1RotX = useSpring(rawC1RotX, SNAP);
   const c1X    = useSpring(rawC1X,    SNAP);
 
   // ════════════════════════════════════════════════════════════════════════
-  // CARD 2 — METODOLOGIA — enters from top-right, opposite tilt
+  // CARD 2 — METODOLOGIA — enters from top-right
   // ════════════════════════════════════════════════════════════════════════
-  const rawC2RotY = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [0, 0] : [28, 0]);
-  const rawC2RotX = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [0, 0] : [-10, 0]);
-  const rawC2X    = useTransform(scrollYProgress, isMobile ? [0.12, 0.25] : [0.30, 0.44], isMobile ? [30, 0] : [80, 0]);
-  const rawC2Op   = useTransform(scrollYProgress, isMobile ? [0.12, 0.22] : [0.30, 0.42], [0, 1]);
+  const rawC2RotY = useTransform(scrollYProgress, isMobile ? [0.30, 0.43] : [0.30, 0.44], isMobile ? [0, 0] : [28, 0]);
+  const rawC2RotX = useTransform(scrollYProgress, isMobile ? [0.30, 0.43] : [0.30, 0.44], isMobile ? [0, 0] : [-10, 0]);
+  const rawC2X    = useTransform(scrollYProgress, isMobile ? [0.30, 0.43] : [0.30, 0.44], isMobile ? [30, 0] : [80, 0]);
+  const rawC2Op   = useTransform(scrollYProgress, isMobile ? [0.30, 0.40] : [0.30, 0.42], [0, 1]);
 
   const c2RotY = useSpring(rawC2RotY, SNAP);
   const c2RotX = useSpring(rawC2RotX, SNAP);
   const c2X    = useSpring(rawC2X,    SNAP);
 
   // ════════════════════════════════════════════════════════════════════════
-  // CARD 3 — TECNOLOGIA — enters from below, tilted forward (rotateX)
+  // CARD 3 — TECNOLOGIA — enters from below
   // ════════════════════════════════════════════════════════════════════════
-  const rawC3RotX = useTransform(scrollYProgress, isMobile ? [0.20, 0.33] : [0.42, 0.56], isMobile ? [0, 0] : [20, 0]);
-  const rawC3Y    = useTransform(scrollYProgress, isMobile ? [0.20, 0.33] : [0.42, 0.56], isMobile ? [30, 0] : [80, 0]);
-  const rawC3Op   = useTransform(scrollYProgress, isMobile ? [0.20, 0.30] : [0.42, 0.53], [0, 1]);
+  const rawC3RotX = useTransform(scrollYProgress, isMobile ? [0.45, 0.58] : [0.42, 0.56], isMobile ? [0, 0] : [20, 0]);
+  const rawC3Y    = useTransform(scrollYProgress, isMobile ? [0.45, 0.58] : [0.42, 0.56], isMobile ? [30, 0] : [80, 0]);
+  const rawC3Op   = useTransform(scrollYProgress, isMobile ? [0.45, 0.55] : [0.42, 0.53], [0, 1]);
 
   const c3RotX = useSpring(rawC3RotX, SNAP);
   const c3Y    = useSpring(rawC3Y,    SNAP);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '130vh' : '300vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '220vh' : '300vh' }} className="relative">
 
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div
