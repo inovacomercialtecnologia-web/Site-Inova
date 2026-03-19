@@ -95,7 +95,7 @@ const ProcessMethodologySection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="mt-8 text-gray-500 text-base md:text-lg font-light max-w-2xl leading-relaxed"
+              className="mt-8 text-gray-400 text-base md:text-lg font-light max-w-2xl leading-relaxed"
             >
               Processo estruturado, metodologia aplicada, SaaS desenvolvido para o seu negócio.
             </motion.p>
@@ -269,23 +269,23 @@ const BlueprintCard = ({ step, index, mouseX, mouseY }: any) => {
     >
       <div className="flex justify-between items-start mb-12">
         <div className="flex flex-col">
-          <span className="text-[10px] font-mono text-[#C5A059] font-medium tracking-widest mb-1">
+          <span className="text-[10px] font-mono text-[#C9A84C] font-medium tracking-widest mb-1">
             {step.code}
           </span>
-          <div className="w-8 h-[1px] bg-gray-100 group-hover:w-full group-hover:bg-[#C5A059]/30 transition-all duration-700"></div>
+          <div className="w-8 h-[1px] bg-gray-100 group-hover:w-full group-hover:bg-[#C9A84C]/30 transition-all duration-700"></div>
         </div>
-        <div className="text-[32px] font-light text-gray-100 group-hover:text-[#C5A059]/10 transition-colors duration-500 select-none">
+        <div className="text-[32px] font-light text-gray-100 group-hover:text-[#C9A84C]/10 transition-colors duration-500 select-none">
           {step.id}
         </div>
       </div>
 
       <div className="mb-8">
-        <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#C5A059] group-hover:text-white transition-all duration-500 mb-6">
+        <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#C9A84C] group-hover:text-white transition-all duration-500 mb-6">
           {step.icon}
         </div>
       </div>
 
-      <p className="text-gray-500 text-xs leading-relaxed font-light mb-10">
+      <p className="text-gray-400 text-xs leading-relaxed font-light mb-10">
         {step.description}
       </p>
 
@@ -301,7 +301,7 @@ const BlueprintCard = ({ step, index, mouseX, mouseY }: any) => {
               <div className="pt-4 border-t border-gray-50 space-y-3">
                 {step.details.map((detail: string, i: number) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="w-1 h-1 bg-[#C5A059] rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#C9A84C] rounded-full"></div>
                     <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider">{detail}</span>
                   </div>
                 ))}
@@ -318,10 +318,10 @@ const BlueprintCard = ({ step, index, mouseX, mouseY }: any) => {
         )}
       </div>
 
-      <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-transparent group-hover:border-[#C5A059]/40 transition-colors duration-500"></div>
-      <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-transparent group-hover:border-[#C5A059]/40 transition-colors duration-500"></div>
-      <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-transparent group-hover:border-[#C5A059]/40 transition-colors duration-500"></div>
-      <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-transparent group-hover:border-[#C5A059]/40 transition-colors duration-500"></div>
+      <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-transparent group-hover:border-[#C9A84C]/40 transition-colors duration-500"></div>
+      <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-transparent group-hover:border-[#C9A84C]/40 transition-colors duration-500"></div>
+      <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-transparent group-hover:border-[#C9A84C]/40 transition-colors duration-500"></div>
+      <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-transparent group-hover:border-[#C9A84C]/40 transition-colors duration-500"></div>
     </motion.div>
   );
 };

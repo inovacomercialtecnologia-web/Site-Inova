@@ -156,7 +156,7 @@ export default function Navbar() {
                   key={i}
                   to={link.path}
                   onClick={() => handleLinkClick(link.path)}
-                  className="text-base font-light text-gray-400 hover:text-[#C5A059]"
+                  className="text-base font-light text-gray-400 hover:text-[#C9A84C]"
                 >
                   {link.name}
                 </Link>

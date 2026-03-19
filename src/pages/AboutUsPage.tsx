@@ -89,7 +89,7 @@ const AboutUsPage = () => {
               <p className="text-base md:text-2xl font-light leading-relaxed text-gray-600">
                 A Inova nasceu de uma frustração comum: ver empresas brilhantes presas a sistemas genéricos que engessam a operação em vez de impulsioná-la.
               </p>
-              <p className="text-lg font-light leading-relaxed text-gray-500">
+              <p className="text-lg font-light leading-relaxed text-gray-400">
                 Acreditamos que a tecnologia deve ser o reflexo fiel da estratégia de um negócio. Por isso, somos estrategistas antes de sermos programadores. Mapeamos processos, estruturamos metodologias e só então construímos o código que vai escalar sua visão.
               </p>
               <div className="pt-8 flex flex-wrap gap-6 md:gap-12">
@@ -206,7 +206,7 @@ const AboutUsPage = () => {
                 Estrategistas e <br />
                 <span className="italic font-[400] text-[#C9A84C]">Engenheiros.</span>
               </h2>
-              <p className="text-base font-light leading-relaxed text-gray-500 mb-12">
+              <p className="text-base font-light leading-relaxed text-gray-400 mb-12">
                 Nossa equipe é formada por especialistas que transitam entre o mundo dos negócios e o mundo da tecnologia. Entendemos de balanço patrimonial tanto quanto entendemos de algoritmos de IA.
               </p>
               <div className="space-y-6">

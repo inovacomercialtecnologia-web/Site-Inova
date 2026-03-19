@@ -118,7 +118,7 @@ export default function ImpactCarousel() {
       {/* ── Sticky viewport ── */}
       <motion.div
         style={{ scale: exitScale, opacity: exitOp, filter: exitFilter }}
-        className="sticky top-0 h-screen w-full overflow-hidden bg-[#030303] flex flex-col"
+        className="sticky top-0 h-screen w-full overflow-hidden bg-[#080808] flex flex-col"
       >
         {/* Dot grid */}
         <div

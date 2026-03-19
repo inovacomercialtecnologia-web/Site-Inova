@@ -53,7 +53,7 @@ const CustomCursor = () => {
         x: '-50%',
         y: '-50%',
       }}
-      className={`fixed pointer-events-none hidden md:flex z-[9999] rounded-full border border-[#C9A84C] items-center justify-center mix-blend-difference ${isHovering ? 'bg-[#C9A84C]/10' : 'bg-transparent'}`}
+      className={`fixed pointer-events-none hidden md:flex z-[9998] rounded-full border border-[#C9A84C] items-center justify-center mix-blend-difference ${isHovering ? 'bg-[#C9A84C]/10' : 'bg-transparent'}`}
     >
       <AnimatePresence>
         {isHovering && (

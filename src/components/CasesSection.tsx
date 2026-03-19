@@ -194,7 +194,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
         exit={{ y: 40, opacity: 0, scale: 0.97 }}
         transition={{ duration: 0.5, ease: E }}
         className="w-full md:max-w-3xl max-h-[92vh] md:max-h-[88vh] overflow-y-auto
-                   rounded-t-3xl md:rounded-3xl bg-[#0A0A0C]
+                   rounded-t-3xl md:rounded-3xl bg-[#080808]
                    border border-white/[0.07]
                    shadow-[0_32px_80px_rgba(0,0,0,0.7)]"
         onClick={e => e.stopPropagation()}
@@ -218,7 +218,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* Header content */}
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8
-                          bg-gradient-to-t from-[#0A0A0C] to-transparent">
+                          bg-gradient-to-t from-[#080808] to-transparent">
             <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-2"
               style={{ color: c.accent }}>
               {c.tag} · {c.segment}
@@ -386,7 +386,7 @@ export default function CasesSection() {
 
             <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E, delay: 0.36 }}
-              className="text-gray-500 font-light text-base md:text-lg leading-relaxed mt-8 max-w-xl">
+              className="text-gray-400 font-light text-base md:text-lg leading-relaxed mt-8 max-w-xl">
               Não existe sistema igual. Cada solução nasce do processo real do negócio.
             </motion.p>
           </div>
@@ -465,7 +465,7 @@ export default function CasesSection() {
                       </p>
                     </div>
 
-                    <p className="text-gray-500 text-sm leading-relaxed flex-grow font-light mb-7">
+                    <p className="text-gray-400 text-sm leading-relaxed flex-grow font-light mb-7">
                       {c.description}
                     </p>
 
