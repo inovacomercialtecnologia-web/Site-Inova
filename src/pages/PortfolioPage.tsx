@@ -490,7 +490,7 @@ const PortfolioPage = () => {
       <PageMeta title="Portfólio" description="Cases reais de transformação digital: ERPs, CRMs, dashboards de BI, e-commerce, apps mobile e automações desenvolvidos pela Inova." />
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative pt-28 sm:pt-40 pb-20 sm:pb-32 px-5 sm:px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-20 sm:pb-32 px-5 sm:px-6 overflow-hidden">
         {/* Top accent line */}
         <div
           className="absolute top-0 left-0 right-0 h-px"

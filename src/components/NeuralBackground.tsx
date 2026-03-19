@@ -56,7 +56,13 @@ export default function NeuralBackground({
       });
     }
 
+    let lastFrame = 0;
+
     const drawNeural = () => {
+      const now = performance.now();
+      if (now - lastFrame < 33) { animationFrameId = requestAnimationFrame(drawNeural); return; }
+      lastFrame = now;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Move nodes

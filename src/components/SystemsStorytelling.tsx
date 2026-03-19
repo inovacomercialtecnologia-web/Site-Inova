@@ -443,8 +443,13 @@ function HeadlineCanvas({ scrollYProgress }: { scrollYProgress: any }) {
 
     let animationId: number;
     let scatterFactor = 1;
+    let lastFrame = 0;
 
     const render = () => {
+      const now = performance.now();
+      if (now - lastFrame < 33) { animationId = requestAnimationFrame(render); return; }
+      lastFrame = now;
+
       ctx.clearRect(0, 0, width, height);
       
       const progress = scrollYProgress.get();
@@ -546,9 +551,20 @@ function S3Triangles() {
       });
     }
 
+    let lastFrame = 0;
+    let frameCount = 0;
+    let animationId: number;
+    // Cache sorted distances per dot, only re-sort every 3rd frame
+    const cachedNearest: { index: number, dist: number }[][] = new Array(numDots);
+
     const render = () => {
+      const now = performance.now();
+      if (now - lastFrame < 33) { animationId = requestAnimationFrame(render); return; }
+      lastFrame = now;
+      frameCount++;
+
       ctx.clearRect(0, 0, width, height);
-      
+
       // Draw dots
       ctx.fillStyle = '#c9a84c';
       dots.forEach(dot => {
@@ -562,17 +578,20 @@ function S3Triangles() {
       ctx.lineWidth = 0.8;
 
       dots.forEach((dot, i) => {
-        // Find 2 nearest neighbors
-        const distances = dots.map((d, index) => {
-          if (index === i) return { index, dist: Infinity };
-          const dx = d.x - dot.x;
-          const dy = d.y - dot.y;
-          return { index, dist: Math.sqrt(dx * dx + dy * dy) };
-        });
+        // Only re-sort every 3rd frame to save CPU
+        if (frameCount % 3 === 1 || !cachedNearest[i]) {
+          const distances = dots.map((d, index) => {
+            if (index === i) return { index, dist: Infinity };
+            const dx = d.x - dot.x;
+            const dy = d.y - dot.y;
+            return { index, dist: Math.sqrt(dx * dx + dy * dy) };
+          });
 
-        distances.sort((a, b) => a.dist - b.dist);
-        
-        const nearest = distances.slice(0, 2);
+          distances.sort((a, b) => a.dist - b.dist);
+          cachedNearest[i] = distances.slice(0, 2);
+        }
+
+        const nearest = cachedNearest[i];
         nearest.forEach(n => {
           const neighbor = dots[n.index];
           ctx.beginPath();
@@ -581,12 +600,15 @@ function S3Triangles() {
           ctx.stroke();
         });
       });
+
+      animationId = requestAnimationFrame(render);
     };
 
     render();
 
     return () => {
       window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationId);
     };
   }, []);
 

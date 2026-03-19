@@ -98,7 +98,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/80 z-[1]" />
 
       {/* Carousel Content */}
-      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-20 md:pt-20 pb-24 md:pb-0 px-5 md:px-0">
+      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-20 md:pt-20 pb-16 md:pb-0 px-5 md:px-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}

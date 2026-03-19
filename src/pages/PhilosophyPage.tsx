@@ -224,6 +224,14 @@ const PhilosophyPage = () => {
         .nfhero-side--left { left: 20px; top: 50%; transform: translateX(-50%) translateY(-50%) rotate(-90deg); transform-origin: center; }
         .nfhero-side--right { right: 20px; top: 50%; transform: translateX(50%) translateY(-50%) rotate(90deg); transform-origin: center; }
 
+        @media (max-width: 768px) {
+          .nfhero-section {
+            min-height: auto;
+            padding-top: 100px;
+            padding-bottom: 60px;
+          }
+        }
+
         @media (max-width: 640px) {
           .nfhero-hline { left: 20px; right: 20px; }
           .nfhero-hline--top { top: 60px; }

@@ -223,6 +223,13 @@ const MissionPage = () => {
           justify-content: center;
           overflow: hidden;
         }
+        @media (max-width: 768px) {
+          .nmhero-section {
+            min-height: auto;
+            padding-top: 100px;
+            padding-bottom: 60px;
+          }
+        }
 
         /* Dotted grid canvas */
         .nmhero-grid-canvas {

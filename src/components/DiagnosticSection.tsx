@@ -80,7 +80,7 @@ export default function DiagnosticSection() {
       <div className="max-w-[1300px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-14 md:mb-48">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ export default function DiagnosticSection() {
         </div>
 
         {/* Topics with Unified Connected Backgrounds */}
-        <div className="flex flex-col gap-10 md:gap-40 relative">
+        <div className="flex flex-col gap-8 md:gap-24 relative">
           {/* Vertical connection line */}
           <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-[#C9A84C]/30 to-transparent -translate-x-1/2 hidden lg:block"></div>
           

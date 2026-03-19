@@ -47,7 +47,7 @@ export default function ParticleHeroSection() {
       canvas.height = ch * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      let numParticles = cw < 480 ? 100 : cw < 768 ? 180 : cw < 1024 ? 600 : 800;
+      let numParticles = cw < 480 ? 40 : cw < 768 ? 80 : cw < 1024 ? 600 : 800;
       particles = [];
 
       for (let i = 0; i < numParticles; i++) {
@@ -157,7 +157,8 @@ export default function ParticleHeroSection() {
       ctx.lineWidth = 0.5;
       ctx.strokeStyle = `rgba(201, 168, 76, ${lineOpacity})`;
 
-      const maxConnect = Math.min(200, particles.length);
+      const isMobile = cw < 768;
+      const maxConnect = Math.min(isMobile ? 60 : 200, particles.length);
       for (let i = 0; i < maxConnect; i++) {
         for (let j = i + 1; j < maxConnect; j++) {
           const dx = currentPositions[i].x - currentPositions[j].x;

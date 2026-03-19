@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 interface ScrollSectionProps {
   children: React.ReactNode;
@@ -9,15 +10,12 @@ interface ScrollSectionProps {
 
 export default function ScrollSection({ children, className = "", isFirst = false }: ScrollSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const isMobile = useIsMobile();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
-
-  // Entrance (0 -> 0.3): Fade in + Scale up slightly
-  // Middle (0.3 -> 0.7): Stable
-  // Exit (0.7 -> 1.0): Disruptive (Scale up aggressively, Blur, Rotate, Fade out)
 
   const opacity = useTransform(
     scrollYProgress,
@@ -28,25 +26,26 @@ export default function ScrollSection({ children, className = "", isFirst = fals
   const scale = useTransform(
     scrollYProgress,
     isFirst ? [0, 0.85, 1] : [0, 0.15, 0.85, 1],
-    isFirst ? [1, 1, 1.3] : [0.85, 1, 1, 1.3]
+    isFirst ? [1, 1, isMobile ? 1.05 : 1.3] : [0.85, 1, 1, isMobile ? 1.05 : 1.3]
   );
 
+  // Disable blur and rotation on mobile — GPU intensive
   const filter = useTransform(
     scrollYProgress,
     [0.85, 1],
-    ["blur(0px)", "blur(10px)"]
+    isMobile ? ["blur(0px)", "blur(0px)"] : ["blur(0px)", "blur(10px)"]
   );
 
   const rotate = useTransform(
     scrollYProgress,
     [0.85, 1],
-    [0, -1.5]
+    isMobile ? [0, 0] : [0, -1.5]
   );
 
   return (
     <motion.div
       ref={containerRef}
-      style={{ opacity, scale, filter, rotate }}
+      style={{ opacity, scale, filter: isMobile ? undefined : filter, rotate: isMobile ? undefined : rotate }}
       className={`w-full ${className}`}
     >
       {children}

@@ -94,14 +94,14 @@ export default function ImpactCarousel() {
   const lineScaleX = useTransform(scrollYProgress, [0.03, 0.96], [0, 1]);
 
   // ─── exit ─────────────────────────────────────────────────────────────
-  const exitScale   = useTransform(scrollYProgress, [0.96, 1.0], [1, 0.97]);
+  const exitScale   = useTransform(scrollYProgress, [0.96, 1.0], [1, isMobile ? 0.99 : 0.97]);
   const exitOp      = useTransform(scrollYProgress, [0.96, 1.0], [1, 0]);
-  const exitBlurNum = useTransform(scrollYProgress, [0.96, 1.0], [0, 8]);
+  const exitBlurNum = useTransform(scrollYProgress, [0.96, 1.0], isMobile ? [0, 0] : [0, 8]);
   const exitFilter  = useTransform(exitBlurNum, (v: number) => `blur(${v}px)`);
   const exitCurtain = useTransform(scrollYProgress, [0.97, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: '400vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '200vh' : '400vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div

@@ -544,7 +544,7 @@ const ContactQuizPage = () => {
     const qualified = ans.status === 'Lead qualificado';
 
     return (
-      <div className="relative bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden" style={{ minHeight: 'calc(100vh - 80px)' }}>
+      <div className="relative bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden" style={{ minHeight: 'calc(100dvh - 80px)' }}>
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] max-w-[640px] max-h-[640px] rounded-full"
                style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%)', filter: 'blur(50px)' }} />
@@ -688,7 +688,7 @@ const ContactQuizPage = () => {
       </div>
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex items-center justify-center px-6 pt-40 pb-24" style={{ minHeight: 'calc(100vh - 80px)' }}>
+      <div className="relative z-10 flex items-center justify-center px-6 pt-40 pb-24" style={{ minHeight: 'calc(100dvh - 80px)' }}>
 
         {/* Watermark number */}
         <div

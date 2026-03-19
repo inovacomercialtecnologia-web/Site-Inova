@@ -23,7 +23,7 @@ const AboutUsPage = () => {
       <PageMeta title="Quem Somos" description="Estrategistas e engenheiros transformando negócios B2B com tecnologia de alta performance. Conheça a equipe Inova Systems Solutions." />
 
       {/* HERO SECTION - Editorial Style */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-24 pt-24 pb-12">
+      <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-24 pt-24 pb-12">
         {/* Background Elements */}
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,_#1c160a_0%,_#080808_70%)]" />
         <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
@@ -63,7 +63,7 @@ const AboutUsPage = () => {
 
       {/* MANIFESTO SECTION */}
       <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-white text-[#080808] relative overflow-hidden">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-16 items-center">
           <div className="lg:col-span-5">
             <motion.div
               initial="hidden"
@@ -258,7 +258,7 @@ const AboutUsPage = () => {
       </section>
 
       {/* CTA SECTION */}
-      <section className="py-20 md:py-44 px-6 text-center relative overflow-hidden bg-[#080808]">
+      <section className="py-12 md:py-44 px-6 text-center relative overflow-hidden bg-[#080808]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[400px] bg-[radial-gradient(circle,_rgba(201,168,76,0.05)_0%,_transparent_70%)] pointer-events-none" />
         <motion.div 
           initial="hidden"

@@ -24,7 +24,7 @@ export default function ProcessTechSection() {
 
     let animationFrameId: number;
     const isMobileDevice = window.innerWidth < 768;
-    const particleCount = isMobileDevice ? 400 : 1800;
+    const particleCount = isMobileDevice ? 150 : 800;
     const particles: Particle[] = [];
     let mouse = { x: -1000, y: -1000 };
 
