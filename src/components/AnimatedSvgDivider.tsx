@@ -64,14 +64,14 @@ export default function AnimatedSvgDivider() {
   }, [isMobile]);
 
   return (
-    <div className="relative w-full h-[80px] md:h-[140px] bg-transparent overflow-hidden block m-0 p-0">
+    <div className="relative w-full h-[40px] md:h-[140px] bg-transparent overflow-hidden block m-0 p-0">
       {/* Top gradient blending into black hero */}
       <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
       
       {/* Bottom gradient blending into white SaaS section */}
       <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-b from-transparent to-[#ffffff] z-10 pointer-events-none" />
 
-      <svg className="w-full h-full block" style={{ minHeight: isMobile ? '80px' : '140px' }}>
+      <svg className="w-full h-full block" style={{ minHeight: isMobile ? '40px' : '140px' }}>
         {edges.map((edge, i) => {
           const source = nodes[edge.source];
           const target = nodes[edge.target];

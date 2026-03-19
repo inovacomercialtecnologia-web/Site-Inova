@@ -109,7 +109,7 @@ export default function WebAppsHero() {
   };
 
   return (
-    <section className="min-h-screen w-full bg-[#0a0a0a] flex items-center relative overflow-hidden">
+    <section className="min-h-[70vh] md:min-h-screen w-full bg-[#0a0a0a] flex items-center relative overflow-hidden">
       
       {/* Abstract Geometric Blueprint Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">

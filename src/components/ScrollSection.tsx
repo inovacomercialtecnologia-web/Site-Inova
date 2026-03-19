@@ -26,7 +26,7 @@ export default function ScrollSection({ children, className = "", isFirst = fals
   const scale = useTransform(
     scrollYProgress,
     isFirst ? [0, 0.85, 1] : [0, 0.15, 0.85, 1],
-    isFirst ? [1, 1, isMobile ? 1.05 : 1.3] : [0.85, 1, 1, isMobile ? 1.05 : 1.3]
+    isFirst ? [1, 1, isMobile ? 1.0 : 1.3] : [isMobile ? 0.98 : 0.85, 1, 1, isMobile ? 1.0 : 1.3]
   );
 
   // Disable blur and rotation on mobile — GPU intensive

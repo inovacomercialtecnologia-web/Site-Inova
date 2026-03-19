@@ -60,7 +60,8 @@ export default function NeuralBackground({
 
     const drawNeural = () => {
       const now = performance.now();
-      if (now - lastFrame < 33) { animationFrameId = requestAnimationFrame(drawNeural); return; }
+      const frameInterval = isMobile ? 50 : 33; // ~20fps mobile, ~30fps desktop
+      if (now - lastFrame < frameInterval) { animationFrameId = requestAnimationFrame(drawNeural); return; }
       lastFrame = now;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);

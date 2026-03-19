@@ -21,7 +21,7 @@ const metrics = [
 
 const MetricsSection = () => {
   return (
-    <section className="relative min-h-[500px] md:h-[650px] w-full overflow-hidden flex items-center justify-center bg-[#000000] py-20 md:py-0">
+    <section className="relative min-h-0 md:h-[650px] w-full overflow-hidden flex items-center justify-center bg-[#000000] py-12 md:py-0">
       {/* Background Image with Parallax-like feel */}
       <div className="absolute inset-0 z-0">
         <img

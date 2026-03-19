@@ -47,7 +47,7 @@ export default function ParticleHeroSection() {
       canvas.height = ch * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      let numParticles = cw < 480 ? 40 : cw < 768 ? 80 : cw < 1024 ? 600 : 800;
+      let numParticles = cw < 480 ? 25 : cw < 768 ? 50 : cw < 1024 ? 600 : 800;
       particles = [];
 
       for (let i = 0; i < numParticles; i++) {
@@ -178,7 +178,7 @@ export default function ParticleHeroSection() {
   }, [scrollYProgress]);
 
   return (
-    <section ref={sectionRef} className="relative h-[200vh] md:h-[300vh] bg-[#000000] w-full z-30">
+    <section ref={sectionRef} className="relative h-[150vh] md:h-[300vh] bg-[#000000] w-full z-30">
       <canvas ref={canvasRef} className="sticky top-0 left-0 w-full h-screen pointer-events-none z-0" style={{ willChange: 'transform' }} />
       <div className="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none z-10 -mt-[100vh]">
         <motion.div style={{ opacity: text1Opacity, y: text1Y }} className="absolute text-center px-6 md:px-24 lg:px-32 xl:px-48 w-full max-w-5xl">

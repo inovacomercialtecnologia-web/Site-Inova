@@ -64,7 +64,7 @@ const ProcessMethodologySection = () => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative min-h-screen bg-[#FFFFFF] overflow-hidden py-24 md:py-32 cursor-none"
+      className="relative min-h-0 md:min-h-screen bg-[#FFFFFF] overflow-hidden py-12 md:py-32 cursor-none"
     >
       {/* 1. TECHNICAL DOT GRID BACKGROUND */}
       <TechnicalGrid mouseX={springX} mouseY={springY} />
@@ -74,7 +74,7 @@ const ProcessMethodologySection = () => {
         className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10"
       >
         {/* HEADER SECTION */}
-        <div className="mb-16 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12">
+        <div className="mb-10 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12">
           <div className="max-w-3xl">
             <motion.div
               initial={{ opacity: 0, y: 10 }}

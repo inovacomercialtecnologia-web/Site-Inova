@@ -77,7 +77,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
               zIndex: currentSlide === index ? 1 : 0,
             }}
           >
-            <div className="absolute top-1/2 left-1/2 w-[200%] h-[200%] md:w-[300%] md:h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 w-[180%] h-[180%] md:w-[300%] md:h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
               <iframe
                 className="w-full h-full pointer-events-none"
                 src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}

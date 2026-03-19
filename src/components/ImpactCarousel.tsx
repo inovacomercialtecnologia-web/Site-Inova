@@ -101,7 +101,7 @@ export default function ImpactCarousel() {
   const exitCurtain = useTransform(scrollYProgress, [0.97, 1.0], [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '200vh' : '400vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '160vh' : '400vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
