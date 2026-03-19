@@ -122,15 +122,18 @@ if (!preg_match('/^[\d\s()+\-]{8,20}$/', trim($data['whatsapp']))) {
     exit;
 }
 
-// ── Load Google Sheets URL ──────────────────────────────────────────────────
+// ── Load ERP config ─────────────────────────────────────────────────────────
 $configFile = __DIR__ . '/config.local.php';
 if (file_exists($configFile)) {
-    $sheetsUrl = require $configFile;
+    $erpConfig = require $configFile;
+    $erpUrl = $erpConfig['erp_url'] ?? '';
+    $erpKey = $erpConfig['erp_key'] ?? '';
 } else {
-    $sheetsUrl = getenv('SHEETS_URL') ?: '';
+    $erpUrl = getenv('ERP_API_URL') ?: '';
+    $erpKey = getenv('ERP_API_KEY') ?: '';
 }
 
-if (empty($sheetsUrl)) {
+if (empty($erpUrl) || empty($erpKey)) {
     http_response_code(500);
     echo json_encode(['error' => 'Server misconfigured']);
     exit;
@@ -154,14 +157,17 @@ $payload = json_encode([
     'email'       => $sanitize($data['email'] ?? '', 120),
 ]);
 
-// ── Forward to Google Sheets via cURL ───────────────────────────────────────
-$ch = curl_init($sheetsUrl);
+// ── Forward to ERP via cURL ─────────────────────────────────────────────────
+$erpEndpoint = rtrim($erpUrl, '/') . '/api/v1/sales/website-lead/';
+$ch = curl_init($erpEndpoint);
 curl_setopt_array($ch, [
     CURLOPT_POST           => true,
     CURLOPT_POSTFIELDS     => $payload,
-    CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+    CURLOPT_HTTPHEADER     => [
+        'Content-Type: application/json',
+        'X-API-Key: ' . $erpKey,
+    ],
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_TIMEOUT        => 15,
 ]);
 $response = curl_exec($ch);

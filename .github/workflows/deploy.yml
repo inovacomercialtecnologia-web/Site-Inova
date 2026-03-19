@@ -24,9 +24,14 @@ jobs:
       - name: Build do projeto
         run: npm run build
 
-      - name: Create config.local.php with Sheets URL
+      - name: Create config.local.php with ERP credentials
         run: |
-          echo "<?php return '${{ secrets.SHEETS_URL }}';" > dist/api/config.local.php
+          cat > dist/api/config.local.php <<EOF
+          <?php return [
+              'erp_url' => '${{ secrets.ERP_API_URL }}',
+              'erp_key' => '${{ secrets.ERP_API_KEY }}',
+          ];
+          EOF
 
       - name: Setup SSH
         run: |
