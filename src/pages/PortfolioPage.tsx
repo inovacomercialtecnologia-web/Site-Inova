@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PageMeta from '../components/PageMeta';
+import CTABanner from '../components/CTABanner';
 import {
   ArrowRight, X,
   BarChart3, Users, TrendingUp, ShoppingBag, LayoutDashboard, BookOpen, Building2,
@@ -606,6 +607,12 @@ const PortfolioPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <CTABanner
+        headline="Quer resultados como esses?"
+        description="Cada projeto no nosso portfólio começou com uma conversa. Conte-nos seu desafio e vamos desenhar a solução ideal para o seu negócio."
+        buttonText="Falar com especialista"
+      />
 
     </div>
   );

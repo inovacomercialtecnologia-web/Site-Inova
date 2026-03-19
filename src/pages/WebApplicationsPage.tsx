@@ -7,6 +7,7 @@ import SaaSSection from '../components/SaaSSection';
 import AnimatedSvgDivider from '../components/AnimatedSvgDivider';
 import SystemsStorytelling from '../components/SystemsStorytelling';
 import PageMeta from '../components/PageMeta';
+import CTABanner from '../components/CTABanner';
 
 const WebApplicationsPage = () => {
   useEffect(() => {
@@ -321,6 +322,12 @@ const WebApplicationsPage = () => {
           </div>
         </div>
       </section>
+
+      <CTABanner
+        headline="Pronto para sua aplicação web sob medida?"
+        description="Da concepção ao deploy — criamos sistemas web que resolvem problemas reais e escalam com o seu negócio."
+        buttonText="Solicitar proposta"
+      />
     </div>
   );
 };

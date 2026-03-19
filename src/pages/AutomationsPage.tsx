@@ -1,5 +1,6 @@
 import React from 'react';
 import PageMeta from '../components/PageMeta';
+import CTABanner from '../components/CTABanner';
 
 const AutomationsPage = () => {
   React.useEffect(() => {
@@ -723,6 +724,12 @@ const AutomationsPage = () => {
           }
         }
       `}</style>
+
+      <CTABanner
+        headline="Automatize o que trava sua operação"
+        description="Integrações, fluxos automáticos e APIs sob medida — elimine o retrabalho e ganhe escala sem aumentar equipe."
+        buttonText="Quero automatizar"
+      />
     </div>
   );
 };

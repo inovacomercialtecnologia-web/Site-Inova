@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Clock, User, Search, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import CTABanner from '../components/CTABanner';
 
 const blogPosts = [
   {
@@ -229,6 +230,12 @@ const BlogPage = () => {
           </motion.div>
         </div>
       </section>
+
+      <CTABanner
+        headline="Quer aplicar essas ideias no seu negócio?"
+        description="Nosso time transforma insights em soluções reais. Fale com a gente e descubra como acelerar sua operação."
+        buttonText="Falar com a Inova"
+      />
 
     </div>
   );

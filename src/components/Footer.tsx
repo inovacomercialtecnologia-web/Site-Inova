@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Instagram, Facebook, Twitter, Mail } from 'lucide-react';
+import { Linkedin, Instagram, Facebook, Twitter, Mail, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { Logo } from './Logo';
 
 const footerData = {
@@ -47,10 +47,77 @@ const footerData = {
 };
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [nlState, setNlState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleNewsletter = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    setNlState('loading');
+    try {
+      // Store newsletter signup — uses the same contact endpoint with a special flag
+      const res = await fetch('/api/contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newsletter: true, email }),
+      });
+      if (res.ok) {
+        setNlState('success');
+        setEmail('');
+      } else {
+        setNlState('error');
+      }
+    } catch {
+      setNlState('error');
+    }
+    setTimeout(() => setNlState('idle'), 4000);
+  };
+
   return (
     <footer className="bg-black border-t border-white/10 py-16 font-sans">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        
+
+        {/* Newsletter Section */}
+        <div className="border-b border-white/[0.06] pb-12 mb-12">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-md">
+              <h4 className="uppercase tracking-[0.15em] text-xs font-medium bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent mb-2">
+                Newsletter
+              </h4>
+              <p className="text-sm text-gray-400 font-light leading-relaxed">
+                Receba insights sobre transformação digital, cases de sucesso e tendências de tecnologia para o mercado B2B.
+              </p>
+            </div>
+            <form onSubmit={handleNewsletter} className="flex items-center gap-3 w-full md:w-auto">
+              <div className="relative flex-1 md:w-72">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seu@email.com"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-gray-500 font-light focus:outline-none focus:border-[#C9A84C]/40 transition-colors"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={nlState === 'loading' || nlState === 'success'}
+                className="shrink-0 bg-[#C9A84C] text-[#080808] w-11 h-11 rounded-full flex items-center justify-center hover:bg-[#E8C97A] transition-all disabled:opacity-60"
+                aria-label="Inscrever na newsletter"
+              >
+                {nlState === 'loading' ? <Loader2 size={16} className="animate-spin" /> :
+                 nlState === 'success' ? <CheckCircle2 size={16} /> :
+                 <ArrowRight size={16} />}
+              </button>
+            </form>
+            {nlState === 'success' && (
+              <span className="text-xs text-emerald-400 font-light md:absolute md:mt-1">Inscrito com sucesso!</span>
+            )}
+            {nlState === 'error' && (
+              <span className="text-xs text-red-400 font-light">Erro ao inscrever. Tente novamente.</span>
+            )}
+          </div>
+        </div>
+
         {/* Main Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           

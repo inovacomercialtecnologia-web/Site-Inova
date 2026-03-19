@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import CTABanner from '../components/CTABanner';
 
 const MobileApplicationsPage = () => {
   React.useEffect(() => {
@@ -987,6 +988,12 @@ const MobileApplicationsPage = () => {
           }
         `}</style>
       </section>
+
+      <CTABanner
+        headline="Seu aplicativo mobile começa aqui"
+        description="Apps nativos e multiplataforma que entregam performance e experiência — do protótipo à publicação nas lojas."
+        buttonText="Iniciar meu projeto"
+      />
     </div>
   );
 };
