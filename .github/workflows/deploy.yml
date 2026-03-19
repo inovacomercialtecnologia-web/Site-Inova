@@ -23,15 +23,29 @@ jobs:
 
       - name: Build do projeto
         run: npm run build
+        env:
+          VITE_TOKEN_SECRET: ${{ secrets.CONTACT_TOKEN_SECRET }}
 
-      - name: Create config.local.php with ERP credentials
+      - name: Validate required secrets
+        run: |
+          if [ -z "${{ secrets.ERP_API_URL }}" ] || [ -z "${{ secrets.ERP_API_KEY }}" ] || [ -z "${{ secrets.CONTACT_TOKEN_SECRET }}" ]; then
+            echo "::error::Missing required secrets (ERP_API_URL, ERP_API_KEY, or CONTACT_TOKEN_SECRET)"
+            exit 1
+          fi
+
+      - name: Create config.local.php with credentials
         run: |
           cat > dist/api/config.local.php <<EOF
           <?php return [
               'erp_url' => '${{ secrets.ERP_API_URL }}',
               'erp_key' => '${{ secrets.ERP_API_KEY }}',
+              'token_secret' => '${{ secrets.CONTACT_TOKEN_SECRET }}',
           ];
           EOF
+          chmod 600 dist/api/config.local.php
+
+      - name: Remove source maps from build
+        run: find dist -name '*.map' -delete 2>/dev/null || true
 
       - name: Setup SSH
         run: |
@@ -39,15 +53,11 @@ jobs:
           echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null || true
-          echo -e "Host 147.93.37.106\n  StrictHostKeyChecking no\n  UserKnownHostsFile /dev/null" >> ~/.ssh/config
-
-      - name: Clean old public_html
-        run: |
-          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf /home/u257882461/public_html/*"
+          echo -e "Host 147.93.37.106\n  StrictHostKeyChecking accept-new" >> ~/.ssh/config
 
       - name: Deploy via SSH
         run: |
           REMOTE_DIR="/home/u257882461/domains/inovasystemssolutions.com/public_html"
           ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "rm -rf ${REMOTE_DIR}/*"
           scp -i ~/.ssh/deploy_key -P 65002 -r dist/* u257882461@147.93.37.106:${REMOTE_DIR}/
-          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "ls ${REMOTE_DIR}/"
+          ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106 "chmod 600 ${REMOTE_DIR}/api/config.local.php && test -f ${REMOTE_DIR}/index.html && echo 'Deploy verified'"

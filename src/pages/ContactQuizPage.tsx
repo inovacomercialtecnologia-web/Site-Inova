@@ -10,7 +10,7 @@ import { useIsMobile } from '../hooks/useIsMobile';
 import PageMeta from '../components/PageMeta';
 
 const CONTACT_API = '/api/contact.php';
-const TOKEN_SECRET = 'inova-contact-2024-hmac-key';
+const TOKEN_SECRET = import.meta.env.VITE_TOKEN_SECRET || 'dev-only-token-secret';
 
 async function generateToken(): Promise<string> {
   const ts = Math.floor(Date.now() / 1000).toString();
@@ -454,6 +454,7 @@ const ContactQuizPage = () => {
         empresa: ans.empresa.trim(),
         whatsapp: ans.whatsapp.trim(),
         email: ans.email.trim(),
+        website_url: honeypot,
       };
       const token = await generateToken();
       const res = await fetch(CONTACT_API, {
