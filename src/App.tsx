@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import SocialSidebar from './components/SocialSidebar';
+import AntiInspect from './components/AntiInspect';
 import Footer from './components/Footer';
 import DiagnosticDetailPage from './pages/DiagnosticDetail';
 import MissionPage from './pages/MissionPage';
@@ -26,6 +27,7 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
+      <AntiInspect />
       <Navbar />
       <SocialSidebar />
       <ErrorBoundary>

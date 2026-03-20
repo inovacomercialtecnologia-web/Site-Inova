@@ -59,6 +59,16 @@ body {
   .bg-grid-dark { background-size: 60px 60px; }
 }
 
+/* Prevent text selection on content — keep enabled on inputs/forms */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input, textarea, select, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 /* Accessibility: respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
