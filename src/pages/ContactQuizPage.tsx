@@ -27,9 +27,9 @@ async function generateToken(): Promise<string> {
 
 interface CardOpt { label: string; desc: string; Icon: React.ElementType; wide?: boolean; }
 interface Answers {
+  nome: string; cargo: string; whatsapp: string; email: string;
   servico: string[]; tamanho: string; faturamento: string; budget: string;
-  status: string; descricao: string; nome: string; empresa: string;
-  whatsapp: string; email: string;
+  status: string; descricao: string; empresa: string;
 }
 
 const SERVICES: CardOpt[] = [
@@ -401,8 +401,9 @@ const ContactQuizPage = () => {
   const [resumed, setResumed] = useState(!!savedProgress);
   const [ans,  setAns]      = useState<Answers>(
     savedProgress?.ans || {
+      nome: '', cargo: '', whatsapp: '', email: '',
       servico: [], tamanho: '', faturamento: '', budget: '',
-      status: '', descricao: '', nome: '', empresa: '', whatsapp: '', email: '',
+      status: '', descricao: '', empresa: '',
     }
   );
 
@@ -450,11 +451,11 @@ const ContactQuizPage = () => {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const map: Record<string, keyof Answers> = {
-      fNome: 'nome', fEmpresa: 'empresa', fWhats: 'whatsapp', fEmail: 'email', outDesc: 'descricao',
+      fNome: 'nome', fCargo: 'cargo', fWhats: 'whatsapp', fEmail: 'email', fEmpresa: 'empresa', outDesc: 'descricao',
     };
     const field = map[e.target.id];
     if (!field) return;
-    const maxLens: Partial<Record<keyof Answers, number>> = { nome: 100, empresa: 100, whatsapp: 20, email: 120, descricao: 500 };
+    const maxLens: Partial<Record<keyof Answers, number>> = { nome: 100, cargo: 100, empresa: 100, whatsapp: 20, email: 120, descricao: 500 };
     const val = sanitizeText(e.target.value, maxLens[field] ?? 200);
     setAns(p => ({ ...p, [field]: val }));
   };
@@ -466,12 +467,12 @@ const ContactQuizPage = () => {
   };
 
   const valid = () => {
-    if (step === 1) return ans.servico.length > 0;
-    if (step === 2) return !!ans.tamanho;
-    if (step === 3) return !!ans.nome.trim() && isValidEmail(ans.email);
+    if (step === 1) return !!ans.nome.trim() && !!ans.cargo.trim() && isValidPhone(ans.whatsapp) && isValidEmail(ans.email);
+    if (step === 2) return ans.servico.length > 0;
+    if (step === 3) return !!ans.tamanho;
     if (step === 4) return !!ans.faturamento;
     if (step === 5) return !!ans.budget;
-    if (step === 6) return !!ans.empresa.trim() && isValidPhone(ans.whatsapp);
+    if (step === 6) return !!ans.empresa.trim();
     return false;
   };
 
@@ -497,6 +498,7 @@ const ContactQuizPage = () => {
         ...ans,
         servico: ans.servico.join(', '),
         nome: ans.nome.trim(),
+        cargo: ans.cargo.trim(),
         empresa: ans.empresa.trim(),
         whatsapp: ans.whatsapp.trim(),
         email: ans.email.trim(),
@@ -706,11 +708,30 @@ const ContactQuizPage = () => {
         <div className="w-full max-w-[800px] relative z-10">
           <AnimatePresence mode="wait" custom={dir}>
 
-            {/* ══ STEP 1: Serviços ══ */}
+            {/* ══ STEP 1: Dados pessoais ══ */}
             {step === 1 && (
               <motion.div key="s1" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Vamos começar" />
+                <Question>Conte um pouco <em>sobre você</em></Question>
+                <Sub>Seus dados são confidenciais e usados apenas para contato da nossa equipe.</Sub>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 md:gap-x-12 gap-y-8 md:gap-y-10 max-w-[580px]">
+                  <FloatingInput id="fNome"  label="Nome completo" value={ans.nome}  onChange={handleInput} />
+                  <FloatingInput id="fCargo" label="Cargo" value={ans.cargo} onChange={handleInput} />
+                  <FloatingInput id="fWhats" label="Telefone / WhatsApp" type="tel" value={ans.whatsapp} onChange={handleInput} />
+                  <FloatingInput id="fEmail" label="E-mail" type="email" value={ans.email} onChange={handleInput} />
+                </div>
+
+                <NavRow onBack={null} onNext={next} disabled={!valid()} />
+              </motion.div>
+            )}
+
+            {/* ══ STEP 2: Serviços ══ */}
+            {step === 2 && (
+              <motion.div key="s2" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
+                          className="flex flex-col">
+                <Overline label="Sua necessidade" />
                 <Question>O que você <em>precisa?</em></Question>
                 <Sub>Você pode selecionar mais de uma opção.</Sub>
 
@@ -727,13 +748,13 @@ const ContactQuizPage = () => {
                     onClick={() => toggleSvc(svc.label)} horizontal />
                 ))}
 
-                <NavRow onBack={null} onNext={next} disabled={!valid()} />
+                <NavRow onBack={back} onNext={next} disabled={!valid()} />
               </motion.div>
             )}
 
-            {/* ══ STEP 2: Tamanho ══ */}
-            {step === 2 && (
-              <motion.div key="s2" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
+            {/* ══ STEP 3: Tamanho ══ */}
+            {step === 3 && (
+              <motion.div key="s3" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Seu negócio" />
                 <Question>Qual o tamanho da <em>sua empresa?</em></Question>
@@ -745,23 +766,6 @@ const ContactQuizPage = () => {
                       isSelected={ans.tamanho === opt.label}
                       onClick={() => set('tamanho', opt.label)} />
                   ))}
-                </div>
-
-                <NavRow onBack={back} onNext={next} disabled={!valid()} />
-              </motion.div>
-            )}
-
-            {/* ══ STEP 3: Nome + E-mail (captura antecipada) ══ */}
-            {step === 3 && (
-              <motion.div key="s3" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
-                          className="flex flex-col">
-                <Overline label="Para salvarmos seu progresso" />
-                <Question>Qual o seu <em>nome e e-mail?</em></Question>
-                <Sub>Assim conseguimos te identificar e retomar de onde parou, caso precise.</Sub>
-
-                <div className="flex flex-col gap-8 max-w-[480px]">
-                  <FloatingInput id="fNome"  label="Nome completo" value={ans.nome}  onChange={handleInput} />
-                  <FloatingInput id="fEmail" label="E-mail" type="email" value={ans.email} onChange={handleInput} />
                 </div>
 
                 <NavRow onBack={back} onNext={next} disabled={!valid()} />
@@ -835,17 +839,28 @@ const ContactQuizPage = () => {
               </motion.div>
             )}
 
-            {/* ══ STEP 6: Empresa + WhatsApp + Resumo + Enviar ══ */}
+            {/* ══ STEP 6: Empresa + Descrição + Resumo + Enviar ══ */}
             {step === 6 && (
               <motion.div key="s6" custom={dir} variants={pv} initial="initial" animate="animate" exit="exit"
                           className="flex flex-col">
                 <Overline label="Quase lá" />
                 <Question>Mais alguns <em>detalhes</em> para fecharmos</Question>
-                <Sub>Seus dados são confidenciais e usados apenas para contato da nossa equipe.</Sub>
+                <Sub>Conte sobre sua empresa e, se quiser, descreva brevemente o projeto.</Sub>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 md:gap-x-12 gap-y-8 md:gap-y-10 mb-10">
-                  <FloatingInput id="fEmpresa" label="Empresa"       value={ans.empresa}  onChange={handleInput} />
-                  <FloatingInput id="fWhats"   label="WhatsApp"  type="tel"   value={ans.whatsapp} onChange={handleInput} />
+                <div className="flex flex-col gap-8 max-w-[580px] mb-10">
+                  <FloatingInput id="fEmpresa" label="Nome da empresa" value={ans.empresa} onChange={handleInput} />
+                  <div className="relative pt-2">
+                    <label htmlFor="outDesc" className="text-sm font-light text-white/30 mb-2 block">
+                      Descrição do projeto <span className="text-white/15">(opcional)</span>
+                    </label>
+                    <textarea
+                      id="outDesc" value={ans.descricao} onChange={handleInput}
+                      placeholder="Conte brevemente o que você precisa..."
+                      className="w-full h-28 bg-white/[0.03] border border-white/[0.08] p-4 px-5
+                                 text-white text-sm font-light leading-relaxed resize-none outline-none
+                                 focus:border-[#C9A84C]/40 transition-colors duration-300 placeholder:text-white/20"
+                    />
+                  </div>
                 </div>
                 {/* Honeypot anti-bot field — hidden from users */}
                 <input
@@ -862,12 +877,14 @@ const ContactQuizPage = () => {
                 {/* Answers summary */}
                 <div className="border border-white/[0.06] bg-white/[0.015] p-5 mb-2">
                   <p className="text-[9px] uppercase tracking-[0.34em] text-white/25 mb-4">Resumo das suas respostas</p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
                     {[
+                      { label: 'Contato',     value: `${ans.nome} — ${ans.cargo}` },
                       { label: 'Solução',     value: ans.servico.join(', ') || '—' },
-                      { label: 'Empresa',     value: ans.tamanho    || '—' },
+                      { label: 'Porte',       value: ans.tamanho    || '—' },
                       { label: 'Faturamento', value: ans.faturamento || '—' },
                       { label: 'Budget',      value: ans.budget      || '—' },
+                      { label: 'E-mail',      value: ans.email       || '—' },
                     ].map(item => (
                       <div key={item.label}>
                         <p className="text-[9px] uppercase tracking-[0.22em] text-white/22 mb-1">{item.label}</p>
