@@ -66,6 +66,9 @@ export default function Navbar() {
 
   const isDiagnosticPage = location.pathname.startsWith('/diagnostico/');
   const isWhitePage = isDiagnosticPage;
+  const isSolutionsPage = location.pathname.startsWith('/solucoes/');
+  const isAboutPage = location.pathname === '/missao' || location.pathname === '/filosofia';
+  const activeClass = 'text-transparent bg-clip-text bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]';
 
   const isTransparent = !isScrolled;
   const navStyle = isTransparent
@@ -86,7 +89,7 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: '100%' }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 250 }}
           className="bg-[#000000] flex flex-col px-6 py-8"
           style={{ overscrollBehavior: 'contain' }}
         >
@@ -198,7 +201,7 @@ export default function Navbar() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-4 lg:gap-10">
-              <Link to="/" onClick={handleHomeClick} className={`text-[14px] font-light ${textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`}>Home</Link>
+              <Link to="/" onClick={handleHomeClick} className={`text-[14px] font-light ${isHome ? activeClass : textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`}>Home</Link>
 
               {/* O que fazemos Dropdown */}
               <div
@@ -275,8 +278,8 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              <Link to="/portfolio" className={`text-[14px] font-light ${textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`} onClick={() => handleLinkClick("/portfolio")}>Portfólio</Link>
-              <Link to="/blog" className={`text-[14px] font-light ${textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`} onClick={() => handleLinkClick("/blog")}>Blog</Link>
+              <Link to="/portfolio" className={`text-[14px] font-light ${location.pathname === '/portfolio' ? activeClass : textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`} onClick={() => handleLinkClick("/portfolio")}>Portfólio</Link>
+              <Link to="/blog" className={`text-[14px] font-light ${location.pathname.startsWith('/blog') ? activeClass : textColorMuted} hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all tracking-wide`} onClick={() => handleLinkClick("/blog")}>Blog</Link>
             </div>
 
             {/* Right Actions */}

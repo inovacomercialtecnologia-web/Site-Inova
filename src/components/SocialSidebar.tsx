@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Linkedin, Mail, Share2, Instagram, Facebook, MessageCircle } from 'lucide-react';
 
 const XIcon = ({ className }: { className?: string }) => (
@@ -14,6 +14,7 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 export default function SocialSidebar() {
+  const [toastVisible, setToastVisible] = useState(false);
   const location = useLocation();
   const shareUrl = typeof window !== 'undefined' ? window.location.origin + location.pathname : '';
   const title = "Inova Systems Solutions - Transformação Digital Estratégica";
@@ -59,7 +60,8 @@ export default function SocialSidebar() {
           navigator.share({ title, url: shareUrl }).catch(console.error);
         } else {
           navigator.clipboard.writeText(shareUrl);
-          alert('Link copiado para a área de transferência!');
+          setToastVisible(true);
+          setTimeout(() => setToastVisible(false), 2000);
         }
       },
       color: 'hover:text-[#A6864A]'
@@ -102,6 +104,20 @@ export default function SocialSidebar() {
           ))}
         </div>
       </div>
+
+      {/* Toast notification for clipboard copy */}
+      <AnimatePresence>
+        {toastVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[300] px-4 py-2 rounded-lg bg-[#C9A84C] text-black text-sm font-medium shadow-lg"
+          >
+            Link copiado!
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile FAB — persistent contact CTA for mobile conversion */}
       <Link

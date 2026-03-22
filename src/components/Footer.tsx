@@ -81,7 +81,7 @@ export default function Footer() {
         <div className="border-b border-white/[0.06] pb-12 mb-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="max-w-md">
-              <h4 className="uppercase tracking-[0.15em] text-xs font-medium bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent mb-2">
+              <h4 className="uppercase tracking-[0.15em] text-xs font-medium bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent mb-2">
                 Newsletter
               </h4>
               <p className="text-sm text-gray-400 font-light leading-relaxed">
@@ -95,7 +95,8 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-gray-500 font-light focus:outline-none focus:border-[#C9A84C]/40 transition-colors"
+                  disabled={nlState === 'loading'}
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-gray-500 font-light focus:outline-none focus:border-[#C9A84C]/40 transition-colors disabled:opacity-50"
                 />
               </div>
               <button
@@ -140,7 +141,7 @@ export default function Footer() {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {footerData.columns.map((column, idx) => (
                 <div key={idx} className="flex flex-col">
-                  <h4 className="uppercase tracking-[0.15em] text-xs font-medium bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent mb-6">
+                  <h4 className="uppercase tracking-[0.15em] text-xs font-medium bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent mb-6">
                     {column.title}
                   </h4>
                   <div className="flex flex-col space-y-3">
@@ -173,7 +174,7 @@ export default function Footer() {
               <a
                 key={social.id}
                 href={social.href}
-                className="text-gray-500 hover:text-[#D4AF37] transition-colors"
+                className="text-gray-500 hover:text-[#C9A84C] transition-colors"
                 aria-label={`Visitar ${social.id}`}
               >
                 <social.icon className="w-5 h-5" strokeWidth={1.5} />

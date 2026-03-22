@@ -51,7 +51,7 @@ export default function ParticleHeroSection() {
       canvas.height = ch * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      let numParticles = cw < 480 ? 12 : cw < 768 ? 35 : cw < 1024 ? 600 : 800;
+      let numParticles = Math.min(800, Math.max(12, Math.floor(cw / 2.5)));
       particles = [];
 
       for (let i = 0; i < numParticles; i++) {

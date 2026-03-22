@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import ScrollToTop from './components/ScrollToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import SocialSidebar from './components/SocialSidebar';
-import AntiInspect from './components/AntiInspect';
+
 import Footer from './components/Footer';
 import DiagnosticDetailPage from './pages/DiagnosticDetail';
 import MissionPage from './pages/MissionPage';
@@ -26,11 +26,14 @@ import CookiesPage from './pages/CookiesPage';
 const App = () => {
   return (
     <Router>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:bg-[#C9A84C] focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium">
+        Ir para conteúdo principal
+      </a>
       <ScrollToTop />
-      <AntiInspect />
       <Navbar />
       <SocialSidebar />
       <ErrorBoundary>
+      <main id="main-content">
       <Routes>
         <Route path="/" element={<ImmersiveHome />} />
         <Route path="/missao" element={<MissionPage />} />
@@ -50,6 +53,7 @@ const App = () => {
         <Route path="/cookies" element={<CookiesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </main>
       </ErrorBoundary>
       <Footer />
     </Router>

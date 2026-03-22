@@ -139,7 +139,7 @@ export default function ImpactCarousel() {
         <div className="absolute top-0 left-0 right-0 h-px bg-white/[0.05] z-20">
           <motion.div
             style={{ scaleX: lineScaleX, transformOrigin: 'left' }}
-            className="h-full bg-gradient-to-r from-[#C9A84C]/50 via-[#FDE047] to-[#C9A84C]/50"
+            className="h-full bg-gradient-to-r from-[#C9A84C]/50 via-[#E5C05C] to-[#C9A84C]/50"
           />
         </div>
 
@@ -157,7 +157,7 @@ export default function ImpactCarousel() {
                      px-6 md:px-12 lg:px-24 max-w-[1440px] w-full mx-auto left-0 right-0"
         >
           {/* Label */}
-          <p className="text-[#D4AF37] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-8">
+          <p className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.32em] mb-8">
             POR QUE O SISTEMA SOZINHO NÃO RESOLVE
           </p>
 
@@ -174,7 +174,7 @@ export default function ImpactCarousel() {
               style={{ x: line2X, opacity: line2Op }}
               className="text-[1.6rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.5rem] xl:text-[4rem]
                          font-serif font-light tracking-tight leading-[1.1] block
-                         bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
+                         bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent"
             >
               Tem problema de processo.
             </motion.h2>
@@ -187,7 +187,7 @@ export default function ImpactCarousel() {
                        bg-white/[0.025] border border-white/[0.07] relative overflow-hidden"
           >
             <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full
-                            bg-gradient-to-b from-[#D4AF37] via-[#C9A84C] to-transparent" />
+                            bg-gradient-to-b from-[#C9A84C] via-[#C9A84C] to-transparent" />
             <p className="text-gray-300 font-light text-base md:text-[1.05rem] leading-relaxed pl-4">
               A maioria das empresas já investiu em sistema, já contratou ferramenta, já tentou organizar
               com planilha. E o resultado foi sempre o mesmo: tecnologia rodando em cima de um processo
@@ -219,7 +219,7 @@ export default function ImpactCarousel() {
         >
           {/* Collapsed heading */}
           <div className="px-6 md:px-12 lg:px-24 mb-8 md:mb-10">
-            <p className="text-[#D4AF37] text-[11px] md:text-[11px] font-medium uppercase tracking-[0.38em] mb-2.5">
+            <p className="text-[#C9A84C] text-[11px] md:text-[11px] font-medium uppercase tracking-[0.38em] mb-2.5">
               POR QUE O SISTEMA SOZINHO NÃO RESOLVE
             </p>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
@@ -227,7 +227,7 @@ export default function ImpactCarousel() {
                 Você não tem problema de tecnologia.
               </span>
               <span className="text-xl md:text-2xl lg:text-[1.7rem] font-serif font-light leading-tight
-                               bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent">
+                               bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">
                 Tem problema de processo.
               </span>
             </div>
@@ -245,7 +245,7 @@ export default function ImpactCarousel() {
               {cards.map((card, i) => (
                 <div
                   key={i}
-                  className="w-[calc(100vw-48px)] sm:w-[270px] md:w-[320px] lg:w-[360px] flex-shrink-0 group cursor-pointer"
+                  className="w-[85vw] sm:w-[270px] md:w-[320px] lg:w-[360px] flex-shrink-0 group cursor-pointer"
                 >
                   <div className="flex flex-col rounded-2xl border border-white/[0.06]
                                   bg-white/[0.015] overflow-hidden

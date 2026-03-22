@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 // ─── Minimal background — very faint lines, barely perceptible ────────────
@@ -202,7 +203,7 @@ export default function TriadeSection() {
                               hover:-translate-y-1
                               hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12),0_0_0_1px_rgba(201,168,76,0.18)]">
                 <div className="absolute -top-2 right-3 opacity-[0.05] text-[90px] md:text-[110px]
-                                font-serif font-black leading-none pointer-events-none select-none text-black">
+                                font-serif font-black leading-none pointer-events-none select-none text-black" aria-hidden="true">
                   01
                 </div>
                 <div className="absolute inset-0 rounded-2xl
@@ -234,7 +235,7 @@ export default function TriadeSection() {
                               hover:-translate-y-1
                               hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12),0_0_0_1px_rgba(201,168,76,0.18)]">
                 <div className="absolute -top-2 right-3 opacity-[0.05] text-[90px] md:text-[110px]
-                                font-serif font-black leading-none pointer-events-none select-none text-black">
+                                font-serif font-black leading-none pointer-events-none select-none text-black" aria-hidden="true">
                   02
                 </div>
                 <div className="absolute inset-0 rounded-2xl
@@ -267,7 +268,7 @@ export default function TriadeSection() {
                               hover:-translate-y-1
                               hover:shadow-[0_16px_56px_-12px_rgba(0,0,0,0.40),0_0_0_1px_rgba(201,168,76,0.20)]">
                 <div className="absolute -top-2 right-5 opacity-[0.04] text-[150px]
-                                font-serif font-black leading-none pointer-events-none select-none text-white">
+                                font-serif font-black leading-none pointer-events-none select-none text-white" aria-hidden="true">
                   03
                 </div>
                 <div className="absolute inset-0 rounded-2xl
@@ -290,15 +291,17 @@ export default function TriadeSection() {
                     </p>
                   </div>
                   <div className="flex-shrink-0">
-                    <motion.a href="/contato-quiz"
-                      whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
-                      className="w-11 h-11 md:w-14 md:h-14 rounded-full
-                                 bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
-                                 flex items-center justify-center text-black
-                                 hover:shadow-[0_0_28px_rgba(201,168,76,0.40)]
-                                 transition-shadow duration-500 group/btn">
-                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform duration-500" />
-                    </motion.a>
+                    <Link to="/contato-quiz">
+                      <motion.div
+                        whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
+                        className="w-11 h-11 md:w-14 md:h-14 rounded-full
+                                   bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
+                                   flex items-center justify-center text-black
+                                   hover:shadow-[0_0_28px_rgba(201,168,76,0.40)]
+                                   transition-shadow duration-500 group/btn">
+                        <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform duration-500" />
+                      </motion.div>
+                    </Link>
                   </div>
                 </div>
               </div>

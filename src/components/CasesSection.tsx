@@ -158,7 +158,7 @@ const CASES: CaseData[] = [
     title: "Plataforma Operacional Integrada",
     metric: "5 meses", metricLabel: "Para retorno sobre o investimento",
     description: "Operação industrial com processos desconectados: chão de fábrica no papel, gestão no Excel e comercial em sistema separado.",
-    accent: "#D4AF37", heroBg: "radial-gradient(ellipse at 75% 30%, rgba(212,175,55,0.20) 0%, #0A0800 70%)",
+    accent: "#C9A84C", heroBg: "radial-gradient(ellipse at 75% 30%, rgba(212,175,55,0.20) 0%, #0A0800 70%)",
     problem: "Uma indústria de médio porte com três áreas completamente desconectadas: o chão de fábrica operava no papel, a gestão usava Excel e o setor comercial tinha um sistema próprio que não conversava com nenhum dos dois. Nenhum dado era compartilhado em tempo real e a diretoria tomava decisões com informações de dias atrás.",
     built: ["Sistema web para gestão de produção e estoque","App mobile para operadores do chão de fábrica","Automação de sincronização entre os três setores","Dashboard executivo com indicadores em tempo real","Integração com o sistema comercial já existente"],
     results: [{ value: "5 meses", label: "Para ROI" },{ value: "4", label: "Sistemas integrados" },{ value: "100%", label: "Operação digitalizada" }],
@@ -184,7 +184,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[200] flex items-end md:items-center justify-center p-2 sm:p-4 md:p-6"
+      className="fixed inset-0 z-[200] flex items-end md:items-center justify-center p-2 sm:p-4 md:p-6 cursor-pointer"
       style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
       onClick={onClose}
     >
@@ -333,7 +333,7 @@ export default function CasesSection() {
         <motion.div initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={{ once: true }} transition={{ duration: 1.2, ease: E }}
           style={{ transformOrigin: 'left' }}
-          className="h-px bg-gradient-to-r from-[#D4AF37] via-[#D4AF37]/50 to-transparent" />
+          className="h-px bg-gradient-to-r from-[#C9A84C] via-[#C9A84C]/50 to-transparent" />
 
         <div className="py-12 md:py-28 lg:py-32 flex gap-6 md:gap-16 items-start relative">
 
@@ -341,21 +341,21 @@ export default function CasesSection() {
           <div className="hidden lg:flex flex-col items-center gap-4 pt-3 flex-shrink-0 w-20">
             <motion.span initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E, delay: 0.1 }}
-              className="font-serif font-black leading-none text-[#D4AF37]/20 select-none"
+              className="font-serif font-black leading-none text-[#C9A84C]/20 select-none"
               style={{ fontSize: '5rem' }}>04</motion.span>
             <motion.div initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }}
               viewport={{ once: true }} transition={{ duration: 1.0, ease: E, delay: 0.2 }}
               style={{ transformOrigin: 'top' }}
-              className="w-px h-28 bg-gradient-to-b from-[#D4AF37]/30 to-transparent" />
+              className="w-px h-28 bg-gradient-to-b from-[#C9A84C]/30 to-transparent" />
           </div>
 
           {/* Main content */}
           <div className="flex-1 min-w-0">
             <motion.p initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E }}
-              className="text-[#D4AF37] text-[11px] md:text-[10px] font-semibold uppercase
+              className="text-[#C9A84C] text-[11px] md:text-[10px] font-semibold uppercase
                          tracking-[0.38em] mb-10 flex items-center gap-4">
-              <span className="inline-block w-8 h-px bg-[#D4AF37]/50 flex-shrink-0" />
+              <span className="inline-block w-8 h-px bg-[#C9A84C]/50 flex-shrink-0" />
               ONDE O PROCESSO VIRA SISTEMA E SISTEMA VIRA RESULTADO
             </motion.p>
 
@@ -379,7 +379,7 @@ export default function CasesSection() {
             <motion.p initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E, delay: 0.22 }}
               className="font-serif font-light tracking-tight leading-tight
-                         bg-gradient-to-r from-[#D4AF37] to-[#FDE047] bg-clip-text text-transparent"
+                         bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent"
               style={{ fontSize: 'clamp(1.1rem, 3.2vw, 3rem)', marginTop: '0.5em' }}>
               Tecnologia construída sob medida.
             </motion.p>
@@ -405,7 +405,7 @@ export default function CasesSection() {
         <motion.div initial={{ scaleX: 0, opacity: 0 }} whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={{ once: true }} transition={{ duration: 1.2, ease: E, delay: 0.3 }}
           style={{ transformOrigin: 'right' }}
-          className="h-px bg-gradient-to-l from-[#D4AF37] via-[#D4AF37]/40 to-transparent" />
+          className="h-px bg-gradient-to-l from-[#C9A84C] via-[#C9A84C]/40 to-transparent" />
       </div>
 
       {/* ══════════════════════════════════════
@@ -432,7 +432,7 @@ export default function CasesSection() {
                                 transition-all duration-500
                                 hover:-translate-y-1.5
                                 hover:shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)]"
-                  style={{ borderLeftWidth: 3, borderLeftColor: `${c.accent}55` }}
+                  style={{ borderLeftWidth: 3, borderLeftColor: `${c.accent}55`, ['--card-accent' as string]: c.accent }}
                   onMouseEnter={e => (e.currentTarget.style.borderLeftColor = c.accent)}
                   onMouseLeave={e => (e.currentTarget.style.borderLeftColor = `${c.accent}55`)}
                 >

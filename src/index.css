@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -12,6 +12,7 @@
   --color-text-primary: #0A0A0A;
   --color-text-secondary: #444444;
   --color-accent-gold: #C9A84C;
+  --color-accent-gold-light: #E5C05C;
   --color-stroke-default: rgba(0, 0, 0, 0.1);
 }
 
@@ -61,14 +62,10 @@ a, button, [role="button"], input, select, textarea {
   touch-action: manipulation;
 }
 
-/* Prevent text selection on content — keep enabled on inputs/forms */
-body {
+/* Prevent text selection only on UI controls, not content */
+button, [role="button"] {
   -webkit-user-select: none;
   user-select: none;
-}
-input, textarea, select, [contenteditable="true"] {
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 /* Accessibility: respect user's motion preferences */
