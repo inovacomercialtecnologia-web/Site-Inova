@@ -1,7 +1,7 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Linkedin, Mail, Share2, Instagram, Facebook } from 'lucide-react';
+import { Linkedin, Mail, Share2, Instagram, Facebook, MessageCircle } from 'lucide-react';
 
 const XIcon = ({ className }: { className?: string }) => (
   <svg 
@@ -103,8 +103,18 @@ export default function SocialSidebar() {
         </div>
       </div>
 
-      {/* Mobile Share Bar — hidden to avoid overlapping CTAs and content */}
-      {/* Share functionality is available via the native share button on mobile browsers */}
+      {/* Mobile FAB — persistent contact CTA for mobile conversion */}
+      <Link
+        to="/contato-quiz"
+        className="fixed bottom-6 right-6 z-[95] lg:hidden w-14 h-14 rounded-full
+                   bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
+                   flex items-center justify-center
+                   shadow-[0_8px_32px_rgba(201,168,76,0.4)]
+                   active:scale-95 transition-transform duration-150"
+        aria-label="Entrar em contato"
+      >
+        <MessageCircle className="w-6 h-6 text-black" strokeWidth={2} />
+      </Link>
     </>
   );
 }

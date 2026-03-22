@@ -110,7 +110,7 @@ export default function Footer() {
               </button>
             </form>
             {nlState === 'success' && (
-              <span className="text-xs text-emerald-400 font-light md:absolute md:mt-1">Inscrito com sucesso!</span>
+              <span className="text-xs text-emerald-400 font-light">Inscrito com sucesso!</span>
             )}
             {nlState === 'error' && (
               <span className="text-xs text-red-400 font-light">Erro ao inscrever. Tente novamente.</span>

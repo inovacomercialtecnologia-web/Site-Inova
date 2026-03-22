@@ -113,7 +113,7 @@ export default function ImpactCarousel() {
   const exitCurtain = useTransform(scrollYProgress, [0.97, 1.0], isMobile ? [0, 0] : [0, 1]);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '250vh' : '400vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '180vh' : '400vh' }} className="relative">
 
       {/* ── Sticky viewport ── */}
       <motion.div
@@ -219,7 +219,7 @@ export default function ImpactCarousel() {
         >
           {/* Collapsed heading */}
           <div className="px-6 md:px-12 lg:px-24 mb-8 md:mb-10">
-            <p className="text-[#D4AF37] text-[9px] md:text-[10px] font-medium uppercase tracking-[0.38em] mb-2.5">
+            <p className="text-[#D4AF37] text-[11px] md:text-[11px] font-medium uppercase tracking-[0.38em] mb-2.5">
               POR QUE O SISTEMA SOZINHO NÃO RESOLVE
             </p>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
@@ -265,7 +265,7 @@ export default function ImpactCarousel() {
                                       bg-[#C9A84C]/0 group-hover:bg-[#C9A84C]/15
                                       transition-colors duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
-                      <span className="absolute bottom-3 left-4 text-[9px] font-bold uppercase
+                      <span className="absolute bottom-3 left-4 text-[11px] font-bold uppercase
                                        tracking-[0.28em]
                                        bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]
                                        bg-clip-text text-transparent">
@@ -280,12 +280,12 @@ export default function ImpactCarousel() {
                                      group-hover:text-[#C9A84C] transition-colors duration-500">
                         {card.title}
                       </h3>
-                      <p className="text-gray-500 text-[0.78rem] leading-relaxed mb-4 flex-grow">
+                      <p className="text-gray-400 text-sm leading-relaxed mb-4 flex-grow">
                         {card.description}
                       </p>
                       <div className="flex items-center gap-2 mt-auto
-                                      text-[0.65rem] font-semibold uppercase tracking-[0.2em]
-                                      text-gray-600 group-hover:text-[#C9A84C]
+                                      text-xs font-semibold uppercase tracking-[0.2em]
+                                      text-gray-400 group-hover:text-[#C9A84C]
                                       transition-colors duration-500">
                         Fale com nossa equipe
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
@@ -300,7 +300,7 @@ export default function ImpactCarousel() {
           {/* Scroll hint */}
           <motion.p
             style={{ opacity: cardsHintOp }}
-            className="text-center text-white/20 text-[9px] uppercase tracking-widest mt-7 font-light"
+            className="text-center text-white/20 text-[11px] uppercase tracking-widest mt-7 font-light"
           >
             ↔ arraste ou continue rolando para explorar
           </motion.p>

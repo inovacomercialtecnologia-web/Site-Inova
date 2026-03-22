@@ -33,12 +33,16 @@ export default function ParticleHeroSection() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Respect prefers-reduced-motion — render one static frame then stop
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     let animationFrameId: number;
     let particles: Particle[] = [];
     let cw = window.innerWidth;
     let ch = window.innerHeight;
     let lastTime = 0;
-    const fpsInterval = 1000 / 60;
+    const isMobileDevice = cw < 768;
+    const fpsInterval = isMobileDevice ? 1000 / 30 : 1000 / 60;
 
     const initParticles = () => {
       cw = window.innerWidth;
@@ -47,7 +51,7 @@ export default function ParticleHeroSection() {
       canvas.height = ch * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-      let numParticles = cw < 480 ? 25 : cw < 768 ? 50 : cw < 1024 ? 600 : 800;
+      let numParticles = cw < 480 ? 12 : cw < 768 ? 35 : cw < 1024 ? 600 : 800;
       particles = [];
 
       for (let i = 0; i < numParticles; i++) {
@@ -173,7 +177,11 @@ export default function ParticleHeroSection() {
       }
     };
 
-    animationFrameId = requestAnimationFrame(render);
+    // Render one frame, then only continue if motion is allowed
+    render(performance.now());
+    if (!prefersReducedMotion) {
+      animationFrameId = requestAnimationFrame(render);
+    }
     return () => { window.removeEventListener('resize', initParticles); cancelAnimationFrame(animationFrameId); };
   }, [scrollYProgress]);
 

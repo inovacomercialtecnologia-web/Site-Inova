@@ -64,7 +64,7 @@ const ProcessMethodologySection = () => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative min-h-0 md:min-h-screen bg-[#FFFFFF] overflow-hidden py-12 md:py-32 cursor-none"
+      className="relative min-h-0 md:min-h-screen bg-[#FFFFFF] overflow-hidden py-12 md:py-32 md:cursor-none"
     >
       {/* 1. TECHNICAL DOT GRID BACKGROUND */}
       <TechnicalGrid mouseX={springX} mouseY={springY} />
@@ -181,6 +181,10 @@ const TechnicalGrid = ({ mouseX, mouseY }: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // Skip canvas animation on mobile — mouse-interactive effect is meaningless on touch
+    const isMobileDevice = window.innerWidth < 768;
+    if (isMobileDevice) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -199,7 +203,7 @@ const TechnicalGrid = ({ mouseX, mouseY }: any) => {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       const mX = mouseX.get();
       const mY = mouseY.get();
 
@@ -214,10 +218,10 @@ const TechnicalGrid = ({ mouseX, mouseY }: any) => {
           const dx = mX - x;
           const dy = mY - y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          
+
           let offsetX = 0;
           let offsetY = 0;
-          
+
           if (dist < 200) {
             const force = (200 - dist) / 200;
             offsetX = (dx / dist) * force * -10;
@@ -226,12 +230,12 @@ const TechnicalGrid = ({ mouseX, mouseY }: any) => {
 
           ctx.beginPath();
           ctx.arc(x + offsetX, y + offsetY, dotSize, 0, Math.PI * 2);
-          
+
           const intensity = Math.max(0, 1 - dist / 400);
-          ctx.fillStyle = intensity > 0.1 
-            ? `rgba(201, 168, 76, ${0.1 + intensity * 0.4})` 
+          ctx.fillStyle = intensity > 0.1
+            ? `rgba(201, 168, 76, ${0.1 + intensity * 0.4})`
             : 'rgba(0, 0, 0, 0.05)';
-          
+
           ctx.fill();
         }
       }
@@ -248,6 +252,19 @@ const TechnicalGrid = ({ mouseX, mouseY }: any) => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
+  // Static CSS dot pattern on mobile instead of animated canvas
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return (
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
+    );
+  }
 
   return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />;
 };

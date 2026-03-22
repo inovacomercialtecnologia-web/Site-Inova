@@ -130,7 +130,7 @@ export default function TriadeSection() {
   const c3Y    = useSpring(rawC3Y,    SNAP);
 
   return (
-    <section ref={sectionRef} style={{ height: isMobile ? '220vh' : '300vh' }} className="relative">
+    <section ref={sectionRef} style={{ height: isMobile ? '160vh' : '300vh' }} className="relative">
 
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <motion.div
@@ -212,7 +212,7 @@ export default function TriadeSection() {
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-6 h-6 md:w-7 md:h-7 mb-2 md:mb-3"><ProcessIcon /></div>
                   <h3 className="text-sm md:text-base font-serif font-normal text-black mb-0.5 md:mb-1 tracking-tight">PROCESSO</h3>
-                  <p className="text-[#C9A84C] text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
+                  <p className="text-[#C9A84C] text-[10px] md:text-[10px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
                     Mapeamento da sua operação
                   </p>
                   <p className="text-gray-500 text-[11px] md:text-xs leading-snug font-light max-w-xl line-clamp-3 md:line-clamp-none">
@@ -244,7 +244,7 @@ export default function TriadeSection() {
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="w-6 h-6 md:w-7 md:h-7 mb-2 md:mb-3"><MethodIcon /></div>
                   <h3 className="text-sm md:text-base font-serif font-normal text-black mb-0.5 md:mb-1 tracking-tight">METODOLOGIA</h3>
-                  <p className="text-[#C9A84C] text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
+                  <p className="text-[#C9A84C] text-[10px] md:text-[10px] font-semibold uppercase tracking-[0.28em] mb-1.5 md:mb-2">
                     Estruturação
                   </p>
                   <p className="text-gray-500 text-[11px] md:text-xs leading-snug font-light line-clamp-3 md:line-clamp-none">
@@ -283,7 +283,7 @@ export default function TriadeSection() {
                     <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-1 md:mb-4">
                       Desenvolvimento da Solução
                     </p>
-                    <p className="hidden md:block text-gray-400 text-sm md:text-base leading-relaxed font-light max-w-3xl">
+                    <p className="text-gray-400 text-xs md:text-base leading-relaxed font-light max-w-3xl line-clamp-3 md:line-clamp-none">
                       Construímos a solução — Web, Mobile, Automação ou IA — desenhada especificamente
                       para a metodologia estruturada para o seu negócio. Onde o processo vira sistema
                       e o sistema vira resultado.
@@ -292,7 +292,7 @@ export default function TriadeSection() {
                   <div className="flex-shrink-0">
                     <motion.a href="/contato-quiz"
                       whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
-                      className="w-9 h-9 md:w-14 md:h-14 rounded-full
+                      className="w-11 h-11 md:w-14 md:h-14 rounded-full
                                  bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
                                  flex items-center justify-center text-black
                                  hover:shadow-[0_0_28px_rgba(201,168,76,0.40)]

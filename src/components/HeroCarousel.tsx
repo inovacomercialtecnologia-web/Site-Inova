@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, Pause, Play } from 'lucide-react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const slides = [
   {
@@ -36,6 +37,7 @@ interface HeroCarouselProps {
 export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const isMobile = useIsMobile();
 
   // All iframes are mounted once and kept alive — never unmounted.
   // Transitions are pure opacity changes: zero loading between slides.
@@ -66,7 +68,7 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-[#000000]">
 
-      {/* Video Background — all iframes pre-loaded and permanently in DOM */}
+      {/* Video Background — poster images on mobile, iframes on desktop */}
       <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
         {slides.map((slide, index) => (
           <div
@@ -77,17 +79,27 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
               zIndex: currentSlide === index ? 1 : 0,
             }}
           >
-            <div className="absolute top-1/2 left-1/2 w-[180%] h-[180%] md:w-[300%] md:h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-              <iframe
-                className="w-full h-full pointer-events-none"
-                src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}
-                title={`Background Video ${index}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                sandbox="allow-scripts allow-same-origin allow-presentation"
-                style={{ border: 'none' }}
-                loading="lazy"
+            {isMobile ? (
+              <img
+                src={`https://img.youtube.com/vi/${slide.videoId}/maxresdefault.jpg`}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover scale-110"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                draggable={false}
               />
-            </div>
+            ) : (
+              <div className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                <iframe
+                  className="w-full h-full pointer-events-none"
+                  src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}
+                  title={`Background Video ${index}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  sandbox="allow-scripts allow-same-origin allow-presentation"
+                  style={{ border: 'none' }}
+                  loading="lazy"
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -125,18 +137,20 @@ export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
 
       {/* Carousel Controls */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-8 z-[10] flex items-center gap-4 md:gap-6">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-[3px] md:h-[2px] rounded-full transition-all duration-300 ${
+              className="min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center px-1 md:px-0"
+              aria-label={`Go to slide ${index + 1}`}
+            >
+              <span className={`block h-[3px] md:h-[2px] rounded-full transition-all duration-300 ${
                 currentSlide === index
                   ? 'w-10 md:w-12 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]'
                   : 'w-6 md:w-8 bg-white/30 hover:bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              }`} />
+            </button>
           ))}
         </div>
 

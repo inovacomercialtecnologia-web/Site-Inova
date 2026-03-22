@@ -193,7 +193,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 40, opacity: 0, scale: 0.97 }}
         transition={{ duration: 0.5, ease: E }}
-        className="w-full md:max-w-3xl max-h-[92vh] md:max-h-[88vh] overflow-y-auto
+        className="w-full md:max-w-3xl max-h-[92dvh] md:max-h-[88vh] overflow-y-auto
                    rounded-t-3xl md:rounded-3xl bg-[#080808]
                    border border-white/[0.07]
                    shadow-[0_32px_80px_rgba(0,0,0,0.7)]"
@@ -211,7 +211,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* Close button */}
           <button onClick={onClose}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20
+            className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20
                        flex items-center justify-center transition-colors duration-200 z-10">
             <X className="w-4 h-4 text-white" />
           </button>
@@ -219,7 +219,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           {/* Header content */}
           <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8
                           bg-gradient-to-t from-[#080808] to-transparent">
-            <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-2"
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-2"
               style={{ color: c.accent }}>
               {c.tag} · {c.segment}
             </p>
@@ -243,7 +243,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* O Problema */}
           <div className="mb-8">
-            <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-3"
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-3"
               style={{ color: c.accent }}>O Problema</p>
             <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
               {c.problem}
@@ -252,7 +252,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* O que foi construído */}
           <div className="mb-8">
-            <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-4"
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-4"
               style={{ color: c.accent }}>O que foi construído</p>
             <ul className="space-y-2.5">
               {c.built.map((item, i) => (
@@ -266,7 +266,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* Resultados */}
           <div className="mb-8">
-            <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-4"
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-4"
               style={{ color: c.accent }}>Resultados</p>
             <div className="grid grid-cols-3 gap-2 md:gap-3">
               {c.results.map((r, i) => (
@@ -282,7 +282,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
 
           {/* Stack */}
           <div className="mb-8">
-            <p className="text-[9px] font-bold uppercase tracking-[0.3em] mb-3"
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-3"
               style={{ color: c.accent }}>Stack tecnológica</p>
             <div className="flex flex-wrap gap-2">
               {c.stack.map((s, i) => (
@@ -353,7 +353,7 @@ export default function CasesSection() {
           <div className="flex-1 min-w-0">
             <motion.p initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.8, ease: E }}
-              className="text-[#D4AF37] text-[9px] md:text-[10px] font-semibold uppercase
+              className="text-[#D4AF37] text-[11px] md:text-[10px] font-semibold uppercase
                          tracking-[0.38em] mb-10 flex items-center gap-4">
               <span className="inline-block w-8 h-px bg-[#D4AF37]/50 flex-shrink-0" />
               ONDE O PROCESSO VIRA SISTEMA E SISTEMA VIRA RESULTADO
@@ -443,7 +443,7 @@ export default function CasesSection() {
                   <div className="flex flex-col flex-grow p-5 md:p-8">
                     <div className="flex items-center gap-2 mb-5">
                       <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.accent }} />
-                      <span className="text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: `${c.accent}AA` }}>
+                      <span className="text-[11px] font-bold uppercase tracking-[0.3em]" style={{ color: `${c.accent}AA` }}>
                         {c.tag} · {c.segment}
                       </span>
                     </div>
@@ -459,7 +459,7 @@ export default function CasesSection() {
                         style={{ fontSize: 'clamp(2.2rem,4vw,3rem)', color: c.accent }}>
                         {c.metric}
                       </span>
-                      <p className="text-[9px] font-bold uppercase tracking-[0.25em]"
+                      <p className="text-[11px] font-bold uppercase tracking-[0.25em]"
                         style={{ color: `${c.accent}70` }}>
                         {c.metricLabel}
                       </p>
@@ -470,7 +470,7 @@ export default function CasesSection() {
                     </p>
 
                     <div className="flex items-center gap-2 mt-auto text-[10px] font-bold uppercase
-                                    tracking-[0.22em] text-gray-600 group-hover:text-white/60
+                                    tracking-[0.22em] text-gray-400 group-hover:text-white/60
                                     transition-colors duration-500">
                       Ver case completo
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />

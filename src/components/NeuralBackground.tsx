@@ -26,6 +26,7 @@ export default function NeuralBackground({
 
     let animationFrameId: number;
     const isMobile = window.innerWidth < 768;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const actualNodeCount = isMobile ? Math.min(nodeCount, 20) : nodeCount;
     const actualConnectionDist = isMobile ? Math.min(connectionDist, 100) : connectionDist;
 
@@ -58,7 +59,10 @@ export default function NeuralBackground({
 
     let lastFrame = 0;
 
+    let isVisible = true;
+
     const drawNeural = () => {
+      if (!isVisible) { animationFrameId = 0; return; }
       const now = performance.now();
       const frameInterval = isMobile ? 50 : 33; // ~20fps mobile, ~30fps desktop
       if (now - lastFrame < frameInterval) { animationFrameId = requestAnimationFrame(drawNeural); return; }
@@ -100,14 +104,24 @@ export default function NeuralBackground({
         ctx.fill();
       });
 
-      animationFrameId = requestAnimationFrame(drawNeural);
+      if (!prefersReducedMotion) {
+        animationFrameId = requestAnimationFrame(drawNeural);
+      }
     };
+
+    // Pause animation when canvas is not visible (saves battery on mobile)
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !animationFrameId) drawNeural();
+    }, { threshold: 0 });
+    observer.observe(canvas);
 
     drawNeural();
 
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
     };
   }, [nodeCount, connectionDist, color]);
 

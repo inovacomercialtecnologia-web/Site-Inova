@@ -21,10 +21,7 @@
 }
 
 html {
-  font-size: 13px;
-}
-@media (min-width: 640px) {
-  html { font-size: 14px; }
+  font-size: clamp(14px, 0.875rem + 0.25vw, 16px);
 }
 
 /* Prevent horizontal overflow from scale animations — clip preserves sticky */
@@ -57,6 +54,11 @@ body {
 }
 @media (min-width: 768px) {
   .bg-grid-dark { background-size: 60px 60px; }
+}
+
+/* Eliminate 300ms tap delay on mobile — UX Pro Max §2 touch-target-size */
+a, button, [role="button"], input, select, textarea {
+  touch-action: manipulation;
 }
 
 /* Prevent text selection on content — keep enabled on inputs/forms */

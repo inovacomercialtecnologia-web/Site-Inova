@@ -87,7 +87,8 @@ export default function Navbar() {
           exit={{ opacity: 0, x: '100%' }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: 'fixed', inset: 0, zIndex: 9999 }}
-          className="bg-[#000000] flex flex-col p-8"
+          className="bg-[#000000] flex flex-col px-6 py-8"
+          style={{ overscrollBehavior: 'contain' }}
         >
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-2">
@@ -283,7 +284,7 @@ export default function Navbar() {
               <Link
                 to="/contato-quiz"
                 onClick={() => handleLinkClick("/contato-quiz")}
-                className={`hidden sm:block border ${borderColor} ${textColor} text-[11px] font-medium tracking-[0.2em] px-10 py-3.5 rounded-full transition-all ${hoverBg} uppercase`}
+                className={`border ${borderColor} ${textColor} text-[10px] sm:text-[11px] font-medium tracking-[0.15em] sm:tracking-[0.2em] px-5 py-2.5 sm:px-10 sm:py-3.5 rounded-full transition-all ${hoverBg} uppercase`}
               >
                 Contato
               </Link>
