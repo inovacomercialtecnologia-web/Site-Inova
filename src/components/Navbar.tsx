@@ -89,9 +89,8 @@ export default function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: '100%' }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'fixed', inset: 0, zIndex: 250 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 250, overscrollBehavior: 'contain' }}
           className="bg-[#000000] flex flex-col px-6 py-8"
-          style={{ overscrollBehavior: 'contain' }}
         >
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-2">
