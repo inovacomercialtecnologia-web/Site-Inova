@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
@@ -8,18 +8,28 @@ interface CTABannerProps {
   description?: string;
   buttonText?: string;
   to?: string;
+  showWhatsApp?: boolean;
+  trustNote?: string;
 }
 
 export default function CTABanner({
   headline = 'Pronto para transformar sua operação?',
   description = 'Conte-nos sobre seu desafio. Nossa equipe vai entender seu cenário e propor a solução ideal — sem compromisso.',
-  buttonText = 'Iniciar conversa',
+  buttonText = 'Diagnosticar minha operação',
   to = '/contato-quiz',
+  showWhatsApp = true,
+  trustNote = 'Sem compromisso. Resposta em até 24h.',
 }: CTABannerProps) {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#C9A84C]/[0.03] to-transparent" />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%)',
+        }}
+      />
       <div className="absolute inset-0 border-t border-b border-white/[0.04]" />
 
       <div className="relative max-w-3xl mx-auto px-6 md:px-12 text-center">
@@ -40,7 +50,7 @@ export default function CTABanner({
           </div>
 
           {/* Headline */}
-          <h2 className="text-2xl md:text-4xl font-light text-white leading-snug">
+          <h2 className="text-2xl md:text-4xl font-serif font-light text-white leading-snug">
             {headline}
           </h2>
 
@@ -49,15 +59,40 @@ export default function CTABanner({
             {description}
           </p>
 
-          {/* CTA Button */}
-          <Link
-            to={to}
-            onClick={() => window.scrollTo(0, 0)}
-            className="group mt-4 inline-flex items-center gap-3 bg-[#C9A84C] text-[#080808] px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider hover:bg-[#E8C97A] transition-all duration-300 shadow-lg shadow-[#C9A84C]/10"
-          >
-            {buttonText}
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4 w-full sm:w-auto">
+            <Link
+              to={to}
+              onClick={() => window.scrollTo(0, 0)}
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
+                         bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-[#080808]
+                         px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                         hover:shadow-[0_8px_32px_rgba(201,168,76,0.35)] transition-all duration-300"
+            >
+              {buttonText}
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {showWhatsApp && (
+              <a
+                href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20as%20solu%C3%A7%C3%B5es%20da%20Inova."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
+                           border border-white/20 text-white
+                           px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                           hover:bg-white/[0.06] hover:border-white/30 transition-all duration-300"
+              >
+                <MessageCircle size={16} />
+                Falar com especialista
+              </a>
+            )}
+          </div>
+
+          {/* Trust note */}
+          {trustNote && (
+            <p className="text-gray-500 text-xs mt-2">{trustNote}</p>
+          )}
         </motion.div>
       </div>
     </section>

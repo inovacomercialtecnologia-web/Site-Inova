@@ -1,171 +1,175 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Pause, Play } from 'lucide-react';
+import React from 'react';
+import { motion } from 'motion/react';
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 
-const slides = [
-  {
-    supertitle: "INOVA SYSTEMS SOLUTIONS",
-    headline: "Transformando operações em inteligência real",
-    subheadline: "Processo estruturado. Metodologia aplicada. Tecnologia sob medida.",
-    videoId: "V5vlk9d1tvY"
-  },
-  {
-    supertitle: "MÉTODO INOVA",
-    headline: "O processo vem antes da tecnologia",
-    subheadline: "Mapeamos, estruturamos e só então construímos. Web, Mobile, Automação e IA para a realidade do seu negócio.",
-    videoId: "gOBGh48IrUQ"
-  },
-  {
-    supertitle: "CONSTRUÍDO PARA VOCÊ",
-    headline: "Tecnologia sob Medida",
-    subheadline: "Do processo à tecnologia. Desenvolvido para o seu negócio.",
-    videoId: "jEXu2LRWXHY"
-  },
-  {
-    supertitle: "TECNOLOGIA COM PROPÓSITO",
-    headline: "Não vendemos sistema. Construímos o seu.",
-    subheadline: "A única empresa que entende sua operação antes de desenvolver o seu sistema.",
-    videoId: "V5vlk9d1tvY"
-  }
+const E = [0.22, 1, 0.36, 1] as const;
+
+const metrics = [
+  { value: '50+', label: 'Projetos entregues' },
+  { value: '140h', label: 'Economizadas/cliente' },
+  { value: '68%', label: 'Menos retrabalho' },
 ];
 
-interface HeroCarouselProps {
-  onScrollClick: () => void;
-}
-
-export default function HeroCarousel({ onScrollClick }: HeroCarouselProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+export default function HeroSection() {
   const isMobile = useIsMobile();
 
-  // All iframes are mounted once and kept alive — never unmounted.
-  // Transitions are pure opacity changes: zero loading between slides.
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (isPlaying) {
-      timerRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, 8000);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying]);
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-    // Reset timer when manually switching
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (isPlaying) {
-      timerRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, 8000);
-    }
-  };
-
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-[#000000]">
+    <section className="relative min-h-screen flex items-center justify-center bg-[#080808] px-6 md:px-12 lg:px-24 overflow-hidden">
 
-      {/* Video Background — poster images on mobile, iframes on desktop */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 w-full h-full transition-opacity duration-1000"
-            style={{
-              opacity: currentSlide === index ? 1 : 0,
-              zIndex: currentSlide === index ? 1 : 0,
-            }}
-          >
-            {isMobile ? (
-              <img
-                src={`https://img.youtube.com/vi/${slide.videoId}/maxresdefault.jpg`}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover scale-110"
-                loading={index === 0 ? 'eager' : 'lazy'}
-                draggable={false}
-              />
-            ) : (
-              <div className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                <iframe
-                  className="w-full h-full pointer-events-none"
-                  src={`https://www.youtube.com/embed/${slide.videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.videoId}&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1&start=2&vq=hd1080`}
-                  title={`Background Video ${index}`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  sandbox="allow-scripts allow-same-origin allow-presentation"
-                  style={{ border: 'none' }}
-                  loading="lazy"
-                />
-              </div>
-            )}
-          </div>
-        ))}
+      {/* Animated gradient mesh background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Gold radial pulse — center */}
+        <motion.div
+          animate={{
+            opacity: [0.04, 0.08, 0.04],
+            scale: [1, 1.15, 1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] md:w-[1200px] md:h-[1200px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(201,168,76,0.15) 0%, transparent 60%)',
+          }}
+        />
+        {/* Secondary accent — top right */}
+        <motion.div
+          animate={{
+            opacity: [0.03, 0.06, 0.03],
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-[200px] -right-[200px] w-[600px] h-[600px]"
+          style={{
+            background: 'radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 65%)',
+          }}
+        />
+        {/* Subtle dot grid */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(201,168,76,0.10) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+            opacity: 0.2,
+          }}
+        />
+        {/* Edge vignette */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.7) 100%)',
+          }}
+        />
       </div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-black/20 md:bg-black/25 z-[1]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.45)_0%,_transparent_65%)] z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/80 z-[1]" />
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center py-24 md:py-32">
 
-      {/* Carousel Content */}
-      <div className="relative z-[2] max-w-6xl w-full flex flex-col items-center justify-center h-full pt-20 md:pt-20 pb-16 md:pb-0 px-5 md:px-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center justify-center w-full drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
-          >
-            <span className="text-[#C9A84C] text-[11px] md:text-[12px] font-semibold uppercase tracking-[0.25em] mb-5 md:mb-10 block drop-shadow-md">
-              {slides[currentSlide].supertitle}
-            </span>
-
-            <h1 className="text-[clamp(2rem,7vw,6rem)] font-serif font-light text-white leading-[1.08] md:leading-[1] tracking-tight mb-5 md:mb-10 max-w-[1000px] drop-shadow-xl">
-              {slides[currentSlide].headline}
-            </h1>
-
-            <p className="text-gray-200/90 text-[15px] md:text-[20px] font-light max-w-2xl mx-auto leading-[1.7] tracking-wide drop-shadow-lg">
-              {slides[currentSlide].subheadline}
-            </p>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Carousel Controls */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-12 md:bottom-8 z-[10] flex items-center gap-4 md:gap-6">
-        <div className="flex items-center gap-1">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className="min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 flex items-center justify-center px-1 md:px-0"
-              aria-label={`Go to slide ${index + 1}`}
-            >
-              <span className={`block h-[3px] md:h-[2px] rounded-full transition-all duration-300 ${
-                currentSlide === index
-                  ? 'w-10 md:w-12 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C]'
-                  : 'w-6 md:w-8 bg-white/30 hover:bg-white/50'
-              }`} />
-            </button>
-          ))}
-        </div>
-
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className="w-11 h-11 md:w-10 md:h-10 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg"
-          aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+        {/* Supertitle */}
+        <motion.span
+          initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.1 }}
+          className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.3em] mb-6 md:mb-8 block"
         >
-          {isPlaying ? (
-            <Pause className="w-4 h-4 text-black fill-black" />
-          ) : (
-            <Play className="w-4 h-4 text-black fill-black ml-0.5" />
-          )}
-        </button>
+          Inova Systems Solutions
+        </motion.span>
+
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: isMobile ? 12 : 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: E, delay: 0.2 }}
+          className="font-serif font-light text-white tracking-tight leading-[1.08] md:leading-[1.02] mb-6 md:mb-8"
+          style={{ fontSize: 'clamp(2.4rem, 6vw, 5.5rem)' }}
+        >
+          Não vendemos sistema.
+          <br />
+          <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent">
+            Construímos o seu.
+          </span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.35 }}
+          className="text-gray-300 text-base md:text-lg lg:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-10 md:mb-12"
+        >
+          Processo estruturado. Metodologia aplicada. Tecnologia sob medida para o seu negócio.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <Link
+            to="/contato-quiz"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
+                       bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-black
+                       px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                       hover:shadow-[0_8px_32px_rgba(201,168,76,0.4)] transition-all duration-300
+                       min-h-[52px]"
+          >
+            Diagnosticar minha operação
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+
+          <a
+            href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20as%20solu%C3%A7%C3%B5es%20da%20Inova."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
+                       border border-white/20 text-white
+                       px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                       hover:bg-white/[0.06] hover:border-white/30 transition-all duration-300
+                       min-h-[52px]"
+          >
+            <MessageCircle size={16} />
+            Falar com especialista
+          </a>
+        </motion.div>
+
+        {/* Social proof metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.65 }}
+          className="flex items-center justify-center gap-6 md:gap-10 mt-14 md:mt-16"
+        >
+          {metrics.map((m, i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <span className="text-[#C9A84C] text-2xl md:text-3xl font-bold tracking-tight">
+                {m.value}
+              </span>
+              <span className="text-gray-400 text-[10px] md:text-xs uppercase tracking-wider font-medium">
+                {m.label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
       </div>
-    </div>
+
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.35 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+          className="w-5 h-8 rounded-full border border-white/30 flex justify-center pt-1.5"
+        >
+          <div className="w-1 h-1.5 rounded-full bg-white/60" />
+        </motion.div>
+      </motion.div>
+    </section>
   );
 }

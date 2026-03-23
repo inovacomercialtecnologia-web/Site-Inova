@@ -1,37 +1,38 @@
-import React, { useRef } from 'react';
-import { ArrowRight, Globe, Smartphone, Zap, Brain, Target, ShieldCheck, Cpu, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, cubicBezier } from 'motion/react';
-import HeroCarousel from '../components/HeroCarousel';
-import ImpactCarousel from '../components/ImpactCarousel';
-import ScrollSection from '../components/ScrollSection';
+import React from 'react';
+import HeroSection from '../components/HeroCarousel';
+import ProblemSolution from '../components/ImpactCarousel';
 import TriadeSection from '../components/TriadeSection';
+import ServicesGrid from '../components/ServicesGrid';
 import CasesSection from '../components/CasesSection';
+import CTASection from '../components/CTABanner';
 import PageMeta from '../components/PageMeta';
 
-// --- MAIN COMPONENT ---
 const ImmersiveHome = () => {
   return (
     <div className="relative bg-[#080808] selection:bg-[#C9A84C]/30" style={{ overflowX: 'clip' }}>
-      <PageMeta title="Transformação Digital Estratégica" description="Transformamos inteligência operacional em tecnologia sob medida. Sistemas web, aplicativos mobile, automações e IA para empresas B2B." />
+      <PageMeta
+        title="Transformação Digital Estratégica"
+        description="Transformamos inteligência operacional em tecnologia sob medida. Sistemas web, aplicativos mobile, automações e IA para empresas B2B."
+      />
 
-      {/* CONTENT LAYERS */}
       <div className="relative z-10">
-        
-        {/* SCENE 1: THE VISION */}
-        <ScrollSection isFirst={true} className="h-screen">
-          <HeroCarousel onScrollClick={() => {}} />
-        </ScrollSection>
+        {/* 1. Hero — CTA + social proof acima do fold */}
+        <HeroSection />
 
-        {/* SCENE 2: THE PROBLEM (CHAOS) - REPLACED WITH IMPACT CAROUSEL */}
-        <ImpactCarousel />
+        {/* 2. Problema → Posicionamento */}
+        <ProblemSolution />
 
-        {/* SCENE 3: THE METHOD (TRÍADE) — 500vh pinned, scroll-driven */}
+        {/* 3. A Tríade: Processo → Metodologia → Tecnologia */}
         <TriadeSection />
 
-        {/* SCENE 4: THE SOLUTIONS (CASES) */}
+        {/* 4. Serviços: Web, Mobile, Automação, IA */}
+        <ServicesGrid />
+
+        {/* 5. Cases destaque (3) */}
         <CasesSection />
 
+        {/* 6. CTA final forte */}
+        <CTASection />
       </div>
     </div>
   );
