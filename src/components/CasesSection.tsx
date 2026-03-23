@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, X, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
+import { useCountUp, parseMetric } from '../hooks/useCountUp';
 
 // ─── Types ────────────────────────────────────────────────────────────────
 interface CaseData {
@@ -66,7 +67,7 @@ const NeuralSvg: React.FC<{ accent: string }> = ({ accent }) => {
   );
 };
 
-// ─── All cases (used by modal) ────────────────────────────────────────────
+// ─── All cases ────────────────────────────────────────────────────────────
 const ALL_CASES: CaseData[] = [
   {
     num: '01', tag: 'APLICAÇÃO WEB', segment: 'LOGÍSTICA & DISTRIBUIÇÃO',
@@ -105,7 +106,95 @@ const ALL_CASES: CaseData[] = [
 
 const E = [0.22, 1, 0.36, 1] as const;
 
-// ─── Case Modal ───────────────────────────────────────────────────────────
+// ─── Count-up metric for cards ────────────────────────────────────────────
+function CaseMetric({ metric, accent, delay }: { metric: string; accent: string; delay: number }) {
+  const { value, suffix } = parseMetric(metric);
+  const { display, ref } = useCountUp(value, { duration: 1200, delay, suffix });
+
+  return (
+    <span
+      ref={ref as React.RefObject<HTMLSpanElement>}
+      className="font-black block mb-1 leading-none"
+      style={{ fontSize: 'clamp(2.2rem,4vw,3rem)', color: accent }}
+    >
+      {display}
+    </span>
+  );
+}
+
+// ─── Case Card with gradient bleed ────────────────────────────────────────
+function CaseCard({ c, index, onClick }: { c: CaseData; index: number; onClick: () => void }) {
+  const isMobile = useIsMobile();
+  const [isHovering, setIsHovering] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: isMobile ? 16 : 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.8, ease: E, delay: index * 0.1 }}
+      className="group cursor-pointer"
+      onClick={onClick}
+    >
+      <div
+        className="h-full flex flex-col rounded-2xl overflow-hidden
+                   border border-white/[0.06]
+                   transition-all duration-500
+                   hover:-translate-y-1.5
+                   hover:shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)]"
+        style={{
+          borderLeftWidth: 3,
+          borderLeftColor: isHovering ? c.accent : `${c.accent}55`,
+          background: isHovering
+            ? `radial-gradient(ellipse at 0% 50%, ${c.accent}12, transparent 60%), radial-gradient(ellipse at top left, #141414, #050505)`
+            : 'radial-gradient(ellipse at top left, #141414, #050505)',
+        }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        {/* Top accent line */}
+        <div className="h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: `linear-gradient(to right, ${c.accent}80, transparent)` }} />
+
+        <div className="flex flex-col flex-grow p-5 md:p-8">
+          <div className="flex items-center gap-2 mb-5">
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.accent }} />
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em]" style={{ color: `${c.accent}AA` }}>
+              {c.tag} · {c.segment}
+            </span>
+          </div>
+
+          <h3 className="text-white text-xl md:text-[1.35rem] font-serif font-normal
+                         tracking-tight leading-snug mb-5 transition-colors duration-500
+                         group-hover:text-white/90">
+            {c.title}
+          </h3>
+
+          <div className="mb-5 pb-5 border-b border-white/[0.06]">
+            <CaseMetric metric={c.metric} accent={c.accent} delay={200 + index * 150} />
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em]"
+              style={{ color: `${c.accent}70` }}>
+              {c.metricLabel}
+            </p>
+          </div>
+
+          <p className="text-gray-400 text-sm leading-relaxed flex-grow font-light mb-7">
+            {c.description}
+          </p>
+
+          <div className="flex items-center gap-2 mt-auto text-[10px] font-bold uppercase
+                          tracking-[0.22em] text-gray-400 group-hover:text-white/60
+                          transition-colors duration-500">
+            Ver case completo
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Case Modal — staggered cascade ───────────────────────────────────────
 function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -113,6 +202,12 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
   }, [onClose]);
+
+  const cascade = (i: number) => ({
+    initial: { opacity: 0, y: 16 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, ease: E, delay: 0.3 + i * 0.06 },
+  });
 
   return (
     <motion.div
@@ -158,24 +253,25 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           </div>
         </div>
 
-        {/* Body */}
+        {/* Body — cascading sections */}
         <div className="p-4 sm:p-6 md:p-8">
+
           {/* Metric */}
-          <div className="flex items-end gap-4 mb-8 pb-8 border-b border-white/[0.06]">
+          <motion.div {...cascade(0)} className="flex items-end gap-4 mb-8 pb-8 border-b border-white/[0.06]">
             <span className="font-black leading-none" style={{ fontSize: 'clamp(3rem,8vw,4.5rem)', color: c.accent }}>
               {c.metric}
             </span>
             <p className="text-white/50 text-sm font-light mb-2 leading-tight">{c.metricLabel}</p>
-          </div>
+          </motion.div>
 
           {/* Problem */}
-          <div className="mb-8">
+          <motion.div {...cascade(1)} className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-3" style={{ color: c.accent }}>O Problema</p>
             <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">{c.problem}</p>
-          </div>
+          </motion.div>
 
           {/* Built */}
-          <div className="mb-8">
+          <motion.div {...cascade(2)} className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-4" style={{ color: c.accent }}>O que foi construído</p>
             <ul className="space-y-2.5">
               {c.built.map((item, i) => (
@@ -185,10 +281,10 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Results */}
-          <div className="mb-8">
+          <motion.div {...cascade(3)} className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-4" style={{ color: c.accent }}>Resultados</p>
             <div className="grid grid-cols-3 gap-2 md:gap-3">
               {c.results.map((r, i) => (
@@ -198,10 +294,10 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Stack */}
-          <div className="mb-8">
+          <motion.div {...cascade(4)} className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-3" style={{ color: c.accent }}>Stack tecnológica</p>
             <div className="flex flex-wrap gap-2">
               {c.stack.map((s, i) => (
@@ -211,18 +307,20 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
                 </span>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* CTA */}
-          <Link to="/contato-quiz" onClick={onClose}
-            className="flex items-center justify-center gap-3 w-full py-4 rounded-xl
-                       font-semibold text-sm uppercase tracking-[0.18em] text-black
-                       hover:brightness-110 transition-all duration-300
-                       shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-            style={{ background: `linear-gradient(135deg, ${c.accent}, ${c.accent}CC)` }}>
-            Quero uma solução como essa
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <motion.div {...cascade(5)}>
+            <Link to="/contato-quiz" onClick={onClose}
+              className="flex items-center justify-center gap-3 w-full py-4 rounded-xl
+                         font-semibold text-sm uppercase tracking-[0.18em] text-black
+                         hover:brightness-110 transition-all duration-300
+                         shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              style={{ background: `linear-gradient(135deg, ${c.accent}, ${c.accent}CC)` }}>
+              Quero uma solução como essa
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
     </motion.div>
@@ -287,68 +385,7 @@ export default function CasesSection() {
         {/* 3-card grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {ALL_CASES.map((c, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: isMobile ? 16 : 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.8, ease: E, delay: i * 0.1 }}
-              className="group cursor-pointer"
-              onClick={() => setSelected(i)}
-            >
-              <div
-                className="h-full flex flex-col rounded-2xl overflow-hidden
-                           border border-white/[0.06]
-                           bg-[radial-gradient(ellipse_at_top_left,_#141414,_#050505)]
-                           transition-all duration-500
-                           hover:-translate-y-1.5
-                           hover:shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)]"
-                style={{ borderLeftWidth: 3, borderLeftColor: `${c.accent}55` }}
-                onMouseEnter={e => (e.currentTarget.style.borderLeftColor = c.accent)}
-                onMouseLeave={e => (e.currentTarget.style.borderLeftColor = `${c.accent}55`)}
-              >
-                {/* Top accent line */}
-                <div className="h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: `linear-gradient(to right, ${c.accent}80, transparent)` }} />
-
-                <div className="flex flex-col flex-grow p-5 md:p-8">
-                  <div className="flex items-center gap-2 mb-5">
-                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: c.accent }} />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.3em]" style={{ color: `${c.accent}AA` }}>
-                      {c.tag} · {c.segment}
-                    </span>
-                  </div>
-
-                  <h3 className="text-white text-xl md:text-[1.35rem] font-serif font-normal
-                                 tracking-tight leading-snug mb-5 transition-colors duration-500
-                                 group-hover:text-white/90">
-                    {c.title}
-                  </h3>
-
-                  <div className="mb-5 pb-5 border-b border-white/[0.06]">
-                    <span className="font-black block mb-1 leading-none"
-                      style={{ fontSize: 'clamp(2.2rem,4vw,3rem)', color: c.accent }}>
-                      {c.metric}
-                    </span>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.25em]"
-                      style={{ color: `${c.accent}70` }}>
-                      {c.metricLabel}
-                    </p>
-                  </div>
-
-                  <p className="text-gray-400 text-sm leading-relaxed flex-grow font-light mb-7">
-                    {c.description}
-                  </p>
-
-                  <div className="flex items-center gap-2 mt-auto text-[10px] font-bold uppercase
-                                  tracking-[0.22em] text-gray-400 group-hover:text-white/60
-                                  transition-colors duration-500">
-                    Ver case completo
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <CaseCard key={i} c={c} index={i} onClick={() => setSelected(i)} />
           ))}
         </div>
       </div>

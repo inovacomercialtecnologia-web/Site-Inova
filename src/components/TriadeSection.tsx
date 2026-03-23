@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -6,11 +6,12 @@ import { useIsMobile } from '../hooks/useIsMobile';
 
 const E = [0.22, 1, 0.36, 1] as const;
 
-// ─── Animated SVG icons ───────────────────────────────────────────────────
+// ─── Animated SVG icons with glow ─────────────────────────────────────────
 function ProcessIcon() {
   return (
     <motion.svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"
-      className="w-full h-full text-[#C9A84C]">
+      className="w-full h-full text-[#C9A84C]"
+      style={{ filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }}>
       <motion.path d="M6 3v18M18 3v18M3 12h18"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
         transition={{ duration: 2.8, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' }} />
@@ -22,7 +23,8 @@ function ProcessIcon() {
 function MethodIcon() {
   return (
     <motion.svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"
-      className="w-full h-full text-[#C9A84C]">
+      className="w-full h-full text-[#C9A84C]"
+      style={{ filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }}>
       <motion.rect x="3" y="3" width="18" height="18" rx="2"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
         transition={{ duration: 2.8, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', delay: 0.2 }} />
@@ -36,7 +38,8 @@ function MethodIcon() {
 function TechIcon() {
   return (
     <motion.svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"
-      className="w-full h-full text-[#C9A84C]">
+      className="w-full h-full text-[#C9A84C]"
+      style={{ filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.3))' }}>
       <motion.path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
         transition={{ duration: 2.8, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', delay: 0.8 }} />
@@ -70,9 +73,55 @@ const steps = [
 
 export default function TriadeSection() {
   const isMobile = useIsMobile();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  // GSAP scroll-driven line (desktop only)
+  useEffect(() => {
+    if (isMobile || !sectionRef.current || !lineRef.current) return;
+
+    let gsapModule: typeof import('gsap') | null = null;
+    let scrollTriggerModule: typeof import('gsap/ScrollTrigger') | null = null;
+
+    const initGSAP = async () => {
+      try {
+        gsapModule = await import('gsap');
+        scrollTriggerModule = await import('gsap/ScrollTrigger');
+        const gsap = gsapModule.default || gsapModule.gsap;
+        const ScrollTrigger = scrollTriggerModule.default || scrollTriggerModule.ScrollTrigger;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.fromTo(lineRef.current,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 60%',
+              end: 'bottom 40%',
+              scrub: 1,
+            },
+          }
+        );
+      } catch {
+        // GSAP not available, fall back to Motion animation
+      }
+    };
+
+    initGSAP();
+
+    return () => {
+      if (scrollTriggerModule) {
+        const ScrollTrigger = scrollTriggerModule.default || scrollTriggerModule.ScrollTrigger;
+        ScrollTrigger.getAll().forEach((t: { kill: () => void }) => t.kill());
+      }
+    };
+  }, [isMobile]);
 
   return (
-    <section className="py-20 md:py-28 bg-[#F5F2EC] px-6 md:px-12 lg:px-24 relative overflow-hidden">
+    <section ref={sectionRef} className="py-20 md:py-28 bg-[#F5F2EC] px-6 md:px-12 lg:px-24 relative overflow-hidden">
 
       {/* Minimal background rays */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.06]"
@@ -123,79 +172,101 @@ export default function TriadeSection() {
         <div className="hidden md:block">
           <div className="grid grid-cols-3 gap-6 lg:gap-8 relative">
 
-            {/* Connecting line behind cards */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 1.2, ease: E, delay: 0.3 }}
+            {/* Connecting line — GSAP scroll-driven on desktop */}
+            <div
+              ref={lineRef}
               className="absolute top-[52px] left-[16%] right-[16%] h-px bg-gradient-to-r from-[#C9A84C]/40 via-[#C9A84C] to-[#C9A84C]/40 z-0"
-              style={{ transformOrigin: 'left' }}
+              style={{ transformOrigin: 'left', scaleX: isMobile ? 1 : 0 }}
             />
 
-            {steps.map((step, i) => (
+            {/* Intersection dots */}
+            {steps.map((_, i) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.7, ease: E, delay: 0.1 + i * 0.15 }}
-                className="relative z-10"
-              >
-                <div className={`rounded-2xl p-6 lg:p-8 h-full
-                                transition-all duration-500 group
-                                hover:-translate-y-1
-                                ${i === 2
-                                  ? 'bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C] shadow-[0_4px_32px_rgba(0,0,0,0.22)] hover:shadow-[0_16px_56px_-12px_rgba(0,0,0,0.40)]'
-                                  : 'bg-white border-l-[3px] border-l-[#C9A84C] shadow-[0_2px_20px_rgba(0,0,0,0.07)] hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]'
-                                }`}>
-
-                  {/* Step number watermark */}
-                  <div className={`absolute -top-2 right-3 text-[80px] lg:text-[100px] font-serif font-black
-                                   leading-none pointer-events-none select-none
-                                   ${i === 2 ? 'text-white opacity-[0.04]' : 'text-black opacity-[0.05]'}`}
-                    aria-hidden="true">
-                    {step.num}
-                  </div>
-
-                  {/* Icon */}
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 mb-4">
-                    <step.Icon />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className={`text-base lg:text-lg font-serif font-normal tracking-tight mb-1
-                                  ${i === 2 ? 'text-white' : 'text-black'}`}>
-                    {step.title}
-                  </h3>
-
-                  {/* Subtitle */}
-                  <p className="text-[#C9A84C] text-[10px] font-semibold uppercase tracking-[0.28em] mb-3">
-                    {step.subtitle}
-                  </p>
-
-                  {/* Description */}
-                  <p className={`text-sm leading-relaxed font-light
-                                 ${i === 2 ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {step.description}
-                  </p>
-
-                  {/* CTA on last card */}
-                  {i === 2 && (
-                    <Link to="/contato-quiz" className="mt-5 inline-block">
-                      <motion.div
-                        whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
-                        className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
-                                   flex items-center justify-center text-black
-                                   hover:shadow-[0_0_28px_rgba(201,168,76,0.40)] transition-shadow duration-500"
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </motion.div>
-                    </Link>
-                  )}
-                </div>
-              </motion.div>
+                key={`dot-${i}`}
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, ease: E, delay: 0.3 + i * 0.2 }}
+                className="absolute top-[49px] z-[1] w-[8px] h-[8px] rounded-full bg-[#C9A84C] shadow-[0_0_12px_rgba(201,168,76,0.5)]"
+                style={{ left: `${16 + i * 34}%` }}
+              />
             ))}
+
+            {steps.map((step, i) => {
+              // Convergent reveal: card 0 straight up, card 1 from left, card 2 from right
+              const xOffset = i === 0 ? 0 : i === 1 ? -20 : 20;
+
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 40, x: xOffset }}
+                  whileInView={{ opacity: 1, y: 0, x: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.7, ease: E, delay: 0.1 + i * 0.2 }}
+                  className="relative z-10"
+                >
+                  <div className={`rounded-2xl p-6 lg:p-8 h-full relative overflow-visible
+                                  transition-all duration-500 group
+                                  hover:-translate-y-1
+                                  ${i === 2
+                                    ? 'bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C] shadow-[0_4px_32px_rgba(0,0,0,0.22)] hover:shadow-[0_16px_56px_-12px_rgba(0,0,0,0.40)]'
+                                    : 'bg-white border-l-[3px] border-l-[#C9A84C] shadow-[0_2px_20px_rgba(0,0,0,0.07)] hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.12)]'
+                                  }`}>
+
+                    {/* Giant number watermark — Syne display font */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: i === 2 ? 0.04 : 0.04, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, ease: E, delay: i * 0.2 }}
+                      className={`absolute -top-6 -right-2 font-display font-[800] leading-none
+                                  pointer-events-none select-none
+                                  ${i === 2 ? 'text-white' : 'text-black'}`}
+                      style={{ fontSize: 'clamp(120px, 20vw, 240px)' }}
+                      aria-hidden="true"
+                    >
+                      {step.num}
+                    </motion.div>
+
+                    {/* Icon */}
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 mb-4 relative z-10">
+                      <step.Icon />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className={`relative z-10 text-base lg:text-lg font-serif font-normal tracking-tight mb-1
+                                    ${i === 2 ? 'text-white' : 'text-black'}`}>
+                      {step.title}
+                    </h3>
+
+                    {/* Subtitle */}
+                    <p className="relative z-10 text-[#C9A84C] text-[10px] font-semibold uppercase tracking-[0.28em] mb-3">
+                      {step.subtitle}
+                    </p>
+
+                    {/* Description */}
+                    <p className={`relative z-10 text-sm leading-relaxed font-light
+                                   ${i === 2 ? 'text-gray-400' : 'text-gray-500'}`}>
+                      {step.description}
+                    </p>
+
+                    {/* CTA on last card */}
+                    {i === 2 && (
+                      <Link to="/contato-quiz" className="mt-5 inline-block relative z-10">
+                        <motion.div
+                          whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }}
+                          className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C9A84C] to-[#E5C05C]
+                                     flex items-center justify-center text-black
+                                     hover:shadow-[0_0_28px_rgba(201,168,76,0.40)] transition-shadow duration-500"
+                        >
+                          <ArrowRight className="w-5 h-5" />
+                        </motion.div>
+                      </Link>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
@@ -222,39 +293,52 @@ export default function TriadeSection() {
                 transition={{ duration: 0.6, ease: E, delay: i * 0.1 }}
                 className="relative"
               >
-                {/* Timeline dot */}
-                <div className="absolute -left-8 top-6 w-[9px] h-[9px] rounded-full bg-[#C9A84C]
-                                ring-4 ring-[#F5F2EC]" />
+                {/* Timeline dot with glow */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, ease: E, delay: i * 0.15 }}
+                  className="absolute -left-8 top-6 w-[9px] h-[9px] rounded-full bg-[#C9A84C]
+                              ring-4 ring-[#F5F2EC] shadow-[0_0_10px_rgba(201,168,76,0.4)]"
+                />
 
-                <div className={`rounded-xl p-5 ${
+                <div className={`rounded-xl p-5 relative overflow-visible ${
                   i === 2
                     ? 'bg-[#0A0A0A] border-l-[3px] border-l-[#C9A84C] shadow-lg'
                     : 'bg-white border-l-[3px] border-l-[#C9A84C] shadow-md'
                 }`}>
 
-                  {/* Icon + Number row */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-6 h-6 flex-shrink-0"><step.Icon /></div>
-                    <span className={`text-[10px] font-bold tracking-[0.2em]
-                                      ${i === 2 ? 'text-white/20' : 'text-black/10'}`}>
-                      {step.num}
-                    </span>
+                  {/* Number watermark — larger on mobile too */}
+                  <div
+                    className={`absolute -top-4 -right-1 font-display font-[800] leading-none
+                                pointer-events-none select-none
+                                ${i === 2 ? 'text-white opacity-[0.04]' : 'text-black opacity-[0.04]'}`}
+                    style={{ fontSize: '80px' }}
+                    aria-hidden="true"
+                  >
+                    {step.num}
                   </div>
 
-                  <h3 className={`text-sm font-serif font-normal tracking-tight mb-0.5
+                  {/* Icon + Number row */}
+                  <div className="flex items-center gap-3 mb-3 relative z-10">
+                    <div className="w-6 h-6 flex-shrink-0"><step.Icon /></div>
+                  </div>
+
+                  <h3 className={`relative z-10 text-sm font-serif font-normal tracking-tight mb-0.5
                                   ${i === 2 ? 'text-white' : 'text-black'}`}>
                     {step.title}
                   </h3>
-                  <p className="text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2">
+                  <p className="relative z-10 text-[#C9A84C] text-[9px] font-semibold uppercase tracking-[0.28em] mb-2">
                     {step.subtitle}
                   </p>
-                  <p className={`text-xs leading-relaxed font-light
+                  <p className={`relative z-10 text-xs leading-relaxed font-light
                                  ${i === 2 ? 'text-gray-400' : 'text-gray-500'}`}>
                     {step.description}
                   </p>
 
                   {i === 2 && (
-                    <Link to="/contato-quiz" className="mt-4 inline-flex items-center gap-2
+                    <Link to="/contato-quiz" className="relative z-10 mt-4 inline-flex items-center gap-2
                                                          text-[10px] font-semibold uppercase tracking-[0.2em]
                                                          text-[#C9A84C]">
                       Começar agora

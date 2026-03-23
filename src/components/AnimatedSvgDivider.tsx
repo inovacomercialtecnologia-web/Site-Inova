@@ -1,6 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
-export default function AnimatedSvgDivider() {
+interface AnimatedSvgDividerProps {
+  fromColor?: string;
+  toColor?: string;
+}
+
+export default function AnimatedSvgDivider({ fromColor = '#0a0a0a', toColor = '#ffffff' }: AnimatedSvgDividerProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -65,11 +70,13 @@ export default function AnimatedSvgDivider() {
 
   return (
     <div className="relative w-full h-[40px] md:h-[140px] bg-transparent overflow-hidden block m-0 p-0">
-      {/* Top gradient blending into black hero */}
-      <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
-      
-      {/* Bottom gradient blending into white SaaS section */}
-      <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-b from-transparent to-[#ffffff] z-10 pointer-events-none" />
+      {/* Top gradient blending */}
+      <div className="absolute top-0 left-0 w-full h-[30%] z-10 pointer-events-none"
+        style={{ background: `linear-gradient(to bottom, ${fromColor}, transparent)` }} />
+
+      {/* Bottom gradient blending */}
+      <div className="absolute bottom-0 left-0 w-full h-[30%] z-10 pointer-events-none"
+        style={{ background: `linear-gradient(to bottom, transparent, ${toColor})` }} />
 
       <svg className="w-full h-full block" style={{ minHeight: isMobile ? '40px' : '140px' }}>
         {edges.map((edge, i) => {

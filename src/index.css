@@ -21,6 +21,16 @@
   to { width: 100%; }
 }
 
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(201,168,76,0.15); }
+  50% { box-shadow: 0 0 40px rgba(201,168,76,0.35); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 html {
   font-size: clamp(14px, 0.875rem + 0.25vw, 16px);
 }
