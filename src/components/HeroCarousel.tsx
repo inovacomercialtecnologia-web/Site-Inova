@@ -162,23 +162,10 @@ export default function HeroSection() {
                        min-h-[52px]"
             style={{ animation: 'ctaPulse 2.5s ease-in-out infinite' }}
           >
-            Diagnosticar minha operação
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <a
-            href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20as%20solu%C3%A7%C3%B5es%20da%20Inova."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
-                       border border-white/20 text-white
-                       px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
-                       hover:bg-white/[0.06] hover:border-white/30 transition-all duration-300
-                       min-h-[52px]"
-          >
             <MessageCircle size={16} />
             Falar com especialista
-          </a>
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </motion.div>
 
         {/* Social proof metrics — count-up */}

@@ -128,7 +128,7 @@ export default function DiagnosticSection() {
               topic={topic} 
               index={parseInt(topic.id) - 1} 
               scrollYProgress={scrollYProgress} 
-              onClick={() => { navigate(`/diagnostico/${topic.slug}`); }}
+              onClick={() => { navigate('/contato-quiz'); }}
             />
           ))}
         </div>

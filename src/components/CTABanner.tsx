@@ -151,10 +151,8 @@ export default function CTABanner({
           </div>
 
           {showWhatsApp && (
-            <a
-              href="https://wa.me/5500000000000?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20as%20solu%C3%A7%C3%B5es%20da%20Inova."
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/contato-quiz"
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
                          border border-white/20 text-white
                          px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
@@ -162,7 +160,7 @@ export default function CTABanner({
             >
               <MessageCircle size={16} />
               Falar com especialista
-            </a>
+            </Link>
           )}
         </motion.div>
 

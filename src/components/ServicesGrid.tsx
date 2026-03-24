@@ -142,7 +142,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       transition={{ duration: 0.6, ease: E, delay: index * 0.08 }}
     >
       <Link
-        to={service.to}
+        to="/contato-quiz"
         className="block h-full"
       >
         <div
