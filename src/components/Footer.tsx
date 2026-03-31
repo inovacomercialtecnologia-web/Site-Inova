@@ -39,7 +39,7 @@ const footerData = {
   ],
   socials: [
     { id: "linkedin", icon: Linkedin, href: "#" },
-    { id: "instagram", icon: Instagram, href: "#" },
+    { id: "instagram", icon: Instagram, href: "https://www.instagram.com/inova_systems_solutions/" },
     { id: "facebook", icon: Facebook, href: "#" },
     { id: "twitter", icon: Twitter, href: "#" },
     { id: "mail", icon: Mail, href: "mailto:contato@inovasystems.com.br" }
