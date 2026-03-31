@@ -135,6 +135,7 @@ export default function CTABanner({
           <div
             ref={!isMobile ? magnetic.ref : undefined}
             style={!isMobile ? magnetic.style : undefined}
+            className="hidden sm:block"
           >
             <Link
               to={to}
@@ -154,9 +155,11 @@ export default function CTABanner({
             <Link
               to="/contato-quiz"
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
-                         border border-white/20 text-white
+                         bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-[#080808]
+                         sm:bg-none sm:bg-transparent sm:text-white sm:border sm:border-white/20
                          px-6 sm:px-8 py-4 rounded-full font-semibold text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider
-                         hover:bg-white/[0.06] hover:border-white/30 transition-all duration-300"
+                         hover:shadow-[0_8px_32px_rgba(201,168,76,0.35)] sm:hover:shadow-none sm:hover:bg-white/[0.06] sm:hover:border-white/30 transition-all duration-300"
+              style={isMobile ? { animation: 'ctaPulse 2.5s ease-in-out infinite' } : undefined}
             >
               <MessageCircle size={16} />
               Falar com especialista
