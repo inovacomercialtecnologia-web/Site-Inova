@@ -51,11 +51,11 @@ const ImmersiveHome = () => {
         {/* 4. Serviços: Web, Mobile, Automação, IA */}
         <ServicesGrid />
 
-        {/* 5. Cases destaque (3) */}
-        <CasesSection />
-
-        {/* 6. Compliance & Segurança */}
+        {/* 5. Compliance & Segurança */}
         <ComplianceSection />
+
+        {/* 6. Cases destaque (3) */}
+        <CasesSection />
 
         {/* 7. CTA final */}
         <CTASection />
