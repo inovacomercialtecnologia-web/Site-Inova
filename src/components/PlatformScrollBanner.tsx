@@ -16,7 +16,7 @@ const PlatformScrollBanner = () => {
     <div className="bg-[#FFFFFF] py-8 md:py-12 border-y border-gray-100 overflow-hidden relative z-30">
       <div className="flex relative">
         <motion.div 
-          className="flex whitespace-nowrap gap-8 md:gap-32 items-center"
+          className="flex whitespace-nowrap gap-6 sm:gap-8 md:gap-32 items-center"
           animate={{ x: ["0%", "-33.33%"] }}
           transition={{ 
             repeat: Infinity, 
@@ -27,7 +27,7 @@ const PlatformScrollBanner = () => {
           {duplicatedPlatforms.map((platform, i) => (
             <div 
               key={i} 
-              className="text-gray-200 text-xl md:text-4xl font-light tracking-tight hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all duration-700 cursor-default select-none"
+              className="text-gray-200 text-base sm:text-xl md:text-4xl font-light tracking-tight hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#C9A84C] hover:to-[#E5C05C] transition-all duration-700 cursor-default select-none"
             >
               {platform}
             </div>

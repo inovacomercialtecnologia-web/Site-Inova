@@ -90,7 +90,7 @@ export default function Navbar() {
           exit={{ opacity: 0, x: '100%' }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: 'fixed', inset: 0, zIndex: 250, overscrollBehavior: 'contain' }}
-          className="bg-[#000000] flex flex-col px-6 py-8"
+          className="bg-[#000000] flex flex-col px-4 sm:px-6 py-8"
         >
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center gap-2">
@@ -218,7 +218,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full left-0 w-[280px] sm:w-[320px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
+                      className="absolute top-full left-0 w-[calc(100vw-2rem)] sm:w-[320px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
                     >
                       <div className="flex flex-col gap-1 max-h-[400px] overflow-y-auto custom-scrollbar">
                         <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium mb-2 px-2">Nossas Soluções</span>
@@ -254,7 +254,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full left-0 w-[200px] sm:w-[240px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
+                      className="absolute top-full left-0 w-[calc(100vw-2rem)] sm:w-[240px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
                     >
                       <div className="flex flex-col gap-1">
                         <Link

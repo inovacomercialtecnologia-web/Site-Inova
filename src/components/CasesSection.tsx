@@ -236,7 +236,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           style={{ background: c.heroBg }}>
           <c.HeroSvg accent={c.accent} />
           <span className="absolute bottom-0 right-4 font-serif font-black leading-none text-white select-none"
-            style={{ fontSize: 'clamp(4rem, 12vw, 7rem)', opacity: 0.06 }}>{c.num}</span>
+            style={{ fontSize: 'clamp(2.5rem, 10vw, 7rem)', opacity: 0.06 }}>{c.num}</span>
           <button onClick={onClose}
             className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20
                        flex items-center justify-center transition-colors duration-200 z-10">
@@ -286,7 +286,7 @@ function CaseModal({ c, onClose }: { c: CaseData; onClose: () => void }) {
           {/* Results */}
           <motion.div {...cascade(3)} className="mb-8">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-4" style={{ color: c.accent }}>Resultados</p>
-            <div className="grid grid-cols-3 gap-2 md:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
               {c.results.map((r, i) => (
                 <div key={i} className="rounded-xl p-4 border border-white/[0.06]" style={{ background: `${c.accent}08` }}>
                   <p className="font-black text-base md:text-2xl leading-none mb-1.5" style={{ color: c.accent }}>{r.value}</p>

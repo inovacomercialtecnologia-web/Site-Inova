@@ -232,7 +232,7 @@ const DiagnosticCard: React.FC<DiagnosticCardProps> = ({ topic, index, scrollYPr
               style={{ y: imgY }}
               src={topic.image} 
               alt={topic.title}
-              className="absolute inset-0 w-full h-[140%] object-cover opacity-80 group-hover/card:opacity-100 transition-opacity duration-700"
+              className="absolute inset-0 w-full h-[120%] sm:h-[140%] object-cover opacity-80 group-hover/card:opacity-100 transition-opacity duration-700"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>

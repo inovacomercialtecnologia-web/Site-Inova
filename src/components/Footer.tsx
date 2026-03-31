@@ -88,7 +88,7 @@ export default function Footer() {
                 Receba insights sobre transformação digital, cases de sucesso e tendências de tecnologia para o mercado B2B.
               </p>
             </div>
-            <form onSubmit={handleNewsletter} className="flex items-center gap-3 w-full md:w-auto">
+            <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
               <div className="relative flex-1 md:w-72">
                 <input
                   type="email"

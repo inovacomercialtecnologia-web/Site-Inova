@@ -89,7 +89,7 @@ export default function MainHeroSection() {
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-center"
           >
-            <div className="flex items-center gap-4 mb-6 md:mb-8">
+            <div className="flex items-center gap-2 sm:gap-4 mb-6 md:mb-8">
               <div className="w-6 md:w-8 h-[1px] bg-white/30"></div>
               <span className="bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] bg-clip-text text-transparent font-medium text-[9px] md:text-xs tracking-[0.2em] uppercase">
                 {slides[activeSlide].tag}
@@ -98,7 +98,7 @@ export default function MainHeroSection() {
             </div>
             
             <h1 className="font-light leading-[1.1] text-white tracking-tight max-w-[900px] drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)]"
-              style={{ fontSize: 'clamp(1.5rem, 5vw, 4rem)' }}>
+              style={{ fontSize: 'clamp(1.75rem, 6vw, 4rem)' }}>
               {slides[activeSlide].title}
             </h1>
             

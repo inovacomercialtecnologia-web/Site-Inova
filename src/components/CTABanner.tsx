@@ -141,7 +141,7 @@ export default function CTABanner({
               onClick={() => window.scrollTo(0, 0)}
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
                          bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-[#080808]
-                         px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                         px-6 sm:px-8 py-4 rounded-full font-semibold text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider
                          hover:shadow-[0_8px_32px_rgba(201,168,76,0.35)] transition-all duration-300"
               style={{ animation: 'ctaPulse 2.5s ease-in-out infinite' }}
             >
@@ -155,7 +155,7 @@ export default function CTABanner({
               to="/contato-quiz"
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-3
                          border border-white/20 text-white
-                         px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider
+                         px-6 sm:px-8 py-4 rounded-full font-semibold text-xs sm:text-sm uppercase tracking-wide sm:tracking-wider
                          hover:bg-white/[0.06] hover:border-white/30 transition-all duration-300"
             >
               <MessageCircle size={16} />

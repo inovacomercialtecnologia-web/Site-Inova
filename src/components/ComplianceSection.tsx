@@ -87,13 +87,13 @@ function ComplianceCard({ card, index }: { key?: number; card: typeof cards[0]; 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, ease: E, delay: index * 0.08 }}
-      className="group relative h-full rounded-2xl p-6 md:p-8
-                 bg-white/[0.02] border border-white/[0.06]
+      className="group relative h-full rounded-2xl
+                 bg-white/[0.02] border border-white/[0.06] p-5 sm:p-6 md:p-8
                  transition-colors duration-500
                  hover:border-[#C9A84C]/30 hover:bg-white/[0.04]"
     >
       {/* Icon */}
-      <div className="w-12 h-12 mb-5">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 mb-5">
         <card.Icon />
       </div>
 
