@@ -6,6 +6,7 @@ import TriadeSection from '../components/TriadeSection';
 import ServicesGrid from '../components/ServicesGrid';
 import CasesSection from '../components/CasesSection';
 import CTASection from '../components/CTABanner';
+import ComplianceSection from '../components/ComplianceSection';
 import AnimatedSvgDivider from '../components/AnimatedSvgDivider';
 import CustomCursor from '../components/CustomCursor';
 import PageMeta from '../components/PageMeta';
@@ -53,7 +54,10 @@ const ImmersiveHome = () => {
         {/* 5. Cases destaque (3) */}
         <CasesSection />
 
-        {/* 6. CTA final */}
+        {/* 6. Compliance & Segurança */}
+        <ComplianceSection />
+
+        {/* 7. CTA final */}
         <CTASection />
       </div>
     </div>
