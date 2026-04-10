@@ -721,29 +721,28 @@ export default function CinematicHero() {
     return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(rafRef.current); };
   }, []);
 
-  /* Hero text fade — vanilla scroll, isolated from GSAP pin */
+  /* Hero text fade — via GSAP ScrollTrigger (works with pinning) */
   useEffect(() => {
     const heroEl = document.querySelector(".hero-text") as HTMLElement | null;
     const chevEl = document.querySelector(".hero-chev") as HTMLElement | null;
     const neuralEl = document.querySelector(".neural-bg") as HTMLElement | null;
     if (!heroEl) return;
 
-    let pinActive = false;
-    const onScroll = () => {
-      // Once the GSAP pin is active, scrollY freezes — hide hero and stop
-      if (pinActive) return;
-      const sy = window.scrollY;
-      if (sy > 500) { pinActive = true; heroEl.style.opacity = "0"; return; }
-      const p = Math.min(sy / 350, 1);
-      heroEl.style.opacity = String(1 - p);
-      heroEl.style.transform = `scale(${1 + p * 0.08})`;
-      heroEl.style.filter = `blur(${p * 12}px)`;
-      if (chevEl) chevEl.style.opacity = String(Math.max(1 - p * 2, 0));
-      if (neuralEl) neuralEl.style.opacity = String(0.25 * (1 - p));
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    const st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "+=400",
+      onUpdate: (self) => {
+        const p = self.progress;
+        heroEl.style.opacity = String(1 - p);
+        heroEl.style.transform = `scale(${1 + p * 0.1})`;
+        heroEl.style.filter = `blur(${p * 16}px)`;
+        if (chevEl) chevEl.style.opacity = String(1 - p);
+        if (neuralEl) neuralEl.style.opacity = String(0.25 * (1 - p));
+      },
+    });
+
+    return () => st.kill();
   }, []);
 
   /* GSAP scroll timeline */
@@ -752,7 +751,7 @@ export default function CinematicHero() {
     const mob = window.innerWidth < 768;
 
     const ctx = gsap.context(() => {
-      gsap.set(".main-card", { y: window.innerHeight * 1.5, autoAlpha: 1 });
+      gsap.set(".main-card", { y: window.innerHeight + 200, autoAlpha: 1 });
       gsap.set([".card-txt", ".mockup-wrap", ".pw", ".orb-card", ".orb-dot"], { autoAlpha: 0 });
       gsap.set(".cta-wrap", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
@@ -773,22 +772,15 @@ export default function CinematicHero() {
         /* Phase 1: card rises */
         .to(".main-card", { y: 0, duration: 1.2, ease: "power3.inOut" })
         /* Phase 2: fullscreen */
-        .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", duration: 0.8, ease: "power3.inOut" });
-
-      if (mob) {
-        /* Mobile: show device immediately with card */
-        tl.fromTo(".mockup-wrap", { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.8, ease: "expo.out" })
-          .add(() => setActiveCard(0));
-      } else {
-        /* Desktop: full orbital entrance */
-        tl.fromTo(".mockup-wrap", { y: 150, autoAlpha: 0, scale: 0.8 }, { y: 0, autoAlpha: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "-=0.3")
-          .to(".orb-ring-0, .orb-ring-1", { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, "-=1.0")
-          .to(".orb-line", { autoAlpha: 1, stagger: 0.04, duration: 0.5 }, "-=0.7")
-          .fromTo(".orb-card", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: 0.06, duration: 0.7, ease: "back.out(1.2)" }, "-=0.5")
-          .fromTo(".orb-dot", { autoAlpha: 0, scale: 0 }, { autoAlpha: 1, scale: 1, stagger: 0.02, duration: 0.3, ease: "back.out(2)" }, "-=0.3")
-          .fromTo(".card-txt", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, ease: "power4.out" }, "-=0.6")
-          .add(() => setActiveCard(0), "-=0.4");
-      }
+        .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", duration: 0.8, ease: "power3.inOut" })
+        /* Phase 3: Device 1 (Laptop) + orbitals */
+        .fromTo(".mockup-wrap", { y: 150, autoAlpha: 0, scale: 0.8 }, { y: 0, autoAlpha: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "-=0.3")
+        .to(".orb-ring-0, .orb-ring-1", { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, "-=1.0")
+        .to(".orb-line", { autoAlpha: 1, stagger: 0.04, duration: 0.5 }, "-=0.7")
+        .fromTo(".orb-card", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: 0.06, duration: 0.7, ease: "back.out(1.2)" }, "-=0.5")
+        .fromTo(".orb-dot", { autoAlpha: 0, scale: 0 }, { autoAlpha: 1, scale: 1, stagger: 0.02, duration: 0.3, ease: "back.out(2)" }, "-=0.3")
+        .fromTo(".card-txt", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, ease: "power4.out" }, "-=0.6")
+        .add(() => setActiveCard(0), "-=0.4");
 
       /* Device transitions */
       for (let i = 0; i < 3; i++) {
@@ -828,14 +820,14 @@ export default function CinematicHero() {
       <div className="absolute inset-0 z-[3] pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
 
       {/* Hero Text */}
-      <div className="hero-text absolute inset-0 z-30 flex flex-col items-center justify-center text-center px-6 will-change-transform pointer-events-none">
+      <div className="hero-text absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 will-change-transform">
         <span className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.3em] mb-6 md:mb-8 block">Inteligência operacional aplicada</span>
         <h1 className="font-serif font-light text-white tracking-tight leading-[1.08] md:leading-[1.02] mb-6 md:mb-8" style={{ fontSize: "clamp(2.4rem, 6vw, 5.5rem)" }}>
           <span className="inline-block">Não vendemos sistema.</span><br />
           <span className="inline-block bg-gradient-to-r from-[#C9A84C] via-[#E5C05C] to-[#C9A84C] bg-clip-text text-transparent" style={{ backgroundSize: "200% auto", animation: "shimmer 3s linear 1.5s infinite" }}>Construímos o seu.</span>
         </h1>
         <p className="text-gray-300 text-base md:text-lg lg:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-10 md:mb-12">Antes de qualquer linha de código, entendemos como sua empresa funciona. Depois, construímos a tecnologia que ela merece.</p>
-        <div className="pointer-events-auto">
+        <div>
           <Link to="/contato-quiz" className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#C9A84C] to-[#E5C05C] text-black px-8 py-4 rounded-full font-semibold text-sm uppercase tracking-wider hover:shadow-[0_8px_32px_rgba(201,168,76,0.4)] transition-all duration-300 min-h-[52px]" style={{ animation: "ctaPulse 2.5s ease-in-out infinite" }}>
             <MessageCircle size={16} /> Falar com especialista <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
@@ -846,7 +838,7 @@ export default function CinematicHero() {
       </div>
 
       {/* Chevrons */}
-      <div className="hero-chev absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-0">
+      <div className="hero-chev absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-0">
         {[0, 1, 2].map(i => <div key={i} style={{ animation: `chevronBob 1.5s ease-in-out ${i * 0.15}s infinite` }}><ChevronDown className="w-5 h-5 text-[#C9A84C]" strokeWidth={1.5} /></div>)}
       </div>
 
