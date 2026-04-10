@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import CinematicHero from '../components/CinematicHero';
+import HeroSection from '../components/HeroCarousel';
 import ProblemSolution from '../components/ImpactCarousel';
 import TriadeSection from '../components/TriadeSection';
 import ServicesGrid from '../components/ServicesGrid';
@@ -34,7 +34,7 @@ const ImmersiveHome = () => {
 
       <div className="relative z-10">
         {/* 1. Hero — Cinematic */}
-        <CinematicHero />
+        <HeroSection />
 
         {/* 2. Problema → Posicionamento */}
         <ProblemSolution />
