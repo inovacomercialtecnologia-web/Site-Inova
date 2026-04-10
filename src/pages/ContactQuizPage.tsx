@@ -317,7 +317,7 @@ function NavRow({
 
 function StepProgress({ current, total }: { current: number; total: number }) {
   return (
-    <div className="fixed top-[100px] left-0 right-0 z-[90] flex items-center justify-center pointer-events-none select-none">
+    <div className="fixed top-0 left-0 right-0 z-[90] flex items-center justify-center pointer-events-none select-none pt-[100px] pb-4 bg-gradient-to-b from-[#080808] via-[#080808]/95 to-transparent">
       <div className="flex items-center">
         {Array.from({ length: total }, (_, i) => {
           const n      = i + 1;
