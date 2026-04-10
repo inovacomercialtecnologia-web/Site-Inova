@@ -721,9 +721,8 @@ export default function CinematicHero() {
     return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(rafRef.current); };
   }, []);
 
-  /* Hero text fade — vanilla scroll */
+  /* Hero text fade — vanilla scroll, isolated from GSAP pin */
   useEffect(() => {
-    if (isMobile) return; // Mobile: no hero fade, hero is a separate section
     const heroEl = document.querySelector(".hero-text") as HTMLElement | null;
     const chevEl = document.querySelector(".hero-chev") as HTMLElement | null;
     const neuralEl = document.querySelector(".neural-bg") as HTMLElement | null;
@@ -731,6 +730,7 @@ export default function CinematicHero() {
 
     let pinActive = false;
     const onScroll = () => {
+      // Once the GSAP pin is active, scrollY freezes — hide hero and stop
       if (pinActive) return;
       const sy = window.scrollY;
       if (sy > 500) { pinActive = true; heroEl.style.opacity = "0"; return; }
@@ -744,43 +744,19 @@ export default function CinematicHero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isMobile]);
+  }, []);
 
-  /* Mobile: auto-rotate devices every 3s */
+  /* GSAP scroll timeline */
   useEffect(() => {
-    if (!isMobile) return;
-    let current = 0;
-    const slots = document.querySelectorAll(".device-slot");
-    if (slots.length === 0) return;
-
-    // Show first device
-    slots.forEach((s, i) => {
-      (s as HTMLElement).style.opacity = i === 0 ? "1" : "0";
-      (s as HTMLElement).style.transition = "opacity 0.6s ease";
-    });
-    setActiveCard(0);
-
-    const interval = setInterval(() => {
-      const prev = current;
-      current = (current + 1) % 4;
-      (slots[prev] as HTMLElement).style.opacity = "0";
-      (slots[current] as HTMLElement).style.opacity = "1";
-      setActiveCard(current);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isMobile]);
-
-  /* GSAP scroll timeline — DESKTOP ONLY */
-  useEffect(() => {
-    if (isMobile) return; // No GSAP pin on mobile
     if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    const mob = window.innerWidth < 768;
 
     const ctx = gsap.context(() => {
       gsap.set(".main-card", { y: window.innerHeight * 1.5, autoAlpha: 1 });
       gsap.set([".card-txt", ".mockup-wrap", ".pw", ".orb-card", ".orb-dot"], { autoAlpha: 0 });
       gsap.set(".cta-wrap", { autoAlpha: 0, scale: 0.8, filter: "blur(30px)" });
 
+      /* Devices: only first visible */
       gsap.set(".device-slot", { autoAlpha: 0, scale: 0.9 });
       gsap.set(".device-slot-0", { autoAlpha: 1, scale: 1 });
 
@@ -790,19 +766,29 @@ export default function CinematicHero() {
       gsap.set(".orb-line", { autoAlpha: 0 });
 
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: containerRef.current, start: "top top", end: "+=4500", pin: true, scrub: 1, anticipatePin: 1 },
+        scrollTrigger: { trigger: containerRef.current, start: "top top", end: mob ? "+=2500" : "+=4500", pin: true, scrub: mob ? 0.5 : 1, anticipatePin: 1 },
       });
 
       tl
+        /* Phase 1: card rises */
         .to(".main-card", { y: 0, duration: 1.2, ease: "power3.inOut" })
-        .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", duration: 0.8, ease: "power3.inOut" })
-        .fromTo(".mockup-wrap", { y: 150, autoAlpha: 0, scale: 0.8 }, { y: 0, autoAlpha: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "-=0.3")
-        .to(".orb-ring-0, .orb-ring-1", { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, "-=1.0")
-        .to(".orb-line", { autoAlpha: 1, stagger: 0.04, duration: 0.5 }, "-=0.7")
-        .fromTo(".orb-card", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: 0.06, duration: 0.7, ease: "back.out(1.2)" }, "-=0.5")
-        .fromTo(".orb-dot", { autoAlpha: 0, scale: 0 }, { autoAlpha: 1, scale: 1, stagger: 0.02, duration: 0.3, ease: "back.out(2)" }, "-=0.3")
-        .fromTo(".card-txt", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, ease: "power4.out" }, "-=0.6")
-        .add(() => setActiveCard(0), "-=0.4");
+        /* Phase 2: fullscreen */
+        .to(".main-card", { width: "100%", height: "100%", borderRadius: "0px", duration: 0.8, ease: "power3.inOut" });
+
+      if (mob) {
+        /* Mobile: show device immediately with card */
+        tl.fromTo(".mockup-wrap", { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.8, ease: "expo.out" })
+          .add(() => setActiveCard(0));
+      } else {
+        /* Desktop: full orbital entrance */
+        tl.fromTo(".mockup-wrap", { y: 150, autoAlpha: 0, scale: 0.8 }, { y: 0, autoAlpha: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "-=0.3")
+          .to(".orb-ring-0, .orb-ring-1", { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.inOut" }, "-=1.0")
+          .to(".orb-line", { autoAlpha: 1, stagger: 0.04, duration: 0.5 }, "-=0.7")
+          .fromTo(".orb-card", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, stagger: 0.06, duration: 0.7, ease: "back.out(1.2)" }, "-=0.5")
+          .fromTo(".orb-dot", { autoAlpha: 0, scale: 0 }, { autoAlpha: 1, scale: 1, stagger: 0.02, duration: 0.3, ease: "back.out(2)" }, "-=0.3")
+          .fromTo(".card-txt", { x: -30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.8, ease: "power4.out" }, "-=0.6")
+          .add(() => setActiveCard(0), "-=0.4");
+      }
 
       /* Device transitions */
       for (let i = 0; i < 3; i++) {
@@ -812,22 +798,23 @@ export default function CinematicHero() {
           .fromTo(`.device-slot-${i + 1}`, { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: "power2.inOut" }, "-=0.3");
       }
 
+      /* Hold */
       tl.to({}, { duration: 0.8 }).add(() => setActiveCard(-1));
 
       /* CTA */
       tl.set(".hero-text", { autoAlpha: 0 }).set(".cta-wrap", { autoAlpha: 1 })
         .to({}, { duration: 0.3 })
         .to([".mockup-wrap", ".orb-card", ".card-txt"], { scale: 0.9, y: -30, autoAlpha: 0, duration: 0.8, ease: "power3.in", stagger: 0.03 })
-        .to(".main-card", { width: "85vw", height: "85vh", borderRadius: "40px", duration: 1.2, ease: "expo.inOut" }, "pull")
+        .to(".main-card", { width: mob ? "100vw" : "85vw", height: mob ? "100vh" : "85vh", borderRadius: mob ? "0px" : "40px", duration: 1.2, ease: "expo.inOut" }, "pull")
         .to(".cta-wrap", { scale: 1, filter: "blur(0px)", duration: 1.2, ease: "expo.inOut" }, "pull")
         .to(".main-card", { y: -window.innerHeight - 300, duration: 0.8, ease: "power3.in" });
 
     }, containerRef);
     return () => ctx.revert();
-  }, [isMobile]);
+  }, []);
 
   return (
-    <div ref={containerRef} className={`relative w-screen bg-[#080808] text-white font-sans antialiased ${isMobile ? "min-h-screen" : "h-screen overflow-hidden flex items-center justify-center"}`} style={{ perspective: "1500px" }}>
+    <div ref={containerRef} className="relative w-screen h-screen overflow-hidden flex items-center justify-center bg-[#080808] text-white font-sans antialiased" style={{ perspective: "1500px" }}>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <div className="neural-bg absolute inset-0 z-[1]">
@@ -840,8 +827,8 @@ export default function CinematicHero() {
       )}
       <div className="absolute inset-0 z-[3] pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.75) 100%)" }} />
 
-      {/* Hero Text — hidden on mobile (card is shown directly) */}
-      <div className={`hero-text absolute inset-0 z-30 flex flex-col items-center justify-center text-center px-6 will-change-transform pointer-events-none ${isMobile ? "hidden" : ""}`}>
+      {/* Hero Text */}
+      <div className="hero-text absolute inset-0 z-30 flex flex-col items-center justify-center text-center px-6 will-change-transform pointer-events-none">
         <span className="text-[#C9A84C] text-[10px] md:text-xs font-medium uppercase tracking-[0.3em] mb-6 md:mb-8 block">Inteligência operacional aplicada</span>
         <h1 className="font-serif font-light text-white tracking-tight leading-[1.08] md:leading-[1.02] mb-6 md:mb-8" style={{ fontSize: "clamp(2.4rem, 6vw, 5.5rem)" }}>
           <span className="inline-block">Não vendemos sistema.</span><br />
@@ -859,12 +846,12 @@ export default function CinematicHero() {
       </div>
 
       {/* Chevrons */}
-      <div className={`hero-chev absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-0 ${isMobile ? "hidden" : ""}`}>
+      <div className="hero-chev absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-0">
         {[0, 1, 2].map(i => <div key={i} style={{ animation: `chevronBob 1.5s ease-in-out ${i * 0.15}s infinite` }}><ChevronDown className="w-5 h-5 text-[#C9A84C]" strokeWidth={1.5} /></div>)}
       </div>
 
       {/* CTA */}
-      <div className={`cta-wrap absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-auto will-change-transform ${isMobile ? "hidden" : ""}`}>
+      <div className="cta-wrap absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-auto will-change-transform">
         <h2 className="font-serif font-light text-white tracking-tight mb-6" style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)" }}>Vamos construir o seu.</h2>
         <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed">Junte-se a mais de 50 empresas que transformaram seus processos com tecnologia sob medida.</p>
         <div className="flex flex-col sm:flex-row gap-5">
@@ -878,8 +865,8 @@ export default function CinematicHero() {
       </div>
 
       {/* Dark Card */}
-      <div className={`${isMobile ? "relative" : "absolute inset-0"} z-20 flex items-center justify-center ${isMobile ? "" : "pointer-events-none"}`} style={{ perspective: "1500px" }}>
-        <div ref={cardRef} className={`main-card premium-depth-card relative overflow-hidden flex items-center justify-center pointer-events-auto ${isMobile ? "w-full min-h-screen" : "w-[85vw] h-[85vh] rounded-[40px]"}`}>
+      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" style={{ perspective: "1500px" }}>
+        <div ref={cardRef} className="main-card premium-depth-card relative overflow-hidden flex items-center justify-center pointer-events-auto w-screen md:w-[85vw] h-screen md:h-[85vh] rounded-none md:rounded-[40px]">
           <div className="card-sheen" aria-hidden="true" />
           <div className="relative w-full h-full max-w-7xl mx-auto px-2 md:px-4 lg:px-12 flex flex-col lg:flex-row items-center justify-center z-10 py-3 lg:py-0 gap-2 lg:gap-8">
 
@@ -899,7 +886,7 @@ export default function CinematicHero() {
             </div>
 
             {/* Devices + orbitals */}
-            <div className="mockup-wrap order-2 lg:order-2 relative w-full lg:w-[72%] h-[70vh] md:h-[380px] lg:h-[600px] flex items-center justify-center z-10">
+            <div className="mockup-wrap order-2 lg:order-2 relative w-full lg:w-[72%] flex-1 md:h-[380px] lg:h-[600px] md:flex-none flex items-center justify-center z-10">
               {/* SVG orbitals */}
               <svg className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
                 {RINGS.map((r, i) => <circle key={i} className={`orb-ring-${i}`} cx={CTR.x} cy={CTR.y} r={r.r} fill="none" stroke="rgba(201,168,76,0.10)" strokeWidth="1" />)}
@@ -933,17 +920,6 @@ export default function CinematicHero() {
           </div>
         </div>
       </div>
-
-      {/* Mobile CTA — below the card, always visible */}
-      {isMobile && (
-        <div className="relative z-10 flex flex-col items-center text-center px-6 py-16 bg-[#080808]">
-          <h2 className="font-serif font-light text-white tracking-tight mb-6" style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)" }}>Vamos construir o seu.</h2>
-          <p className="text-gray-400 text-base mb-8 max-w-sm mx-auto font-light leading-relaxed">Junte-se a mais de 50 empresas que transformaram seus processos com tecnologia sob medida.</p>
-          <Link to="/contato-quiz" className="btn-gold group flex items-center justify-center gap-3 px-8 py-4 rounded-full">
-            <MessageCircle size={18} /><span className="font-semibold text-sm uppercase tracking-wider">Falar com especialista</span><ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      )}
     </div>
   );
 }
