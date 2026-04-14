@@ -12,7 +12,7 @@ const blogPosts = [
     excerpt: "Descubra por que sistemas genéricos podem estar drenando seus lucros e como uma solução sob medida otimiza processos críticos.",
     category: "Gestão & ERP",
     author: "Equipe Inova",
-    date: "15 Mai, 2026",
+    date: "18 Fev, 2026",
     readTime: "8 min",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
     slug: "erp-customizado-reducao-custos"
@@ -23,7 +23,7 @@ const blogPosts = [
     excerpt: "Uma análise técnica profunda sobre performance, custo de desenvolvimento e experiência do usuário para ajudar na sua decisão estratégica.",
     category: "Mobile",
     author: "Tech Lead Inova",
-    date: "10 Mai, 2026",
+    date: "12 Fev, 2026",
     readTime: "12 min",
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800",
     slug: "flutter-vs-react-native-2026"
@@ -34,7 +34,7 @@ const blogPosts = [
     excerpt: "A inteligência artificial não é mais exclusividade de gigantes. Saiba como pequenas e médias empresas estão ganhando escala com automação.",
     category: "IA & Automação",
     author: "Especialista IA",
-    date: "05 Mai, 2026",
+    date: "05 Fev, 2026",
     readTime: "10 min",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
     slug: "automacao-ia-guia-pme"

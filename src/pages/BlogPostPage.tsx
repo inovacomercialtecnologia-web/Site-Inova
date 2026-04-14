@@ -9,7 +9,7 @@ const blogPostsContent = {
     title: "Como um ERP customizado pode reduzir custos operacionais em até 30%?",
     category: "Gestão & ERP",
     author: "Equipe Inova",
-    date: "15 Mai, 2026",
+    date: "18 Fev, 2026",
     readTime: "8 min",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200",
     content: `
@@ -36,7 +36,7 @@ const blogPostsContent = {
     title: "Flutter vs React Native: Qual a melhor escolha para o seu app em 2026?",
     category: "Mobile",
     author: "Tech Lead Inova",
-    date: "10 Mai, 2026",
+    date: "12 Fev, 2026",
     readTime: "12 min",
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1200",
     content: `
@@ -61,7 +61,7 @@ const blogPostsContent = {
     title: "Automação de processos com IA: O guia definitivo para PMEs",
     category: "IA & Automação",
     author: "Especialista IA",
-    date: "05 Mai, 2026",
+    date: "05 Fev, 2026",
     readTime: "10 min",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
     content: `
