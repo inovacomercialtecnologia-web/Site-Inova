@@ -2,6 +2,10 @@
     Require all denied
 </Files>
 
+<Files "blog-config.php">
+    Require all denied
+</Files>
+
 <Files ".ht*">
     Require all denied
 </Files>

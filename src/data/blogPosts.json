@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "Como um ERP customizado pode reduzir custos operacionais em até 30%?",
+    "excerpt": "Descubra por que sistemas genéricos podem estar drenando seus lucros e como uma solução sob medida otimiza processos críticos.",
+    "category": "Gestão & ERP",
+    "author": "Equipe Inova",
+    "date": "15 Mai, 2026",
+    "readTime": "8 min",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
+    "imageLarge": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200",
+    "slug": "erp-customizado-reducao-custos",
+    "tags": ["ERP", "Gestão", "Redução de custos", "B2B"],
+    "metaDescription": "Saiba como um ERP customizado pode reduzir custos operacionais em até 30%. Entenda por que soluções sob medida superam sistemas genéricos.",
+    "publishedAt": "2026-05-15T00:00:00Z",
+    "content": "<p>No cenário competitivo atual, a eficiência operacional não é apenas um diferencial, mas uma questão de sobrevivência. Muitas empresas recorrem a sistemas de gestão (ERP) genéricos na esperança de organizar seus processos, mas acabam encontrando uma barreira: o sistema não se adapta ao negócio, o negócio é que precisa se adaptar ao sistema.</p><h2>O Problema dos Sistemas Genéricos</h2><p>Sistemas \"de prateleira\" são construídos para atender a média do mercado. Isso significa que eles possuem funcionalidades que você nunca usará e carecem de processos específicos que são vitais para sua operação única. O resultado? Planilhas paralelas, retrabalho e dados descentralizados.</p><h2>Como a Customização Gera Economia</h2><p>Um ERP customizado é desenhado em torno da sua metodologia de trabalho. Aqui estão os três pilares onde a redução de custos é mais visível:</p><ul><li><strong>Eliminação de Tarefas Manuais:</strong> Automação de fluxos que antes dependiam de intervenção humana, reduzindo erros e tempo de execução.</li><li><strong>Visibilidade em Tempo Real:</strong> Decisões baseadas em dados precisos evitam desperdícios de estoque e falhas na logística.</li><li><strong>Escalabilidade sem Aumento de Headcount:</strong> Sua empresa cresce em volume de transações sem precisar contratar proporcionalmente mais pessoas para o administrativo.</li></ul><blockquote>\"A tecnologia deve ser o acelerador da sua estratégia, não o freio da sua operação.\"</blockquote><h2>Conclusão</h2><p>Investir em uma solução sob medida pode parecer um custo maior inicialmente, mas o Retorno sobre o Investimento (ROI) se paga rapidamente através da eficiência ganha. Na Inova, mapeamos sua operação real antes de escrever a primeira linha de código, garantindo que o sistema seja uma luva para o seu negócio.</p>"
+  },
+  {
+    "id": 2,
+    "title": "Flutter vs React Native: Qual a melhor escolha para o seu app em 2026?",
+    "excerpt": "Uma análise técnica profunda sobre performance, custo de desenvolvimento e experiência do usuário para ajudar na sua decisão estratégica.",
+    "category": "Mobile",
+    "author": "Tech Lead Inova",
+    "date": "10 Mai, 2026",
+    "readTime": "12 min",
+    "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800",
+    "imageLarge": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=1200",
+    "slug": "flutter-vs-react-native-2026",
+    "tags": ["Flutter", "React Native", "Mobile", "Desenvolvimento"],
+    "metaDescription": "Flutter vs React Native em 2026: comparação técnica de performance, custo e UX para ajudar na escolha da melhor stack para seu app mobile.",
+    "publishedAt": "2026-05-10T00:00:00Z",
+    "content": "<p>A eterna disputa entre os dois gigantes do desenvolvimento multiplataforma continua em 2026. Com o amadurecimento de ambas as tecnologias, a escolha hoje depende menos de \"qual é melhor\" e mais de \"qual é a certa para o seu projeto\".</p><h2>Flutter: Performance e UI Consistente</h2><p>O Flutter, mantido pelo Google, continua sendo a escolha preferida para projetos que exigem uma interface rica, personalizada e com performance idêntica ao nativo. Sua engine de renderização própria (Impeller) garante que o app tenha a mesma aparência em qualquer dispositivo.</p><h2>React Native: Ecossistema e Agilidade</h2><p>O React Native, do Meta, brilha quando a integração com bibliotecas JavaScript existentes é crucial ou quando a equipe já possui forte domínio de React. Em 2026, com a nova arquitetura totalmente estável, a diferença de performance para o Flutter diminuiu drasticamente.</p><h2>O Veredito</h2><p>Na Inova Systems, analisamos os seguintes pontos antes de recomendar uma stack:</p><ul><li><strong>Complexidade da UI:</strong> Flutter vence em designs altamente customizados.</li><li><strong>Time-to-Market:</strong> React Native pode ser mais rápido se houver reaproveitamento de código web.</li><li><strong>Manutenção a Longo Prazo:</strong> Ambas são excelentes, mas o Flutter oferece uma estrutura mais opinativa e organizada.</li></ul>"
+  },
+  {
+    "id": 3,
+    "title": "Automação de processos com IA: O guia definitivo para PMEs",
+    "excerpt": "A inteligência artificial não é mais exclusividade de gigantes. Saiba como pequenas e médias empresas estão ganhando escala com automação.",
+    "category": "IA & Automação",
+    "author": "Especialista IA",
+    "date": "05 Mai, 2026",
+    "readTime": "10 min",
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+    "imageLarge": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200",
+    "slug": "automacao-ia-guia-pme",
+    "tags": ["IA", "Automação", "PME", "Produtividade"],
+    "metaDescription": "Guia definitivo de automação com IA para PMEs: descubra como pequenas e médias empresas estão usando inteligência artificial para escalar operações.",
+    "publishedAt": "2026-05-05T00:00:00Z",
+    "content": "<p>Muitos gestores de PMEs ainda acreditam que Inteligência Artificial é algo restrito ao Vale do Silício ou a grandes corporações. A realidade de 2026 mostra o contrário: a IA tornou-se a ferramenta mais democrática para ganhar escala.</p><h2>Onde começar a automatizar?</h2><p>Não tente automatizar tudo de uma vez. Comece pelos \"gargalos silenciosos\":</p><ul><li><strong>Atendimento ao Cliente:</strong> Agentes de IA que resolvem 80% das dúvidas comuns sem intervenção humana.</li><li><strong>Análise de Documentos:</strong> Extração automática de dados de notas fiscais e contratos.</li><li><strong>Lead Scoring:</strong> Priorização automática de vendas com base no comportamento do cliente.</li></ul><h2>O Impacto no Bottom Line</h2><p>A automação libera seu time talentoso de tarefas burocráticas para focarem em estratégia e relacionamento. Isso aumenta a satisfação da equipe e reduz o turnover, além de garantir que nenhum lead seja esquecido por falha humana.</p>"
+  }
+]

@@ -55,6 +55,50 @@ jobs:
           ssh-keyscan -p 65002 147.93.37.106 >> ~/.ssh/known_hosts 2>/dev/null || true
           echo -e "Host 147.93.37.106\n  StrictHostKeyChecking accept-new" >> ~/.ssh/config
 
+      - name: Setup blog infrastructure on VPS
+        run: |
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106"
+          REMOTE_DIR="/home/u257882461"
+
+          # Create blog directories if they don't exist
+          $SSH_CMD "mkdir -p ${REMOTE_DIR}/blog-data ${REMOTE_DIR}/blog-scripts"
+
+          # Seed blogPosts.json ONLY if it doesn't exist yet (preserves generated posts)
+          $SSH_CMD "test -f ${REMOTE_DIR}/blog-data/blogPosts.json || echo 'NEEDS_SEED'"
+          NEEDS_SEED=$($SSH_CMD "test -f ${REMOTE_DIR}/blog-data/blogPosts.json && echo 'NO' || echo 'YES'")
+
+          if [ "$NEEDS_SEED" = "YES" ]; then
+            echo "Seeding initial blog data..."
+            scp -i ~/.ssh/deploy_key -P 65002 src/data/blogPosts.json u257882461@147.93.37.106:${REMOTE_DIR}/blog-data/blogPosts.json
+          else
+            echo "Blog data already exists, skipping seed"
+          fi
+
+          # Deploy blog generation script
+          scp -i ~/.ssh/deploy_key -P 65002 scripts/vps/generate-blog-post.php u257882461@147.93.37.106:${REMOTE_DIR}/blog-scripts/generate-blog-post.php
+
+      - name: Create blog-config.php with credentials
+        run: |
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106"
+          REMOTE_DIR="/home/u257882461"
+
+          $SSH_CMD "cat > ${REMOTE_DIR}/blog-scripts/blog-config.php << 'BLOGCFG'
+          <?php return [
+              'gemini_api_key'      => '${{ secrets.GEMINI_API_KEY }}',
+              'unsplash_access_key' => '${{ secrets.UNSPLASH_ACCESS_KEY }}',
+              'blog_data_path'      => '${REMOTE_DIR}/blog-data/blogPosts.json',
+          ];
+          BLOGCFG
+          chmod 600 ${REMOTE_DIR}/blog-scripts/blog-config.php"
+
+      - name: Setup blog cron job
+        run: |
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106"
+
+          # Add cron if not already set (every Monday at 9:00 UTC / 6:00 BRT)
+          $SSH_CMD "crontab -l 2>/dev/null | grep -q 'generate-blog-post' || (crontab -l 2>/dev/null; echo '0 9 * * 1 php /home/u257882461/blog-scripts/generate-blog-post.php >> /home/u257882461/blog-data/cron.log 2>&1') | crontab -"
+          echo "Cron job configured"
+
       - name: Deploy via SSH
         run: |
           REMOTE_DIR="/home/u257882461/domains/inovasystemssolutions.com/public_html"
