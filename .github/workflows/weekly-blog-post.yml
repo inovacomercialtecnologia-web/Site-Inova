@@ -1,0 +1,41 @@
+name: Weekly Blog Post Generation
+
+on:
+  schedule:
+    # Toda segunda-feira às 9:00 UTC (6:00 BRT)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: {} # Trigger manual para testes
+
+permissions:
+  contents: write
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate blog post
+        run: node scripts/generate-blog-post.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+
+      - name: Commit and push new post
+        run: |
+          git config user.name "Inova Blog Bot"
+          git config user.email "bot@inovasystemssolutions.com"
+          git add src/data/blogPosts.json
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "blog: post semanal automático $(date +%Y-%m-%d)"
+          git push origin main

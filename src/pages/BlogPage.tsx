@@ -1,33 +1,37 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Calendar, Clock, User, Search, Loader2 } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, User, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
 import CTABanner from '../components/CTABanner';
-import { useBlogList } from '../hooks/useBlogPosts';
+import blogPostsData from '../data/blogPosts.json';
 
 const BlogPage = () => {
   const [search, setSearch] = useState('');
   const [newsletter, setNewsletter] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todos');
-  const { posts, loading, error } = useBlogList();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const sortedPosts = useMemo(
+    () => [...blogPostsData].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()),
+    []
+  );
 
   const categories = useMemo(
-    () => ['Todos', ...Array.from(new Set(posts.map(p => p.category)))],
-    [posts]
+    () => ['Todos', ...Array.from(new Set(sortedPosts.map(p => p.category)))],
+    [sortedPosts]
   );
 
   const filteredPosts = useMemo(() => {
-    return posts.filter(post => {
+    return sortedPosts.filter(post => {
       const matchesSearch = !search || post.title.toLowerCase().includes(search.toLowerCase()) || post.excerpt.toLowerCase().includes(search.toLowerCase());
       const matchesCategory = activeCategory === 'Todos' || post.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [posts, search, activeCategory]);
+  }, [sortedPosts, search, activeCategory]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#FAFAF8] font-sans overflow-x-hidden pt-24">
@@ -68,116 +72,95 @@ const BlogPage = () => {
       </section>
 
       {/* FEATURED CATEGORIES */}
-      {!loading && posts.length > 0 && (
-        <section className="py-8 px-6 md:px-12 lg:px-24 bg-[#0D0D0F]">
-          <div className="max-w-[1440px] mx-auto flex flex-wrap items-center gap-4 md:gap-8">
-            <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold mr-4">Categorias:</span>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`text-[11px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border transition-all ${
-                  activeCategory === cat ? 'bg-[#C9A84C] border-[#C9A84C] text-[#080808]' : 'bg-transparent border-white/10 text-white/40 hover:text-white hover:border-white/30'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="py-8 px-6 md:px-12 lg:px-24 bg-[#0D0D0F]">
+        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center gap-4 md:gap-8">
+          <span className="text-[10px] uppercase tracking-widest text-white/20 font-bold mr-4">Categorias:</span>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`text-[11px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border transition-all ${
+                activeCategory === cat ? 'bg-[#C9A84C] border-[#C9A84C] text-[#080808]' : 'bg-transparent border-white/10 text-white/40 hover:text-white hover:border-white/30'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* BLOG GRID */}
       <section className="py-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            {filteredPosts.map((post, i) => (
+              <motion.article
+                key={post.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className="group flex flex-col h-full"
+              >
+                {/* Image Container */}
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-60" />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-[#C9A84C] text-[#080808] text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg">
+                      {post.category}
+                    </span>
+                  </div>
+                </div>
 
-          {/* Loading State */}
-          {loading && (
-            <div className="flex flex-col items-center justify-center py-32 gap-4">
-              <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
-              <span className="text-white/40 text-sm">Carregando artigos...</span>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && !loading && (
-            <div className="text-center py-32">
-              <p className="text-white/40 text-sm">{error}</p>
-            </div>
-          )}
-
-          {/* Posts Grid */}
-          {!loading && !error && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-              {filteredPosts.map((post, i) => (
-                <motion.article
-                  key={post.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.6 }}
-                  className="group flex flex-col h-full"
-                >
-                  {/* Image Container */}
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-60" />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-[#C9A84C] text-[#080808] text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg">
-                        {post.category}
-                      </span>
+                {/* Content */}
+                <div className="flex flex-col flex-1">
+                  <div className="flex items-center gap-4 text-[10px] text-white/30 uppercase tracking-widest mb-4">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3" />
+                      {post.date}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3 h-3" />
+                      {post.readTime}
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col flex-1">
-                    <div className="flex items-center gap-4 text-[10px] text-white/30 uppercase tracking-widest mb-4">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3 h-3" />
-                        {post.date}
+                  <h3 className="text-xl font-bold leading-tight mb-4 group-hover:text-[#C9A84C] transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+
+                  <p className="text-white/40 text-sm font-light leading-relaxed mb-8 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                        <User className="w-4 h-4 text-white/20" />
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3 h-3" />
-                        {post.readTime}
-                      </div>
+                      <span className="text-[11px] font-medium text-white/60">{post.author}</span>
                     </div>
-
-                    <h3 className="text-xl font-bold leading-tight mb-4 group-hover:text-[#C9A84C] transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-white/40 text-sm font-light leading-relaxed mb-8 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                          <User className="w-4 h-4 text-white/20" />
-                        </div>
-                        <span className="text-[11px] font-medium text-white/60">{post.author}</span>
-                      </div>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="text-[#C9A84C] hover:text-white transition-colors"
-                      >
-                        <ArrowRight className="w-5 h-5" />
-                      </Link>
-                    </div>
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="text-[#C9A84C] hover:text-white transition-colors"
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
                   </div>
-                </motion.article>
-              ))}
-            </div>
-          )}
+                </div>
+              </motion.article>
+            ))}
+          </div>
 
           {/* Empty State */}
-          {!loading && !error && filteredPosts.length === 0 && posts.length > 0 && (
+          {filteredPosts.length === 0 && (
             <div className="text-center py-16">
               <p className="text-white/40 text-sm">Nenhum artigo encontrado para esta busca.</p>
             </div>

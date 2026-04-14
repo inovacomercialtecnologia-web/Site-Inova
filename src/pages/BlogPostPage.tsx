@@ -1,26 +1,26 @@
 import React, { useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin, Loader2 } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import PageMeta from '../components/PageMeta';
-import { useBlogPost, useBlogList } from '../hooks/useBlogPosts';
+import blogPostsData from '../data/blogPosts.json';
+
+const blogPostsBySlug = Object.fromEntries(
+  blogPostsData.map(post => [post.slug, post])
+);
 
 const BlogPostPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { post, loading, error } = useBlogPost(slug);
-  const { posts: allPosts } = useBlogList();
+  const post = slug ? blogPostsBySlug[slug] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [slug]);
-
-  useEffect(() => {
-    if (!loading && error === 'not_found') {
+    if (!post) {
       navigate('/blog', { replace: true });
     }
-  }, [loading, error, navigate]);
+  }, [post, navigate]);
 
   // JSON-LD structured data for SEO
   useEffect(() => {
@@ -51,25 +51,14 @@ const BlogPostPage = () => {
   }, [post]);
 
   const sanitizedContent = useMemo(
-    () => post?.content ? DOMPurify.sanitize(post.content, { ALLOWED_TAGS: ['p', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'blockquote', 'a', 'br'], ALLOWED_ATTR: ['href', 'target', 'rel'] }) : '',
+    () => post ? DOMPurify.sanitize(post.content, { ALLOWED_TAGS: ['p', 'h2', 'h3', 'ul', 'ol', 'li', 'strong', 'em', 'blockquote', 'a', 'br'], ALLOWED_ATTR: ['href', 'target', 'rel'] }) : '',
     [post]
   );
 
   const relatedPosts = useMemo(
-    () => allPosts.filter(p => p.slug !== slug).slice(0, 2),
-    [allPosts, slug]
+    () => blogPostsData.filter(p => p.slug !== slug).slice(0, 2),
+    [slug]
   );
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#080808] text-[#FAFAF8] flex items-center justify-center pt-24">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 text-[#C9A84C] animate-spin" />
-          <span className="text-white/40 text-sm">Carregando artigo...</span>
-        </div>
-      </div>
-    );
-  }
 
   if (!post) return null;
 
@@ -223,7 +212,7 @@ const BlogPostPage = () => {
                 {relatedPosts.map(p => (
                   <Link key={p.slug} to={`/blog/${p.slug}`} className="group block">
                     <div className="aspect-video rounded-2xl overflow-hidden mb-4">
-                      <img src={p.imageLarge || p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" />
+                      <img src={p.imageLarge} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" />
                     </div>
                     <h5 className="text-sm font-bold leading-tight group-hover:text-[#C9A84C] transition-colors line-clamp-2">{p.title}</h5>
                   </Link>
