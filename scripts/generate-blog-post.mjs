@@ -3,13 +3,12 @@
  * Roda semanalmente via GitHub Actions
  *
  * Etapas:
- * 1. Pesquisa de palavras-chave de cauda longa (Gemini)
- * 2. Geração do artigo completo (Gemini)
+ * 1. Pesquisa de palavras-chave de cauda longa (Groq + Llama 3.3 70B)
+ * 2. Geração do artigo completo (Groq + Llama 3.3 70B)
  * 3. Seleção de imagem (Unsplash API)
  * 4. Salva no blogPosts.json
  */
 
-import { GoogleGenAI } from '@google/genai';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -17,15 +16,41 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BLOG_DATA_PATH = path.resolve(__dirname, '../src/data/blogPosts.json');
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
-if (!GEMINI_API_KEY) {
-  console.error('GEMINI_API_KEY is required');
+if (!GROQ_API_KEY) {
+  console.error('GROQ_API_KEY is required');
   process.exit(1);
 }
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
+// ─── Groq API ──────────────────────────────────────────────
+
+async function groqChat(prompt, { temperature = 0.7, maxTokens = 8192 } = {}) {
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${GROQ_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [{ role: 'user', content: prompt }],
+      temperature,
+      max_tokens: maxTokens,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Groq API HTTP ${res.status}: ${err}`);
+  }
+
+  const data = await res.json();
+  return data.choices[0].message.content;
+}
 
 // ─── Helpers ───────────────────────────────────────────────
 
@@ -64,6 +89,11 @@ function extractJsonFromResponse(text) {
   if (codeBlockMatch) {
     return JSON.parse(codeBlockMatch[1].trim());
   }
+  // Try to find JSON object in the text
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    return JSON.parse(jsonMatch[0]);
+  }
   return JSON.parse(text.trim());
 }
 
@@ -87,7 +117,7 @@ A empresa é a Inova Systems Solutions, que oferece: ERP customizado, aplicativo
 Artigos já publicados (NÃO repita esses tópicos):
 ${existingTitles.map(t => `- ${t}`).join('\n')}
 
-Sua tarefa: pesquise tendências atuais de busca no Google Brasil e sugira 5 palavras-chave de cauda longa em pt-BR para artigos de blog. Foque em:
+Sua tarefa: sugira 5 palavras-chave de cauda longa em pt-BR para artigos de blog. Foque em:
 - Alta intenção comercial (empresários buscando soluções)
 - Baixa/média concorrência
 - Relevância para os serviços da Inova
@@ -107,16 +137,7 @@ Para cada keyword, retorne em JSON:
 
 Retorne APENAS o JSON, sem texto adicional.`;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.0-flash',
-    contents: prompt,
-    config: {
-      tools: [{ googleSearch: {} }],
-      temperature: 0.7,
-    },
-  });
-
-  const text = response.text;
+  const text = await groqChat(prompt, { temperature: 0.7, maxTokens: 2048 });
   console.log('📊 Resposta da pesquisa recebida');
 
   const parsed = extractJsonFromResponse(text);
@@ -158,16 +179,7 @@ Retorne APENAS um JSON válido (sem markdown, sem código):
   "author": "Equipe Inova"
 }`;
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.0-flash',
-    contents: prompt,
-    config: {
-      temperature: 0.8,
-      maxOutputTokens: 8192,
-    },
-  });
-
-  const text = response.text;
+  const text = await groqChat(prompt, { temperature: 0.8, maxTokens: 8192 });
   const article = extractJsonFromResponse(text);
 
   const wordCount = countWords(article.content);
@@ -207,17 +219,17 @@ async function fetchImage(keyword, category) {
 
   console.log('📷 Buscando imagem no Unsplash...');
 
-  const searchTerms = await ai.models.generateContent({
-    model: 'gemini-2.0-flash',
-    contents: `Given this Portuguese article topic: "${keyword}". Return 2-3 English search terms for finding a professional business/technology photo on Unsplash. Return ONLY the terms separated by spaces, nothing else.`,
-    config: { temperature: 0.3, maxOutputTokens: 50 },
-  });
+  // Use Groq to get English search terms
+  const query = await groqChat(
+    `Given this Portuguese article topic: "${keyword}". Return 2-3 English search terms for finding a professional business/technology photo. Return ONLY the terms separated by spaces, nothing else.`,
+    { temperature: 0.3, maxTokens: 50 }
+  );
 
-  const query = searchTerms.text.trim();
-  console.log(`   Busca: "${query}"`);
+  const searchQuery = query.trim();
+  console.log(`   Busca: "${searchQuery}"`);
 
   try {
-    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&orientation=landscape&per_page=5&client_id=${UNSPLASH_ACCESS_KEY}`;
+    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&orientation=landscape&per_page=5&client_id=${UNSPLASH_ACCESS_KEY}`;
     const res = await fetch(url);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
