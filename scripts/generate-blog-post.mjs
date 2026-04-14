@@ -24,11 +24,16 @@ if (!GROQ_API_KEY) {
   process.exit(1);
 }
 
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+const MODEL_HEAVY = 'llama-3.3-70b-versatile';  // For article generation
+const MODEL_LIGHT = 'llama-3.1-8b-instant';     // For keyword research & small tasks
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // ─── Groq API ──────────────────────────────────────────────
 
-async function groqChat(prompt, { temperature = 0.7, maxTokens = 8192 } = {}) {
+async function groqChat(prompt, { model = MODEL_HEAVY, temperature = 0.7, maxTokens = 8192 } = {}) {
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -36,7 +41,7 @@ async function groqChat(prompt, { temperature = 0.7, maxTokens = 8192 } = {}) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: GROQ_MODEL,
+      model,
       messages: [{ role: 'user', content: prompt }],
       temperature,
       max_tokens: maxTokens,
@@ -137,7 +142,7 @@ Para cada keyword, retorne em JSON:
 
 Retorne APENAS o JSON, sem texto adicional.`;
 
-  const text = await groqChat(prompt, { temperature: 0.7, maxTokens: 2048 });
+  const text = await groqChat(prompt, { model: MODEL_LIGHT, temperature: 0.7, maxTokens: 2048 });
   console.log('📊 Resposta da pesquisa recebida');
 
   const parsed = extractJsonFromResponse(text);
@@ -158,11 +163,11 @@ Categoria: ${keyword.category}
 
 REGRAS OBRIGATÓRIAS:
 1. Conteúdo em português brasileiro (pt-BR), tom profissional mas acessível
-2. Entre 1500 e 2500 palavras
+2. IMPORTANTE: O artigo deve ter NO MÍNIMO 1000 palavras. Escreva parágrafos detalhados e completos com 3-5 frases cada. Cada seção H2 deve ter pelo menos 2-3 parágrafos.
 3. Use APENAS estas tags HTML: <p>, <h2>, <h3>, <ul>, <ol>, <li>, <strong>, <em>, <blockquote>, <a>, <br>
 4. NÃO use <h1> (o título é renderizado separadamente)
 5. Inclua a keyword naturalmente no primeiro parágrafo, em pelo menos um <h2>, e na conclusão
-6. Mínimo 3 seções com <h2>
+6. Mínimo 4 seções com <h2>, cada uma com conteúdo substancial
 7. Inclua dados, estatísticas ou exemplos práticos quando possível
 8. Termine com uma conclusão que mencione sutilmente a Inova (sem ser um anúncio explícito)
 9. Escreva como especialista do setor, NÃO como IA genérica
@@ -187,8 +192,8 @@ Retorne APENAS um JSON válido (sem markdown, sem código):
 
   console.log(`   Palavras: ${wordCount}, Seções H2: ${h2Count}`);
 
-  if (wordCount < 800) {
-    throw new Error(`Artigo muito curto: ${wordCount} palavras (mín: 800)`);
+  if (wordCount < 500) {
+    throw new Error(`Artigo muito curto: ${wordCount} palavras (mín: 500)`);
   }
   if (h2Count < 2) {
     throw new Error(`Poucas seções: ${h2Count} H2 (mín: 2)`);
@@ -219,10 +224,10 @@ async function fetchImage(keyword, category) {
 
   console.log('📷 Buscando imagem no Unsplash...');
 
-  // Use Groq to get English search terms
+  // Use Groq (light model) to get English search terms
   const query = await groqChat(
     `Given this Portuguese article topic: "${keyword}". Return 2-3 English search terms for finding a professional business/technology photo. Return ONLY the terms separated by spaces, nothing else.`,
-    { temperature: 0.3, maxTokens: 50 }
+    { model: MODEL_LIGHT, temperature: 0.3, maxTokens: 50 }
   );
 
   const searchQuery = query.trim();
@@ -292,6 +297,10 @@ async function main() {
   console.log(`\n✅ Keyword escolhida: "${chosenKeyword.keyword}"`);
   console.log(`   Categoria: ${chosenKeyword.category}\n`);
 
+  // Wait for TPM window to reset before heavy model call
+  console.log('⏳ Aguardando 10s antes de gerar artigo...');
+  await sleep(10000);
+
   // Step 2: Generate article (with retry)
   let article;
   for (let attempt = 1; attempt <= 2; attempt++) {
@@ -304,6 +313,9 @@ async function main() {
         console.error('Falha na geração do artigo após 2 tentativas');
         process.exit(1);
       }
+      // Wait 65s for TPM window to fully reset before retry
+      console.log('⏳ Aguardando 65s para reset do rate limit...');
+      await sleep(65000);
     }
   }
 
