@@ -10,7 +10,7 @@ import { Logo } from './Logo';
 const E = [0.22, 1, 0.36, 1] as const;
 
 const metrics = [
-  { raw: '50+', label: 'Projetos entregues' },
+  { raw: '100+', label: 'Projetos entregues' },
   { raw: '140h', label: 'Economizadas/cliente' },
   { raw: '68%', label: 'Menos retrabalho' },
 ];
