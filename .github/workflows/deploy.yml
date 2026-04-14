@@ -91,14 +91,6 @@ jobs:
           BLOGCFG
           chmod 600 ${REMOTE_DIR}/blog-scripts/blog-config.php"
 
-      - name: Setup blog cron job
-        run: |
-          SSH_CMD="ssh -i ~/.ssh/deploy_key -p 65002 u257882461@147.93.37.106"
-
-          # Add cron if not already set (every Monday at 9:00 UTC / 6:00 BRT)
-          $SSH_CMD "crontab -l 2>/dev/null | grep -q 'generate-blog-post' || (crontab -l 2>/dev/null; echo '0 9 * * 1 php /home/u257882461/blog-scripts/generate-blog-post.php >> /home/u257882461/blog-data/cron.log 2>&1') | crontab -"
-          echo "Cron job configured"
-
       - name: Deploy via SSH
         run: |
           REMOTE_DIR="/home/u257882461/domains/inovasystemssolutions.com/public_html"
