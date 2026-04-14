@@ -110,7 +110,7 @@ export default function HeroSection() {
         </motion.span>
 
         {/* Headline — mask reveal */}
-        <h1 className="font-serif font-light text-white tracking-tight leading-[1.08] md:leading-[1.02] mb-6 md:mb-8"
+        <h1 className="font-serif font-light text-white tracking-tight leading-[1.08] md:leading-[1.02] mb-10 md:mb-12"
           style={{ fontSize: 'clamp(2.4rem, 6vw, 5.5rem)' }}>
           <MaskRevealLine baseDelay={0.2}>
             Não vendemos sistema.
@@ -135,22 +135,11 @@ export default function HeroSection() {
           </motion.span>
         </h1>
 
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: E, delay: 0.9 }}
-          className="text-gray-300 text-base md:text-lg lg:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-10 md:mb-12"
-        >
-          Antes de qualquer linha de código, entendemos como sua empresa funciona.
-          Depois, construímos a tecnologia que ela merece.
-        </motion.p>
-
         {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: E, delay: 1.1 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.9 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
@@ -172,7 +161,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: E, delay: 1.4 }}
+          transition={{ duration: 0.6, ease: E, delay: 1.2 }}
           className="flex items-center justify-center gap-6 md:gap-10 mt-14 md:mt-16"
         >
           {metrics.map((m, i) => (
