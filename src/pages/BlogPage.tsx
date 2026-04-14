@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Calendar, Clock, User, Search, Tag } from 'lucide-react';
+import { ArrowRight, Calendar, User, Search, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
 import CTABanner from '../components/CTABanner';
@@ -140,10 +140,6 @@ const BlogPage = () => {
                     <div className="flex items-center gap-1.5">
                       <Calendar className="w-3 h-3" />
                       {post.date}
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="w-3 h-3" />
-                      {post.readTime}
                     </div>
                   </div>
                   
