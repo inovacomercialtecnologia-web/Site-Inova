@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080808"/>
+      <stop offset="100%" stop-color="#1a1410"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.2" r="0.7">
+      <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9A84C"/>
+      <stop offset="50%" stop-color="#E8C97A"/>
+      <stop offset="100%" stop-color="#C9A84C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g transform="translate(80, 180)" opacity="0.95">
+    <path d="M100 10 L170 50 V130 L100 170 L30 130 V50 L100 10Z" stroke="#C9A84C" stroke-width="6" stroke-linejoin="round" fill="none"/>
+    <path d="M65 30 V150" stroke="#C9A84C" stroke-width="4"/>
+    <path d="M135 30 V150" stroke="#C9A84C" stroke-width="4"/>
+    <path d="M65 30 L100 50 L135 30" stroke="#C9A84C" stroke-width="4" fill="none"/>
+    <path d="M65 150 L100 130 L135 150" stroke="#C9A84C" stroke-width="4" fill="none"/>
+    <path d="M20 110 C20 110 40 160 80 120 C120 80 160 40 180 90" stroke="#C9A84C" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M180 90 C180 90 160 140 120 100 C80 60 40 20 20 70 C20 70 10 90 20 110" stroke="#C9A84C" stroke-width="8" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <text x="310" y="240" font-family="Syne, 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="64" fill="#FFFFFF" letter-spacing="-1">
+    Inova Systems
+  </text>
+  <text x="310" y="310" font-family="Syne, 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="64" fill="url(#gold)" letter-spacing="-1">
+    Solutions
+  </text>
+
+  <line x1="310" y1="360" x2="420" y2="360" stroke="#C9A84C" stroke-width="3"/>
+
+  <text x="310" y="410" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-weight="500" font-size="28" fill="#F5F2EC">
+    Tecnologia sob medida para empresas
+  </text>
+  <text x="310" y="450" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-weight="400" font-size="22" fill="#AAAAAA">
+    Sistemas web, apps mobile, automações e IA
+  </text>
+
+  <g transform="translate(80, 540)">
+    <text font-family="'JetBrains Mono', monospace" font-size="16" fill="#888888" letter-spacing="2">
+      INOVASYSTEMSSOLUTIONS.COM
+    </text>
+  </g>
+</svg>

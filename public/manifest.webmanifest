@@ -1,0 +1,19 @@
+{
+  "name": "Inova Systems Solutions",
+  "short_name": "Inova Systems",
+  "description": "Transformamos inteligência operacional em tecnologia sob medida. Sistemas web, apps mobile, automações e IA para empresas B2B.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#C9A84C",
+  "lang": "pt-BR",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

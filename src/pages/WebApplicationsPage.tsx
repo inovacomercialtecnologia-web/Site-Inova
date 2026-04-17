@@ -7,6 +7,7 @@ import SaaSSection from '../components/SaaSSection';
 import AnimatedSvgDivider from '../components/AnimatedSvgDivider';
 import SystemsStorytelling from '../components/SystemsStorytelling';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { service, breadcrumb } from '../components/JsonLd';
 import CTABanner from '../components/CTABanner';
 
 const WebApplicationsPage = () => {
@@ -79,6 +80,8 @@ const WebApplicationsPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Aplicações Web" description="Desenvolvimento de sistemas web sob medida: ERP, CRM, dashboards, e-commerce, portais e plataformas SaaS para empresas B2B." />
+      <JsonLd id="jsonld-service-web" data={service('Desenvolvimento de Aplicações Web', 'ERP, CRM, dashboards, e-commerce, portais e plataformas SaaS sob medida para empresas B2B.', '/solucoes/aplicacoes-web')} />
+      <JsonLd id="jsonld-breadcrumb-web" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Soluções', path: '/portfolio' }, { name: 'Aplicações Web', path: '/solucoes/aplicacoes-web' }])} />
       {/* Hero Section */}
       <WebAppsHero />
 

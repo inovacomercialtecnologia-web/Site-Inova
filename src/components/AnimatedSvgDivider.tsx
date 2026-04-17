@@ -7,12 +7,22 @@ interface AnimatedSvgDividerProps {
 
 export default function AnimatedSvgDivider({ fromColor = '#0a0a0a', toColor = '#ffffff' }: AnimatedSvgDividerProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(motionQuery.matches);
+    const onMotionChange = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
+    motionQuery.addEventListener('change', onMotionChange);
+
+    return () => {
+      window.removeEventListener('resize', check);
+      motionQuery.removeEventListener('change', onMotionChange);
+    };
   }, []);
 
   const { nodes, edges } = useMemo(() => {
@@ -78,7 +88,7 @@ export default function AnimatedSvgDivider({ fromColor = '#0a0a0a', toColor = '#
       <div className="absolute bottom-0 left-0 w-full h-[30%] z-10 pointer-events-none"
         style={{ background: `linear-gradient(to bottom, transparent, ${toColor})` }} />
 
-      <svg className="w-full h-full block" style={{ minHeight: isMobile ? '40px' : '140px' }}>
+      <svg className="w-full h-full block" style={{ minHeight: isMobile ? '40px' : '140px' }} aria-hidden="true">
         {edges.map((edge, i) => {
           const source = nodes[edge.source];
           const target = nodes[edge.target];
@@ -87,28 +97,34 @@ export default function AnimatedSvgDivider({ fromColor = '#0a0a0a', toColor = '#
               key={`edge-${i}`}
               x1={`${source.x}%`}
               x2={`${target.x}%`}
+              y1={reduceMotion ? source.yBase : undefined}
+              y2={reduceMotion ? target.yBase : undefined}
               stroke="#c9a84c"
               strokeWidth="1"
               strokeOpacity="0.4"
             >
-              <animate
-                attributeName="y1"
-                values={`${source.yBase - source.amplitude};${source.yBase + source.amplitude};${source.yBase - source.amplitude}`}
-                dur={`${source.duration}s`}
-                begin={`-${source.delay}s`}
-                repeatCount="indefinite"
-                calcMode="spline"
-                keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
-              />
-              <animate
-                attributeName="y2"
-                values={`${target.yBase - target.amplitude};${target.yBase + target.amplitude};${target.yBase - target.amplitude}`}
-                dur={`${target.duration}s`}
-                begin={`-${target.delay}s`}
-                repeatCount="indefinite"
-                calcMode="spline"
-                keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
-              />
+              {!reduceMotion && (
+                <>
+                  <animate
+                    attributeName="y1"
+                    values={`${source.yBase - source.amplitude};${source.yBase + source.amplitude};${source.yBase - source.amplitude}`}
+                    dur={`${source.duration}s`}
+                    begin={`-${source.delay}s`}
+                    repeatCount="indefinite"
+                    calcMode="spline"
+                    keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+                  />
+                  <animate
+                    attributeName="y2"
+                    values={`${target.yBase - target.amplitude};${target.yBase + target.amplitude};${target.yBase - target.amplitude}`}
+                    dur={`${target.duration}s`}
+                    begin={`-${target.delay}s`}
+                    repeatCount="indefinite"
+                    calcMode="spline"
+                    keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+                  />
+                </>
+              )}
             </line>
           );
         })}
@@ -116,18 +132,21 @@ export default function AnimatedSvgDivider({ fromColor = '#0a0a0a', toColor = '#
           <circle
             key={`node-${node.id}`}
             cx={`${node.x}%`}
+            cy={reduceMotion ? node.yBase : undefined}
             r="2"
             fill="#c9a84c"
           >
-            <animate
-              attributeName="cy"
-              values={`${node.yBase - node.amplitude};${node.yBase + node.amplitude};${node.yBase - node.amplitude}`}
-              dur={`${node.duration}s`}
-              begin={`-${node.delay}s`}
-              repeatCount="indefinite"
-              calcMode="spline"
-              keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
-            />
+            {!reduceMotion && (
+              <animate
+                attributeName="cy"
+                values={`${node.yBase - node.amplitude};${node.yBase + node.amplitude};${node.yBase - node.amplitude}`}
+                dur={`${node.duration}s`}
+                begin={`-${node.delay}s`}
+                repeatCount="indefinite"
+                calcMode="spline"
+                keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+              />
+            )}
           </circle>
         ))}
       </svg>

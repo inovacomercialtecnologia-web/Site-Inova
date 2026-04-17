@@ -14,7 +14,7 @@ if (in_array($origin, $allowed, true)) {
     header("Access-Control-Allow-Origin: $origin");
 }
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Contact-Token');
+header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Max-Age: 86400');
 
 // Preflight
@@ -30,41 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// ── Anti-spam: verify time-based token ──────────────────────────────────────
-$token = $_SERVER['HTTP_X_CONTACT_TOKEN'] ?? '';
-$tokenParts = explode('.', $token, 2);
-if (count($tokenParts) !== 2) {
+// ── Anti-spam: Origin check (must come from our domain) ─────────────────────
+if (!in_array($origin, $allowed, true)) {
     http_response_code(403);
     echo json_encode(['error' => 'Acesso negado']);
     exit;
 }
-[$ts, $hash] = $tokenParts;
 
-// Token secret from config (NOT hardcoded)
+// ── Load config (used later for ERP credentials) ────────────────────────────
 $configFile = __DIR__ . '/config.local.php';
 $config = file_exists($configFile) ? require $configFile : [];
-$tokenSecret = $config['token_secret'] ?? getenv('CONTACT_TOKEN_SECRET') ?: '';
-if (empty($tokenSecret)) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Service unavailable']);
-    exit;
-}
-
-// Validate timestamp format
-if (!ctype_digit($ts) || (int)$ts < 1000000000) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Acesso negado']);
-    exit;
-}
-
-$expectedHash = hash_hmac('sha256', $ts, $tokenSecret);
-
-// Token must match and be at most 2 minutes old
-if (!hash_equals($expectedHash, $hash) || abs(time() - (int)$ts) > 120) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Token invalido ou expirado']);
-    exit;
-}
 
 // ── Rate limiting by IP (proxy-aware + file locking) ────────────────────────
 $trustedProxies = ['127.0.0.1', '::1'];
@@ -151,29 +126,34 @@ if (!empty($data['website_url'] ?? '')) {
     exit;
 }
 
-// ── Validate required fields ────────────────────────────────────────────────
-$required = ['nome', 'empresa', 'whatsapp', 'email'];
-foreach ($required as $field) {
-    $val = trim($data[$field] ?? '');
-    if ($val === '' || mb_strlen($val) > 500) {
-        http_response_code(400);
-        echo json_encode(['error' => 'Dados invalidos']);
-        exit;
-    }
-}
+$isNewsletter = !empty($data['newsletter']);
 
-// Validate email
-if (!filter_var(trim($data['email']), FILTER_VALIDATE_EMAIL)) {
+// Email is always required
+$emailVal = trim($data['email'] ?? '');
+if ($emailVal === '' || !filter_var($emailVal, FILTER_VALIDATE_EMAIL) || mb_strlen($emailVal) > 120) {
     http_response_code(400);
     echo json_encode(['error' => 'Email invalido']);
     exit;
 }
 
-// Validate phone (8-20 chars, digits/spaces/parentheses/plus/dash)
-if (!preg_match('/^[\d\s()+\-]{8,20}$/', trim($data['whatsapp']))) {
-    http_response_code(400);
-    echo json_encode(['error' => 'WhatsApp invalido']);
-    exit;
+if (!$isNewsletter) {
+    // ── Full contact form: validate all required fields ─────────────────────
+    $required = ['nome', 'empresa', 'whatsapp'];
+    foreach ($required as $field) {
+        $val = trim($data[$field] ?? '');
+        if ($val === '' || mb_strlen($val) > 500) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Dados invalidos']);
+            exit;
+        }
+    }
+
+    // Validate phone (8-20 chars, digits/spaces/parentheses/plus/dash)
+    if (!preg_match('/^[\d\s()+\-]{8,20}$/', trim($data['whatsapp']))) {
+        http_response_code(400);
+        echo json_encode(['error' => 'WhatsApp invalido']);
+        exit;
+    }
 }
 
 // ── Load ERP config ─────────────────────────────────────────────────────────
@@ -207,6 +187,34 @@ $sanitize = function($val, $maxLen = 200) {
     return mb_substr(preg_replace('/[<>{}]/', '', trim($val)), 0, $maxLen);
 };
 
+if ($isNewsletter) {
+    // ── Store newsletter signups in a protected CSV (not forwarded to ERP) ──
+    $csvPath = __DIR__ . '/newsletter.csv';
+    $row = [
+        date('Y-m-d H:i:s'),
+        $sanitize($data['email'] ?? '', 120),
+        $ip,
+    ];
+    $fh = fopen($csvPath, 'a');
+    if ($fh && flock($fh, LOCK_EX)) {
+        if (ftell($fh) === 0) {
+            fputcsv($fh, ['timestamp', 'email', 'ip']);
+        }
+        fputcsv($fh, $row);
+        flock($fh, LOCK_UN);
+        fclose($fh);
+        @chmod($csvPath, 0600);
+        http_response_code(200);
+        echo json_encode(['success' => true]);
+        exit;
+    }
+    if ($fh) fclose($fh);
+    error_log('contact.php: failed to append newsletter signup');
+    http_response_code(500);
+    echo json_encode(['error' => 'Falha ao registrar inscricao']);
+    exit;
+}
+
 $payload = json_encode([
     'servico'     => $sanitize($data['servico'] ?? '', 500),
     'tamanho'     => $sanitize($data['tamanho'] ?? ''),
@@ -219,9 +227,9 @@ $payload = json_encode([
     'whatsapp'    => $sanitize($data['whatsapp'] ?? '', 20),
     'email'       => $sanitize($data['email'] ?? '', 120),
 ]);
+$erpEndpoint = rtrim($erpUrl, '/') . '/api/v1/sales/website-lead/';
 
 // ── Forward to ERP via cURL ─────────────────────────────────────────────────
-$erpEndpoint = rtrim($erpUrl, '/') . '/api/v1/sales/website-lead/';
 $ch = curl_init($erpEndpoint);
 curl_setopt_array($ch, [
     CURLOPT_POST           => true,

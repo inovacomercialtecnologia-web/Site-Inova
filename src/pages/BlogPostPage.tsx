@@ -136,8 +136,12 @@ const BlogPostPage = () => {
             <img
               src={post.imageLarge}
               alt={post.title}
+              width={1200}
+              height={515}
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              fetchPriority="high"
+              decoding="async"
             />
           </motion.div>
         </div>
@@ -152,16 +156,43 @@ const BlogPostPage = () => {
             <aside className="lg:col-span-1 hidden lg:block">
               <div className="sticky top-32 flex flex-col items-center gap-6">
                 <span className="text-[9px] uppercase tracking-[0.3em] text-white/20 font-bold [writing-mode:vertical-rl] mb-4">Compartilhar</span>
-                <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all">
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://inovasystemssolutions.com/blog/${post.slug}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Compartilhar no LinkedIn"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all"
+                >
                   <Linkedin className="w-4 h-4" />
-                </button>
-                <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all">
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://inovasystemssolutions.com/blog/${post.slug}`)}&text=${encodeURIComponent(post.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Compartilhar no Twitter"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all"
+                >
                   <Twitter className="w-4 h-4" />
-                </button>
-                <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all">
+                </a>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://inovasystemssolutions.com/blog/${post.slug}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Compartilhar no Facebook"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all"
+                >
                   <Facebook className="w-4 h-4" />
-                </button>
-                <button className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all">
+                </a>
+                <button
+                  type="button"
+                  aria-label="Copiar link do artigo"
+                  onClick={() => {
+                    if (navigator.clipboard) {
+                      navigator.clipboard.writeText(`https://inovasystemssolutions.com/blog/${post.slug}`);
+                    }
+                  }}
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C] transition-all"
+                >
                   <Share2 className="w-4 h-4" />
                 </button>
               </div>
@@ -212,7 +243,7 @@ const BlogPostPage = () => {
                 {relatedPosts.map(p => (
                   <Link key={p.slug} to={`/blog/${p.slug}`} className="group block">
                     <div className="aspect-video rounded-2xl overflow-hidden mb-4">
-                      <img src={p.imageLarge} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" />
+                      <img src={p.imageLarge} alt={p.title} width={640} height={360} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
                     </div>
                     <h5 className="text-sm font-bold leading-tight group-hover:text-[#C9A84C] transition-colors line-clamp-2">{p.title}</h5>
                   </Link>

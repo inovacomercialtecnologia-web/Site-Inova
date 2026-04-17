@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { aboutPage, breadcrumb } from '../components/JsonLd';
 
 const MissionPage = () => {
   useEffect(() => {
@@ -80,6 +81,8 @@ const MissionPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Nossa Missão" description="Conheça a missão da Inova Systems Solutions: transformar operações empresariais com tecnologia sob medida, processo estruturado e metodologia aplicada." />
+      <JsonLd id="jsonld-mission-page" data={aboutPage('Nossa Missão — Inova Systems Solutions', 'Transformar operações empresariais com tecnologia sob medida, processo estruturado e metodologia aplicada.', '/missao')} />
+      <JsonLd id="jsonld-mission-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Missão', path: '/missao' }])} />
       {/* Hero Section */}
       <section className="nmhero-section" id="nossaMissaoHero">
         {/* Dotted grid background canvas */}

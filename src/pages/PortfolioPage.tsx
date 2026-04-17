@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { collectionPage, breadcrumb, SITE_URL } from '../components/JsonLd';
 import CTABanner from '../components/CTABanner';
 import {
   ArrowRight, X,
   BarChart3, Users, TrendingUp, ShoppingBag, LayoutDashboard, BookOpen, Building2,
-  Heart, Wallet, Truck, GraduationCap, Briefcase, Calendar,
+  Heart, Wallet, Truck, GraduationCap, Briefcase, Calendar, Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import FinancialERP from '../components/FinancialERP';
-import CRMSystem from '../components/CRMSystem';
-import BIDashboard from '../components/BIDashboard';
-import EcommerceAdmin from '../components/EcommerceAdmin';
-import ClientPortal from '../components/ClientPortal';
-import LMSPlatform from '../components/LMSPlatform';
-import IntranetCorporativa from '../components/IntranetCorporativa';
-import SaudeApp from '../components/SaudeApp';
-import FinancasApp from '../components/FinancasApp';
-import DeliveryApp from '../components/DeliveryApp';
-import EducacaoApp from '../components/EducacaoApp';
-import GestaoApp from '../components/GestaoApp';
-import AgendamentoApp from '../components/AgendamentoApp';
+
+const FinancialERP = lazy(() => import('../components/FinancialERP'));
+const CRMSystem = lazy(() => import('../components/CRMSystem'));
+const BIDashboard = lazy(() => import('../components/BIDashboard'));
+const EcommerceAdmin = lazy(() => import('../components/EcommerceAdmin'));
+const ClientPortal = lazy(() => import('../components/ClientPortal'));
+const LMSPlatform = lazy(() => import('../components/LMSPlatform'));
+const IntranetCorporativa = lazy(() => import('../components/IntranetCorporativa'));
+const SaudeApp = lazy(() => import('../components/SaudeApp'));
+const FinancasApp = lazy(() => import('../components/FinancasApp'));
+const DeliveryApp = lazy(() => import('../components/DeliveryApp'));
+const EducacaoApp = lazy(() => import('../components/EducacaoApp'));
+const GestaoApp = lazy(() => import('../components/GestaoApp'));
+const AgendamentoApp = lazy(() => import('../components/AgendamentoApp'));
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -488,6 +490,8 @@ const PortfolioPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Portfólio" description="Cases reais de transformação digital: ERPs, CRMs, dashboards de BI, e-commerce, apps mobile e automações desenvolvidos pela Inova." />
+      <JsonLd id="jsonld-portfolio" data={collectionPage('Portfólio — Inova Systems Solutions', 'Cases reais de transformação digital: ERPs, CRMs, dashboards, e-commerce, apps mobile e automações.', '/portfolio', [...WEB_ITEMS, ...MOBILE_ITEMS].map(i => ({ name: i.title, url: `${SITE_URL}/portfolio#${i.id}` })))} />
+      <JsonLd id="jsonld-portfolio-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Portfólio', path: '/portfolio' }])} />
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative pt-24 sm:pt-32 pb-20 sm:pb-32 px-5 sm:px-6 overflow-hidden">
@@ -601,7 +605,15 @@ const PortfolioPage = () => {
               {/* Web apps: min-width so they render at readable size and scroll horizontally.
                   Mobile apps (skipScale): self-scale internally — no min-width needed. */}
               <div className={activeConfig.skipScale ? 'h-full' : 'min-w-[900px] h-full'}>
-                {activeConfig.component}
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center h-full bg-[#080808]">
+                      <Loader2 className="w-10 h-10 text-[#C9A84C] animate-spin" />
+                    </div>
+                  }
+                >
+                  {activeConfig.component}
+                </Suspense>
               </div>
             </motion.div>
           </motion.div>

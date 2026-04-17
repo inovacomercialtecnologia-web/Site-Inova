@@ -2,6 +2,10 @@
     Require all denied
 </Files>
 
+<Files "newsletter.csv">
+    Require all denied
+</Files>
+
 <Files ".ht*">
     Require all denied
 </Files>

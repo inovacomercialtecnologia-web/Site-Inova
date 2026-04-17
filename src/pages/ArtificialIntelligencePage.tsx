@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { service, breadcrumb } from '../components/JsonLd';
 
 const ArtificialIntelligencePage: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -314,6 +315,8 @@ const ArtificialIntelligencePage: React.FC = () => {
   return (
     <div className="ia-page-container">
       <PageMeta title="Inteligência Artificial" description="Soluções de IA aplicada para empresas: assistentes inteligentes, automação com IA, análise preditiva e processamento de dados." />
+      <JsonLd id="jsonld-service-ia" data={service('Inteligência Artificial Aplicada', 'Assistentes inteligentes, automação com IA, análise preditiva e processamento de dados para empresas B2B.', '/solucoes/ia')} />
+      <JsonLd id="jsonld-breadcrumb-ia" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Soluções', path: '/portfolio' }, { name: 'Inteligência Artificial', path: '/solucoes/ia' }])} />
       <div className="progress" id="progress"></div>
 
       {/* HERO */}

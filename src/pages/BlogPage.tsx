@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Calendar, Clock, User, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { blogSchema, breadcrumb } from '../components/JsonLd';
 import CTABanner from '../components/CTABanner';
 import blogPostsData from '../data/blogPosts.json';
 
@@ -36,6 +37,8 @@ const BlogPage = () => {
   return (
     <div className="min-h-screen bg-[#080808] text-[#FAFAF8] font-sans overflow-x-hidden pt-24">
       <PageMeta title="Blog" description="Artigos sobre transformação digital, tecnologia empresarial, automação e inteligência artificial para negócios B2B." />
+      <JsonLd id="jsonld-blog" data={blogSchema(sortedPosts.map(p => ({ title: p.title, slug: p.slug, excerpt: p.excerpt, publishedAt: p.publishedAt, image: p.imageLarge })))} />
+      <JsonLd id="jsonld-blog-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Blog', path: '/blog' }])} />
 
       {/* HERO SECTION */}
       <section className="relative py-20 px-6 md:px-12 lg:px-24 border-b border-white/5 overflow-hidden">
@@ -107,9 +110,12 @@ const BlogPage = () => {
                   <img
                     src={post.image}
                     alt={post.title}
+                    width={800}
+                    height={480}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     referrerPolicy="no-referrer"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4">

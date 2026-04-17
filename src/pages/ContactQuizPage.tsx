@@ -8,20 +8,9 @@ import {
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { contactPage, breadcrumb } from '../components/JsonLd';
 
 const CONTACT_API = '/api/contact.php';
-const TOKEN_SECRET = import.meta.env.VITE_TOKEN_SECRET || 'dev-only-token-secret';
-
-async function generateToken(): Promise<string> {
-  const ts = Math.floor(Date.now() / 1000).toString();
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    'raw', enc.encode(TOKEN_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],
-  );
-  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(ts));
-  const hash = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
-  return `${ts}.${hash}`;
-}
 
 // ─── Types & Data ─────────────────────────────────────────────────────────────
 
@@ -504,10 +493,9 @@ const ContactQuizPage = () => {
         email: ans.email.trim(),
         website_url: honeypot,
       };
-      const token = await generateToken();
       const res = await fetch(CONTACT_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Contact-Token': token },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
@@ -645,7 +633,10 @@ const ContactQuizPage = () => {
   // ── Quiz ──────────────────────────────────────────────────────────────────
   return (
     <div className="relative bg-[#080808] text-[#FAFAF8] overflow-x-hidden">
-      <PageMeta title="Contato" description="Entre em contato com a Inova Systems Solutions. Conte sobre seu projeto e receba uma proposta personalizada." />
+      <PageMeta title="Diagnóstico Interativo de Transformação Digital" description="Responda 7 passos rápidos e receba uma proposta personalizada de tecnologia para sua empresa. Diagnóstico gratuito." />
+      <JsonLd id="jsonld-contact-page" data={contactPage('/contato-quiz')} />
+      <JsonLd id="jsonld-contact-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Diagnóstico', path: '/contato-quiz' }])} />
+      <h1 className="sr-only">Diagnóstico Interativo de Transformação Digital — Inova Systems Solutions</h1>
 
       {/* ── Ambient background ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -824,8 +815,12 @@ const ContactQuizPage = () => {
                           }
                         </p>
                       </div>
+                      <label htmlFor="outDesc" className="sr-only">
+                        Descreva o que você precisa
+                      </label>
                       <textarea
                         id="outDesc" value={ans.descricao} onChange={handleInput}
+                        aria-label="Descreva o que você precisa"
                         placeholder="Descreva brevemente o que você precisa e seu contexto..."
                         className="w-full h-32 bg-white/[0.03] border border-white/[0.08] p-4 px-5
                                    text-white text-sm font-light leading-relaxed resize-none outline-none

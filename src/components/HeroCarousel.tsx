@@ -127,8 +127,8 @@ export default function HeroSection() {
               backgroundPosition: ['0% center', '200% center'],
             }}
             transition={{
-              clipPath: { duration: 0.7, ease: E, delay: 0.65 },
-              backgroundPosition: { duration: 3, ease: 'linear', delay: 1.3, repeat: Infinity },
+              clipPath: { duration: 0.55, ease: E, delay: 0.35 },
+              backgroundPosition: { duration: 3, ease: 'linear', delay: 0.5, repeat: Infinity },
             }}
           >
             Construímos o seu.
@@ -139,7 +139,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: isMobile ? 12 : 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: E, delay: 0.9 }}
+          transition={{ duration: 0.5, ease: E, delay: 0.55 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
@@ -161,11 +161,11 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: E, delay: 1.2 }}
+          transition={{ duration: 0.6, ease: E, delay: 0.75 }}
           className="flex items-center justify-center gap-6 md:gap-10 mt-14 md:mt-16"
         >
           {metrics.map((m, i) => (
-            <MetricBadge key={i} raw={m.raw} label={m.label} delay={1500 + i * 150} />
+            <MetricBadge key={i} raw={m.raw} label={m.label} delay={900 + i * 120} />
           ))}
         </motion.div>
       </div>
@@ -174,7 +174,7 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.4 }}
-        transition={{ delay: 2, duration: 1 }}
+        transition={{ delay: 1, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0"
       >
         {[0, 1, 2].map((i) => (

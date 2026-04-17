@@ -16,14 +16,17 @@ const footerData = {
       ]
     },
     {
-      title: "PORTFÓLIO",
+      title: "CONTEÚDO",
       links: [
-        { label: "Cases de Sucesso", path: "/portfolio" }
+        { label: "Portfólio", path: "/portfolio" },
+        { label: "Blog", path: "/blog" },
+        { label: "Diagnóstico", path: "/contato-quiz" }
       ]
     },
     {
       title: "EMPRESA",
       links: [
+        { label: "Quem Somos", path: "/quem-somos" },
         { label: "Nossa Missão", path: "/missao" },
         { label: "Nossa Filosofia", path: "/filosofia" }
       ]
@@ -90,8 +93,14 @@ export default function Footer() {
             </div>
             <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
               <div className="relative flex-1 md:w-72">
+                <label htmlFor="newsletter-email" className="sr-only">
+                  Seu e-mail para assinar a newsletter
+                </label>
                 <input
+                  id="newsletter-email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
@@ -165,21 +174,29 @@ export default function Footer() {
 
         {/* Bottom Bar (Sub-footer) */}
         <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-xs text-gray-600">
+          <div className="text-xs text-gray-400">
             © {new Date().getFullYear()} Inova Systems Solutions Ltda. Todos os direitos reservados.
           </div>
 
           <div className="flex items-center gap-6">
-            {footerData.socials.map((social) => (
-              <a
-                key={social.id}
-                href={social.href}
-                className="text-gray-500 hover:text-[#C9A84C] transition-colors"
-                aria-label={`Visitar ${social.id}`}
-              >
-                <social.icon className="w-5 h-5" strokeWidth={1.5} />
-              </a>
-            ))}
+            {footerData.socials
+              .filter((s) => s.href && s.href !== '#')
+              .map((social) => {
+                const isExternal = social.href.startsWith('http');
+                return (
+                  <a
+                    key={social.id}
+                    href={social.href}
+                    className="text-gray-400 hover:text-[#C9A84C] transition-colors"
+                    aria-label={`Visitar ${social.id}`}
+                    {...(isExternal
+                      ? { target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                  >
+                    <social.icon className="w-5 h-5" strokeWidth={1.5} />
+                  </a>
+                );
+              })}
           </div>
         </div>
 

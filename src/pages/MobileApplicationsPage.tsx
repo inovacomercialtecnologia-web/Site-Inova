@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { service, breadcrumb } from '../components/JsonLd';
 import CTABanner from '../components/CTABanner';
 
 const MobileApplicationsPage = () => {
@@ -264,6 +265,8 @@ const MobileApplicationsPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Aplicações Mobile" description="Desenvolvimento de aplicativos iOS e Android sob medida para empresas. Apps corporativos, de gestão e voltados para o cliente final." />
+      <JsonLd id="jsonld-service-mobile" data={service('Desenvolvimento de Aplicações Mobile', 'Aplicativos iOS e Android sob medida: apps corporativos, de gestão e voltados para o cliente final.', '/solucoes/aplicacoes-mobile')} />
+      <JsonLd id="jsonld-breadcrumb-mobile" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Soluções', path: '/portfolio' }, { name: 'Aplicações Mobile', path: '/solucoes/aplicacoes-mobile' }])} />
       {/* Hero Section */}
       <section className="mhero-wrapper">
         <MHeroCanvas />

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { aboutPage, breadcrumb } from '../components/JsonLd';
 
 const PhilosophyPage = () => {
   useEffect(() => {
@@ -68,6 +69,8 @@ const PhilosophyPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Nossa Filosofia" description="Descubra a filosofia da Inova: processo antes de tecnologia. Mapeamos, estruturamos e só então construímos soluções digitais." />
+      <JsonLd id="jsonld-philosophy-page" data={aboutPage('Nossa Filosofia — Inova Systems Solutions', 'Processo antes de tecnologia: mapeamos, estruturamos e só então construímos soluções digitais.', '/filosofia')} />
+      <JsonLd id="jsonld-philosophy-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Filosofia', path: '/filosofia' }])} />
       {/* Hero Section */}
       <section className="nfhero-section" id="filosofiaHero">
         <canvas id="nfhero-grid" className="nfhero-grid-canvas"></canvas>

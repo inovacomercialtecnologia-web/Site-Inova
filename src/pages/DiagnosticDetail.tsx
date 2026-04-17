@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Brain, ShieldX, BarChart3, Target, ArrowLeft, CheckCircle2, ArrowRight } from 'lucide-react';
+import PageMeta from '../components/PageMeta';
 
 const topicsData: Record<string, any> = {
   "processo-na-cabeca-do-dono": {
@@ -69,6 +70,7 @@ export default function DiagnosticDetailPage() {
   if (!topic) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
+        <PageMeta title="Página não encontrada" description="O diagnóstico solicitado não foi encontrado." />
         <div className="text-center">
           <h1 className="text-2xl md:text-4xl font-bold mb-4">Página não encontrada</h1>
           <Link to="/" className="text-[#C9A84C] hover:underline">Voltar para o início</Link>
@@ -79,6 +81,7 @@ export default function DiagnosticDetailPage() {
 
   return (
     <div className="min-h-screen bg-white pt-20 md:pt-32 pb-20 font-sans">
+      <PageMeta title={topic.title} description={topic.longDesc} />
       <div className="max-w-[1200px] mx-auto px-6 sm:px-10 md:px-24 lg:px-32">
         
         {/* Back Link */}
@@ -119,9 +122,12 @@ export default function DiagnosticDetailPage() {
             <img
               src={topic.image}
               alt={topic.title}
+              width={1200}
+              height={900}
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
               loading="lazy"
+              decoding="async"
             />
             <div className="absolute top-4 right-4 md:top-8 md:right-8 text-[48px] md:text-[96px] font-bold text-white/10 font-mono leading-none select-none">{topic.id}</div>
           </motion.div>

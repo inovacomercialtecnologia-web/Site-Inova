@@ -10,6 +10,7 @@ import ComplianceSection from '../components/ComplianceSection';
 import AnimatedSvgDivider from '../components/AnimatedSvgDivider';
 import CustomCursor from '../components/CustomCursor';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { organizationSchema, websiteSchema } from '../components/JsonLd';
 
 const ImmersiveHome = () => {
   const { scrollYProgress } = useScroll();
@@ -21,6 +22,8 @@ const ImmersiveHome = () => {
         title="Transformação Digital Estratégica"
         description="Transformamos inteligência operacional em tecnologia sob medida. Sistemas web, aplicativos mobile, automações e IA para empresas B2B."
       />
+      <JsonLd id="jsonld-organization" data={organizationSchema} />
+      <JsonLd id="jsonld-website" data={websiteSchema} />
 
       {/* Custom cursor — desktop only (auto-disabled on touch) */}
       <CustomCursor />

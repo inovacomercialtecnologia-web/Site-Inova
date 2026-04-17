@@ -114,7 +114,7 @@ export default function Navbar() {
             <Link to="/" onClick={handleHomeClick} className="text-lg font-light text-white">Home</Link>
 
             <div className="flex flex-col gap-3">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">O que fazemos</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-medium">O que fazemos</span>
               <div className="grid grid-cols-1 gap-3">
                 {solutions.map((sol, i) => (
                   <Link
@@ -130,7 +130,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">Quem somos</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-medium">Quem somos</span>
               <div className="grid grid-cols-1 gap-3">
                 <Link
                   to="/missao"
@@ -153,7 +153,7 @@ export default function Navbar() {
             <Link to="/blog" onClick={() => handleLinkClick("/blog")} className="text-lg font-light text-white">Blog</Link>
 
             <div className="flex flex-col gap-3">
-              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-500 font-medium">Diagnósticos</span>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-gray-400 font-medium">Diagnósticos</span>
               {diagnosticLinks.map((link, i) => (
                 <Link
                   key={i}
@@ -221,7 +221,7 @@ export default function Navbar() {
                       className="absolute top-full left-0 w-[calc(100vw-2rem)] sm:w-[320px] bg-[#000000] border border-white/10 rounded-2xl shadow-2xl p-4 mt-2"
                     >
                       <div className="flex flex-col gap-1 max-h-[400px] overflow-y-auto custom-scrollbar">
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium mb-2 px-2">Nossas Soluções</span>
+                        <span className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-medium mb-2 px-2">Nossas Soluções</span>
                         {solutions.map((sol, i) => (
                           <Link
                             key={i}

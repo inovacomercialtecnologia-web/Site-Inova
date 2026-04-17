@@ -1,5 +1,6 @@
 import React from 'react';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { service, breadcrumb } from '../components/JsonLd';
 import CTABanner from '../components/CTABanner';
 
 const AutomationsPage = () => {
@@ -282,6 +283,8 @@ const AutomationsPage = () => {
   return (
     <div className="bg-[#080808] text-white min-h-screen">
       <PageMeta title="Automações" description="Automação de processos empresariais: fluxos automáticos, integração entre sistemas e automação de marketing e vendas." />
+      <JsonLd id="jsonld-service-auto" data={service('Automação de Processos Empresariais', 'Fluxos automáticos, integração entre sistemas e automação de marketing e vendas para empresas B2B.', '/solucoes/automacoes')} />
+      <JsonLd id="jsonld-breadcrumb-auto" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Soluções', path: '/portfolio' }, { name: 'Automações', path: '/solucoes/automacoes' }])} />
       {/* Hero Section */}
       <div className="ahero-wrapper">
         <div className="ahero-text-block">

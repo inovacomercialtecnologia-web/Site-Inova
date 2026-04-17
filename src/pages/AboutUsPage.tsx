@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, Target, Users, Shield, Zap, Globe, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
+import JsonLd, { aboutPage, breadcrumb } from '../components/JsonLd';
 
 const AboutUsPage = () => {
   useEffect(() => {
@@ -21,6 +22,8 @@ const AboutUsPage = () => {
   return (
     <div className="bg-[#080808] text-[#FAFAF8] font-sans overflow-x-hidden">
       <PageMeta title="Quem Somos" description="Estrategistas e engenheiros transformando negócios B2B com tecnologia de alta performance. Conheça a equipe Inova Systems Solutions." />
+      <JsonLd id="jsonld-about-page" data={aboutPage('Quem Somos — Inova Systems Solutions', 'Estrategistas e engenheiros transformando negócios B2B com tecnologia sob medida.', '/quem-somos')} />
+      <JsonLd id="jsonld-about-breadcrumb" data={breadcrumb([{ name: 'Início', path: '/' }, { name: 'Quem Somos', path: '/quem-somos' }])} />
 
       {/* HERO SECTION - Editorial Style */}
       <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-24 pt-24 pb-12">
@@ -182,7 +185,7 @@ const AboutUsPage = () => {
                   <value.icon className="w-5 h-5 text-white/40 group-hover:text-[#C9A84C] transition-colors" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-bold mb-4 group-hover:text-[#C9A84C] transition-colors">{value.title}</h3>
-                <p className="text-sm font-light leading-relaxed text-white/40 group-hover:text-white/60 transition-colors">
+                <p className="text-sm font-light leading-relaxed text-white/70 group-hover:text-white transition-colors">
                   {value.desc}
                 </p>
               </motion.div>
@@ -244,9 +247,12 @@ const AboutUsPage = () => {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
                 alt="Inova Team Collaboration"
+                width={1200}
+                height={1200}
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"
                 loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
               <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12">
@@ -271,7 +277,7 @@ const AboutUsPage = () => {
             Faça parte da <br />
             <span className="italic font-[400] text-[#C9A84C]">nossa história.</span>
           </h2>
-          <p className="text-base font-light text-white/40 mb-16 max-w-xl mx-auto">
+          <p className="text-base font-light text-white/70 mb-16 max-w-xl mx-auto">
             Estamos prontos para ser o braço tecnológico que sua empresa precisa para alcançar o próximo nível.
           </p>
           <Link 

@@ -35,7 +35,7 @@ src/
   pages/                # ~16 paginas (rotas)
   hooks/                # Custom hooks (useCountUp, useMagnetic, useTilt, useIsMobile, useWindowSize)
 public/
-  api/contact.php       # Endpoint de contato (CORS, HMAC-SHA256 anti-spam)
+  api/contact.php       # Endpoint de contato (CORS whitelist, honeypot, rate-limit)
 .github/workflows/
   deploy.yml            # CI/CD: build + deploy SSH para Hostinger
 ```
@@ -90,7 +90,7 @@ Push para `main` dispara GitHub Actions:
 3. Remove source maps
 4. Deploy SSH para Hostinger (147.93.37.106:65002)
 
-**Secrets necessarios**: `HOSTINGER_SSH_KEY`, `CONTACT_TOKEN_SECRET`, `ERP_API_URL`, `ERP_API_KEY`
+**Secrets necessarios**: `HOSTINGER_SSH_KEY`, `ERP_API_URL`, `ERP_API_KEY`
 
 ## Acessibilidade
 
@@ -102,7 +102,7 @@ Push para `main` dispara GitHub Actions:
 ## Seguranca
 
 - CSP headers no HTML e no PHP
-- HMAC-SHA256 token anti-spam no formulario de contato
+- Anti-spam no formulario de contato: origin whitelist + rate-limit (1/30s, 5/dia) + honeypot + validacao de campos
 - DOMPurify para sanitizacao de inputs
 - Source maps removidos em producao
 - HTTPS forcado via .htaccess

@@ -21,15 +21,18 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Build do projeto
-        run: npm run build
-        env:
-          VITE_TOKEN_SECRET: ${{ secrets.CONTACT_TOKEN_SECRET }}
+      - name: Instalar dependências do Chromium (para react-snap)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgbm1 libnss3 libxss1 libatk-bridge2.0-0 libgtk-3-0 libasound2t64 libxdamage1 fonts-liberation || true
+
+      - name: Build do projeto (com pré-renderização SSG)
+        run: npm run build:ssg
 
       - name: Validate required secrets
         run: |
-          if [ -z "${{ secrets.ERP_API_URL }}" ] || [ -z "${{ secrets.ERP_API_KEY }}" ] || [ -z "${{ secrets.CONTACT_TOKEN_SECRET }}" ]; then
-            echo "::error::Missing required secrets (ERP_API_URL, ERP_API_KEY, or CONTACT_TOKEN_SECRET)"
+          if [ -z "${{ secrets.ERP_API_URL }}" ] || [ -z "${{ secrets.ERP_API_KEY }}" ]; then
+            echo "::error::Missing required secrets (ERP_API_URL or ERP_API_KEY)"
             exit 1
           fi
 
@@ -39,7 +42,6 @@ jobs:
           <?php return [
               'erp_url' => '${{ secrets.ERP_API_URL }}',
               'erp_key' => '${{ secrets.ERP_API_KEY }}',
-              'token_secret' => '${{ secrets.CONTACT_TOKEN_SECRET }}',
           ];
           EOF
           chmod 600 dist/api/config.local.php

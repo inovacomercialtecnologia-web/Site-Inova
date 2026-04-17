@@ -14,9 +14,20 @@ const CustomCursor = () => {
       || navigator.maxTouchPoints > 0;
     if (isMobile) return;
 
+    let pendingX = 0;
+    let pendingY = 0;
+    let rafId = 0;
+
+    const flush = () => {
+      mouseX.set(pendingX);
+      mouseY.set(pendingY);
+      rafId = 0;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      if (!rafId) rafId = requestAnimationFrame(flush);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -30,9 +41,10 @@ const CustomCursor = () => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
