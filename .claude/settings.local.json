@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:/Users/giova/Site-Inova\" -name \"index.html\" -exec cat {} \\\\;)",
+      "Bash(npm uninstall *)",
+      "Bash(node scripts/generate-sitemap.mjs)"
+    ]
+  }
+}

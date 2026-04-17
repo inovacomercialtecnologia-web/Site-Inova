@@ -21,13 +21,8 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Instalar dependências do Chromium (para react-snap)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgbm1 libnss3 libxss1 libatk-bridge2.0-0 libgtk-3-0 libasound2t64 libxdamage1 fonts-liberation || true
-
-      - name: Build do projeto (com pré-renderização SSG)
-        run: npm run build:ssg
+      - name: Build do projeto
+        run: npm run build
 
       - name: Validate required secrets
         run: |

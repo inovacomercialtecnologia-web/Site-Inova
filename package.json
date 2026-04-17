@@ -7,7 +7,6 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
-    "build:ssg": "npm run build && react-snap",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
@@ -26,43 +25,8 @@
   "devDependencies": {
     "@types/dompurify": "^3.0.5",
     "@types/node": "^22.14.0",
-    "react-snap": "^1.23.0",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  },
-  "reactSnap": {
-    "source": "dist",
-    "destination": "dist",
-    "include": [
-      "/",
-      "/quem-somos",
-      "/missao",
-      "/filosofia",
-      "/portfolio",
-      "/solucoes/aplicacoes-web",
-      "/solucoes/aplicacoes-mobile",
-      "/solucoes/automacoes",
-      "/solucoes/ia",
-      "/diagnostico/processo-na-cabeca-do-dono",
-      "/diagnostico/sistema-generico",
-      "/diagnostico/dados-irreais",
-      "/diagnostico/decisao-no-achismo",
-      "/contato-quiz",
-      "/blog",
-      "/termos",
-      "/privacidade",
-      "/cookies"
-    ],
-    "skipThirdPartyRequests": true,
-    "minifyHtml": {
-      "collapseWhitespace": false,
-      "removeComments": true
-    },
-    "inlineCss": false,
-    "puppeteerArgs": [
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ]
   }
 }
