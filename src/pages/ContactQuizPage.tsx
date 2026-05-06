@@ -24,7 +24,7 @@ interface Answers {
 const SERVICES: CardOpt[] = [
   { label: 'Aplicação Web',           desc: 'Sistemas, plataformas, portais e dashboards',   Icon: Globe },
   { label: 'Aplicativo Mobile',        desc: 'Apps iOS e Android — corporativo ou produto',   Icon: Smartphone },
-  { label: 'Inteligência Artificial',  desc: 'IA integrada, assistentes e automação',         Icon: Brain },
+  { label: 'Inteligência Artificial',  desc: 'IA integrada, assistentes de atendimento e tarefas',         Icon: Brain },
   { label: 'Automações',               desc: 'Fluxos automáticos, integrações e APIs',        Icon: Zap },
   { label: 'Ainda não sei',            desc: 'Preciso de orientação para o melhor caminho',   Icon: HelpCircle, wide: true },
 ];
