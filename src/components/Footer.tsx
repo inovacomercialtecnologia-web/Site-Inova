@@ -91,8 +91,8 @@ export default function Footer() {
                 Receba insights sobre transformação digital, cases de sucesso e tendências de tecnologia para o mercado B2B.
               </p>
             </div>
-            <form onSubmit={handleNewsletter} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-              <div className="relative flex-1 md:w-72">
+            <form onSubmit={handleNewsletter} className="w-full md:w-auto">
+              <div className="relative md:w-80">
                 <label htmlFor="newsletter-email" className="sr-only">
                   Seu e-mail para assinar a newsletter
                 </label>
@@ -105,19 +105,20 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="seu@email.com"
                   disabled={nlState === 'loading'}
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder-gray-500 font-light focus:outline-none focus:border-[#C9A84C]/40 transition-colors disabled:opacity-50"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-full pl-5 pr-14 py-3 text-white placeholder-gray-500 font-light focus:outline-none focus:border-[#C9A84C]/40 transition-colors disabled:opacity-50"
+                  style={{ fontSize: '16px' }}
                 />
+                <button
+                  type="submit"
+                  disabled={nlState === 'loading' || nlState === 'success'}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 shrink-0 bg-[#C9A84C] text-[#080808] w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#E8C97A] transition-all disabled:opacity-60"
+                  aria-label="Inscrever na newsletter"
+                >
+                  {nlState === 'loading' ? <Loader2 size={16} className="animate-spin" /> :
+                   nlState === 'success' ? <CheckCircle2 size={16} /> :
+                   <ArrowRight size={16} />}
+                </button>
               </div>
-              <button
-                type="submit"
-                disabled={nlState === 'loading' || nlState === 'success'}
-                className="shrink-0 bg-[#C9A84C] text-[#080808] w-11 h-11 rounded-full flex items-center justify-center hover:bg-[#E8C97A] transition-all disabled:opacity-60"
-                aria-label="Inscrever na newsletter"
-              >
-                {nlState === 'loading' ? <Loader2 size={16} className="animate-spin" /> :
-                 nlState === 'success' ? <CheckCircle2 size={16} /> :
-                 <ArrowRight size={16} />}
-              </button>
             </form>
             {nlState === 'success' && (
               <span className="text-xs text-emerald-400 font-light">Inscrito com sucesso!</span>

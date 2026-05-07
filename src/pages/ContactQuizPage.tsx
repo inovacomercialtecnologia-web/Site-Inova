@@ -80,7 +80,7 @@ function Question({ children }: { children: React.ReactNode }) {
 
 function Sub({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-sm font-light text-white/40 mb-10 leading-relaxed max-w-[560px]">{children}</p>
+    <p className="text-sm font-light text-white/65 mb-10 leading-relaxed max-w-[560px]">{children}</p>
   );
 }
 
@@ -120,7 +120,7 @@ function ServiceCard({
         <Icon
           size={18}
           className="transition-colors duration-300"
-          style={{ color: isSelected ? '#C9A84C' : 'rgba(255,255,255,0.35)' }}
+          style={{ color: isSelected ? '#C9A84C' : 'rgba(255,255,255,0.65)' }}
         />
       </div>
 
@@ -128,11 +128,11 @@ function ServiceCard({
       <div className="flex-1 min-w-0">
         <p
           className="text-sm font-medium tracking-tight transition-colors duration-300"
-          style={{ color: isSelected ? '#C9A84C' : 'rgba(255,255,255,0.82)' }}
+          style={{ color: isSelected ? '#C9A84C' : 'rgba(255,255,255,0.92)' }}
         >
           {label}
         </p>
-        <p className="text-[11px] font-light text-white/30 mt-1 leading-snug">{desc}</p>
+        <p className="text-xs font-light text-white/60 mt-1 leading-snug">{desc}</p>
       </div>
 
       {/* Checkmark */}
@@ -181,8 +181,8 @@ function OptionCard({
         className="w-7 h-7 rounded border flex items-center justify-center flex-shrink-0 text-[10px] font-bold transition-all duration-300"
         style={{
           backgroundColor: isSelected ? '#C9A84C' : 'transparent',
-          borderColor:     isSelected ? '#C9A84C' : 'rgba(255,255,255,0.12)',
-          color:           isSelected ? '#080808' : 'rgba(255,255,255,0.22)',
+          borderColor:     isSelected ? '#C9A84C' : 'rgba(255,255,255,0.30)',
+          color:           isSelected ? '#080808' : 'rgba(255,255,255,0.55)',
         }}
       >
         {letters[index] ?? ''}
@@ -190,7 +190,7 @@ function OptionCard({
 
       <span
         className="flex-1 text-[0.875rem] font-light tracking-tight transition-colors duration-300"
-        style={{ color: isSelected ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.65)' }}
+        style={{ color: isSelected ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.80)' }}
       >
         {label}
       </span>
@@ -221,14 +221,14 @@ function FloatingInput({
   const lifted = focused || value.length > 0;
 
   return (
-    <div className="relative pt-2">
+    <div className="relative pt-4">
       <motion.label
         htmlFor={id}
         animate={{
-          y:     lifted ? -22 : 0,
+          y:     lifted ? -26 : 0,
           scale: lifted ? 0.72 : 1,
         }}
-        style={{ color: focused ? '#C9A84C' : 'rgba(255,255,255,0.30)' }}
+        style={{ color: focused ? '#C9A84C' : 'rgba(255,255,255,0.55)' }}
         transition={{ type: 'spring', stiffness: 340, damping: 30 }}
         className="absolute left-0 top-5 text-sm font-light origin-left pointer-events-none"
       >
@@ -237,10 +237,14 @@ function FloatingInput({
 
       <input
         id={id} type={type} value={value} onChange={onChange}
-        onFocus={() => setFocused(true)}
+        onFocus={(e) => {
+          setFocused(true);
+          const el = e.currentTarget;
+          setTimeout(() => el?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 320);
+        }}
         onBlur={() => setFocused(false)}
-        className="w-full pt-8 pb-2 bg-transparent border-0 border-b text-white text-sm font-light outline-none transition-colors duration-300"
-        style={{ borderBottomColor: focused ? '#C9A84C' : 'rgba(255,255,255,0.10)' }}
+        className="w-full pt-8 pb-2 bg-transparent border-0 border-b text-white font-light outline-none transition-colors duration-300"
+        style={{ fontSize: '16px', borderBottomColor: focused ? '#C9A84C' : 'rgba(255,255,255,0.20)' }}
       />
 
       {/* Animated gold underline overlay */}
@@ -263,10 +267,11 @@ function NavRow({
   disabled: boolean; nextLabel?: string; isSubmitting?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between mt-12">
+    <div className="flex items-center justify-between mt-12 gap-4">
       {onBack
         ? <button onClick={onBack}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-white/25 hover:text-white/55 transition-colors duration-200">
+            aria-label="Voltar para a etapa anterior"
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-white/55 hover:text-white/85 transition-colors duration-200 min-h-[44px] px-3 -ml-3">
             <ArrowLeft className="w-3.5 h-3.5" /> Voltar
           </button>
         : <div />
@@ -277,7 +282,7 @@ function NavRow({
         disabled={disabled}
         className={`
           relative overflow-hidden text-[10px] font-bold tracking-[0.22em] uppercase
-          px-7 sm:px-10 py-[14px] flex items-center gap-2.5 min-w-[140px] sm:min-w-[168px] justify-center
+          px-7 sm:px-10 py-4 min-h-[48px] flex items-center gap-2.5 min-w-[140px] sm:min-w-[168px] justify-center
           transition-all duration-300 group
           ${disabled
             ? 'bg-[#C9A84C]/20 text-[#C9A84C]/30 cursor-not-allowed'
@@ -306,7 +311,14 @@ function NavRow({
 
 function StepProgress({ current, total }: { current: number; total: number }) {
   return (
-    <div className="fixed top-0 left-0 right-0 z-[90] flex items-center justify-center pointer-events-none select-none pt-[100px] pb-4 bg-gradient-to-b from-[#080808] via-[#080808]/95 to-transparent">
+    <div
+      role="progressbar"
+      aria-valuemin={1}
+      aria-valuemax={total}
+      aria-valuenow={current}
+      aria-label={`Etapa ${current} de ${total}`}
+      className="fixed top-0 left-0 right-0 z-[90] flex items-center justify-center pointer-events-none select-none pt-[78px] pb-4 md:pt-[100px] bg-gradient-to-b from-[#080808] via-[#080808]/95 to-transparent"
+    >
       <div className="flex items-center">
         {Array.from({ length: total }, (_, i) => {
           const n      = i + 1;
@@ -316,14 +328,14 @@ function StepProgress({ current, total }: { current: number; total: number }) {
             <React.Fragment key={n}>
               {i > 0 && (
                 <div
-                  className="h-px transition-colors duration-500"
-                  style={{ width: 36, backgroundColor: done ? 'rgba(201,168,76,0.45)' : 'rgba(255,255,255,0.07)' }}
+                  className="h-px transition-colors duration-500 w-5 sm:w-9"
+                  style={{ backgroundColor: done ? 'rgba(201,168,76,0.45)' : 'rgba(255,255,255,0.10)' }}
                 />
               )}
               <motion.div
                 animate={{
-                  width:  active ? 32 : 24,
-                  height: active ? 32 : 24,
+                  width:  active ? 30 : 22,
+                  height: active ? 30 : 22,
                 }}
                 transition={{ type: 'spring', stiffness: 280, damping: 26 }}
                 className="rounded-full border flex items-center justify-center flex-shrink-0 transition-colors duration-500"
@@ -336,7 +348,7 @@ function StepProgress({ current, total }: { current: number; total: number }) {
                   ? <Check className="w-2.5 h-2.5 text-[#C9A84C]" strokeWidth={3} />
                   : <span
                       className="text-[9px] font-bold tabular-nums"
-                      style={{ color: active ? '#080808' : 'rgba(255,255,255,0.18)' }}
+                      style={{ color: active ? '#080808' : 'rgba(255,255,255,0.45)' }}
                     >
                       {String(n).padStart(2, '0')}
                     </span>
@@ -422,8 +434,8 @@ const ContactQuizPage = () => {
     }
   }, [resumed]);
 
-  const next = () => { setDir(1);  setStep(p => Math.min(p + 1, TOTAL)); window.scrollTo(0, 0); };
-  const back = () => { setDir(-1); setStep(p => Math.max(p - 1, 1));     window.scrollTo(0, 0); };
+  const next = () => { setDir(1);  setStep(p => Math.min(p + 1, TOTAL)); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const back = () => { setDir(-1); setStep(p => Math.max(p - 1, 1));     window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
   const set = (field: keyof Answers, val: string) =>
     setAns(p => ({ ...p, [field]: val }));
@@ -440,7 +452,8 @@ const ContactQuizPage = () => {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const map: Record<string, keyof Answers> = {
-      fNome: 'nome', fCargo: 'cargo', fWhats: 'whatsapp', fEmail: 'email', fEmpresa: 'empresa', outDesc: 'descricao',
+      fNome: 'nome', fCargo: 'cargo', fWhats: 'whatsapp', fEmail: 'email', fEmpresa: 'empresa',
+      outDescBudget: 'descricao', outDescFinal: 'descricao',
     };
     const field = map[e.target.id];
     if (!field) return;
@@ -593,7 +606,7 @@ const ContactQuizPage = () => {
 
           <motion.p
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }}
-            className="text-white/45 font-light leading-relaxed mb-10 max-w-[420px] mx-auto"
+            className="text-white/70 font-light leading-relaxed mb-10 max-w-[420px] mx-auto"
           >
             {qualified
               ? 'Nossa equipe vai analisar seu perfil e entrar em contato pelo WhatsApp ou e-mail. Geralmente respondemos em menos de 24 horas.'
@@ -608,8 +621,8 @@ const ContactQuizPage = () => {
             >
               <div className="h-px w-12 bg-white/[0.08] mb-1" />
               {['Revisamos seu perfil e necessidades', 'Montamos uma proposta personalizada', 'Agendamos uma conversa estratégica'].map((s, i) => (
-                <div key={i} className="flex items-center gap-3 text-white/35 text-sm font-light">
-                  <span className="w-5 h-5 rounded-full border border-[#C9A84C]/25 text-[#C9A84C] text-[9px] font-bold flex items-center justify-center flex-shrink-0">
+                <div key={i} className="flex items-center gap-3 text-white/65 text-sm font-light">
+                  <span className="w-5 h-5 rounded-full border border-[#C9A84C]/45 text-[#C9A84C] text-[9px] font-bold flex items-center justify-center flex-shrink-0">
                     {i + 1}
                   </span>
                   {s}
@@ -620,7 +633,7 @@ const ContactQuizPage = () => {
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
             <Link to="/"
-              className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#C9A84C]/55 hover:text-[#C9A84C] transition-colors duration-200"
+              className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#C9A84C]/85 hover:text-[#C9A84C] transition-colors duration-200 min-h-[44px] px-3"
             >
               <ArrowLeft className="w-3 h-3" /> Voltar para o início
             </Link>
@@ -666,7 +679,7 @@ const ContactQuizPage = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-[140px] left-1/2 -translate-x-1/2 z-[95] px-5 py-2.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 backdrop-blur-sm"
+            className="fixed top-[120px] md:top-[150px] left-1/2 -translate-x-1/2 z-[95] px-5 py-2.5 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/30 backdrop-blur-sm"
           >
             <p className="text-[11px] text-[#C9A84C] font-light tracking-wide">
               Retomamos de onde você parou
@@ -676,16 +689,16 @@ const ContactQuizPage = () => {
       </AnimatePresence>
 
       {/* ── Step counter ── */}
-      <div className="absolute top-[106px] right-6 md:right-12 z-[90] text-[10px] tracking-[0.28em] text-white/20 uppercase select-none">
+      <div className="absolute top-[78px] right-4 md:top-[106px] md:right-12 z-[90] text-[10px] tracking-[0.28em] text-white/55 uppercase select-none">
         {String(step).padStart(2, '0')} / {String(TOTAL).padStart(2, '0')}
       </div>
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex items-center justify-center px-6 pt-40 pb-24" style={{ minHeight: 'calc(100dvh - 80px)' }}>
+      <div className="relative z-10 flex items-center justify-center px-6 pt-32 md:pt-40 pb-20 md:pb-24" style={{ minHeight: 'calc(100dvh - 80px)' }}>
 
-        {/* Watermark number */}
+        {/* Watermark number — desktop only, visually competes with form on mobile */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none z-0 font-serif tabular-nums"
+          className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none z-0 font-serif tabular-nums"
           style={{
             fontSize: 'clamp(80px, 22vw, 340px)',
             color: 'rgba(201,168,76,0.022)',
@@ -806,12 +819,12 @@ const ContactQuizPage = () => {
                       transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                       className="mt-6 space-y-4"
                     >
-                      <div className="relative p-5 pl-6 border border-[#C9A84C]/20 bg-[#C9A84C]/[0.04]">
+                      <div className="relative p-5 pl-6 border border-[#C9A84C]/30 bg-[#C9A84C]/[0.06]">
                         <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#C9A84C] to-transparent" />
-                        <p className="text-sm font-light leading-relaxed text-white/55">
+                        <p className="text-sm font-light leading-relaxed text-white/75">
                           {onlyAuto
-                            ? <>O investimento mínimo para <strong className="text-white/75">Automações</strong> é de <strong className="text-white/75">R$3.000</strong>. Descreva o que precisa e vamos avaliar.</>
-                            : <>O investimento mínimo para desenvolvimento é de <strong className="text-white/75">R$10.000</strong>. Conte-nos o que você precisa e vamos avaliar.</>
+                            ? <>O investimento mínimo para <strong className="text-white/95">Automações</strong> é de <strong className="text-white/95">R$3.000</strong>. Descreva o que precisa e vamos avaliar.</>
+                            : <>O investimento mínimo para desenvolvimento é de <strong className="text-white/95">R$10.000</strong>. Conte-nos o que você precisa e vamos avaliar.</>
                           }
                         </p>
                       </div>
@@ -819,12 +832,17 @@ const ContactQuizPage = () => {
                         Descreva o que você precisa
                       </label>
                       <textarea
-                        id="outDesc" value={ans.descricao} onChange={handleInput}
+                        id="outDescBudget" value={ans.descricao} onChange={handleInput}
                         aria-label="Descreva o que você precisa"
                         placeholder="Descreva brevemente o que você precisa e seu contexto..."
+                        onFocus={(e) => {
+                          const el = e.currentTarget;
+                          setTimeout(() => el?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 320);
+                        }}
                         className="w-full h-32 bg-white/[0.03] border border-white/[0.08] p-4 px-5
-                                   text-white text-sm font-light leading-relaxed resize-none outline-none
-                                   focus:border-[#C9A84C]/40 transition-colors duration-300 placeholder:text-white/20"
+                                   text-white font-light leading-relaxed resize-none outline-none
+                                   focus:border-[#C9A84C]/40 transition-colors duration-300 placeholder:text-white/40"
+                        style={{ fontSize: '16px' }}
                       />
                     </motion.div>
                   )}
@@ -845,15 +863,20 @@ const ContactQuizPage = () => {
                 <div className="flex flex-col gap-8 max-w-[580px] mb-10">
                   <FloatingInput id="fEmpresa" label="Nome da empresa" value={ans.empresa} onChange={handleInput} />
                   <div className="relative pt-2">
-                    <label htmlFor="outDesc" className="text-sm font-light text-white/30 mb-2 block">
-                      Descrição do projeto <span className="text-white/15">(opcional)</span>
+                    <label htmlFor="outDescFinal" className="text-sm font-light text-white/55 mb-2 block">
+                      Descrição do projeto <span className="text-white/30">(opcional)</span>
                     </label>
                     <textarea
-                      id="outDesc" value={ans.descricao} onChange={handleInput}
+                      id="outDescFinal" value={ans.descricao} onChange={handleInput}
                       placeholder="Conte brevemente o que você precisa..."
+                      onFocus={(e) => {
+                        const el = e.currentTarget;
+                        setTimeout(() => el?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 320);
+                      }}
                       className="w-full h-28 bg-white/[0.03] border border-white/[0.08] p-4 px-5
-                                 text-white text-sm font-light leading-relaxed resize-none outline-none
-                                 focus:border-[#C9A84C]/40 transition-colors duration-300 placeholder:text-white/20"
+                                 text-white font-light leading-relaxed resize-none outline-none
+                                 focus:border-[#C9A84C]/40 transition-colors duration-300 placeholder:text-white/40"
+                      style={{ fontSize: '16px' }}
                     />
                   </div>
                 </div>
@@ -870,9 +893,9 @@ const ContactQuizPage = () => {
                 />
 
                 {/* Answers summary */}
-                <div className="border border-white/[0.06] bg-white/[0.015] p-5 mb-2">
-                  <p className="text-[9px] uppercase tracking-[0.34em] text-white/25 mb-4">Resumo das suas respostas</p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+                <div className="border border-white/[0.08] bg-white/[0.025] p-5 sm:p-6 mb-10">
+                  <p className="text-[10px] uppercase tracking-[0.34em] text-white/55 mb-5">Resumo das suas respostas</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-4 md:gap-5">
                     {[
                       { label: 'Contato',     value: `${ans.nome} — ${ans.cargo}` },
                       { label: 'Solução',     value: ans.servico.join(', ') || '—' },
@@ -881,9 +904,9 @@ const ContactQuizPage = () => {
                       { label: 'Budget',      value: ans.budget      || '—' },
                       { label: 'E-mail',      value: ans.email       || '—' },
                     ].map(item => (
-                      <div key={item.label}>
-                        <p className="text-[9px] uppercase tracking-[0.22em] text-white/22 mb-1">{item.label}</p>
-                        <p className="text-[11px] text-white/50 font-light leading-snug">{item.value}</p>
+                      <div key={item.label} className="min-w-0">
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 mb-1.5">{item.label}</p>
+                        <p className="text-[13px] text-white/75 font-light leading-snug break-words">{item.value}</p>
                       </div>
                     ))}
                   </div>
