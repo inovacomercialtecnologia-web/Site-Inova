@@ -434,6 +434,14 @@ const ContactQuizPage = () => {
     }
   }, [resumed]);
 
+  // ── Hide footer on success state — keeps user focused on confirmation ──
+  useEffect(() => {
+    if (done) {
+      document.body.classList.add('quiz-success');
+      return () => document.body.classList.remove('quiz-success');
+    }
+  }, [done]);
+
   const next = () => { setDir(1);  setStep(p => Math.min(p + 1, TOTAL)); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   const back = () => { setDir(-1); setStep(p => Math.max(p - 1, 1));     window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
@@ -517,6 +525,7 @@ const ContactQuizPage = () => {
         throw new Error(err?.error || 'Erro ao enviar');
       }
       localStorage.removeItem(STORAGE_KEY);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setDone(true);
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -547,7 +556,12 @@ const ContactQuizPage = () => {
     const qualified = ans.status === 'Lead qualificado';
 
     return (
-      <div className="relative bg-[#080808] text-white flex items-center justify-center p-8 overflow-hidden" style={{ minHeight: 'calc(100dvh - 80px)' }}>
+      <div
+        role="status"
+        aria-live="polite"
+        className="relative bg-[#080808] text-white flex items-center justify-center px-6 pt-24 pb-10 md:pt-28 md:pb-16 overflow-hidden"
+        style={{ minHeight: '100dvh' }}
+      >
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] max-w-[640px] max-h-[640px] rounded-full"
                style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 65%)', filter: 'blur(50px)' }} />
@@ -560,8 +574,8 @@ const ContactQuizPage = () => {
           className="relative z-10 max-w-[540px] w-full text-center"
         >
           {/* Expanding rings + check */}
-          <div className="flex justify-center mb-12">
-            <div className="relative w-20 h-20">
+          <div className="flex justify-center mb-7">
+            <div className="relative w-16 h-16">
               {[0, 1, 2].map(i => (
                 <motion.div key={i}
                   initial={{ scale: 1, opacity: 0.35 }}
@@ -580,33 +594,26 @@ const ContactQuizPage = () => {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: 'spring', stiffness: 380, damping: 22, delay: 0.42 }}
-                  className="w-12 h-12 rounded-full flex items-center justify-center"
+                  className="w-10 h-10 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: 'rgba(201,168,76,0.10)' }}
                 >
-                  <Check className="w-6 h-6 text-[#C9A84C]" strokeWidth={1.8} />
+                  <Check className="w-5 h-5 text-[#C9A84C]" strokeWidth={1.8} />
                 </motion.div>
               </motion.div>
             </div>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.52 }}
-            className="text-[10px] uppercase tracking-[0.36em] text-[#C9A84C] mb-5"
-          >
-            {qualified ? 'Lead confirmado' : 'Mensagem recebida'}
-          </motion.p>
-
           <motion.h2
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62 }}
-            className="font-serif font-light leading-[1.1] tracking-tight mb-6"
-            style={{ fontSize: 'clamp(1.5rem, 3.8vw, 2.8rem)' }}
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+            className="font-serif font-light leading-[1.1] tracking-tight mb-5"
+            style={{ fontSize: 'clamp(1.6rem, 4vw, 2.8rem)' }}
           >
             {qualified ? <><em>Perfeito,</em> {first}.</> : <><em>Recebido,</em> {first}.</>}
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }}
-            className="text-white/70 font-light leading-relaxed mb-10 max-w-[420px] mx-auto"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+            className="text-white/70 font-light leading-relaxed mb-8 max-w-[420px] mx-auto"
           >
             {qualified
               ? 'Nossa equipe vai analisar seu perfil e entrar em contato pelo WhatsApp ou e-mail. Geralmente respondemos em menos de 24 horas.'
@@ -616,8 +623,8 @@ const ContactQuizPage = () => {
 
           {qualified && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.84 }}
-              className="mb-12 flex flex-col items-center gap-3"
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }}
+              className="mb-8 flex flex-col items-center gap-2.5"
             >
               <div className="h-px w-12 bg-white/[0.08] mb-1" />
               {['Revisamos seu perfil e necessidades', 'Montamos uma proposta personalizada', 'Agendamos uma conversa estratégica'].map((s, i) => (
@@ -631,7 +638,7 @@ const ContactQuizPage = () => {
             </motion.div>
           )}
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.88 }}>
             <Link to="/"
               className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#C9A84C]/85 hover:text-[#C9A84C] transition-colors duration-200 min-h-[44px] px-3"
             >

@@ -87,6 +87,11 @@ button, [role="button"] {
   outline: none;
 }
 
+/* Hide global footer on quiz success state — keeps focus on confirmation message */
+body.quiz-success footer {
+  display: none;
+}
+
 /* Accessibility: respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
